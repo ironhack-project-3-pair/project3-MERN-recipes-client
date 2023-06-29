@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+
+import { NavLink } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 
@@ -10,16 +11,16 @@ function Navbar() {
   //  Update the rendering logic to display different content
   //  depending on whether the user is logged in or not
   return (
-    <nav>
-      <Link to="/">
+    <nav className="Navbar">
+      <NavLink to="/">
         <button>Home</button>
-      </Link>
+      </NavLink>
 
       {isLoggedIn && (
         <>
-          <Link to="/recipes">
+          <NavLink to="/recipes">
             <button>Recipes</button>
-          </Link>
+          </NavLink>
 
           <button onClick={logOutUser}>Logout</button>
           <span>{user && user.name}</span>
@@ -28,10 +29,11 @@ function Navbar() {
 
       {!isLoggedIn && (
         <>
-          <Link to="/signup"><button>Sign Up</button></Link>
-          <Link to="/login"><button>Login</button></Link>
+          <NavLink to="/signup"><button>Sign Up</button></NavLink>
+          <NavLink to="/login"><button>Login</button></NavLink>
         </>
       )}
+
     </nav>
   );
 }
