@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 function RecipeCard(props) {
   return (
     <div className="RecipeCard card">
@@ -9,7 +11,9 @@ function RecipeCard(props) {
       ) : (
         <img src={props.recipe.image} alt={props.recipe.name} />
       )}
-      <h3>{props.recipe.name}</h3>
+      <h3>
+        <Link to={`/recipes/${props.recipe._id}`}>{props.recipe.name}</Link>
+      </h3>
     </div>
   );
 }
