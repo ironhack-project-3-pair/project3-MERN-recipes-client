@@ -16,11 +16,11 @@ function RecipesListPage() {
   const [recipes, setRecipes] = useState([]);
 
   const getAllRecipes = () => {
-    // Get the token from the localStorage
+    // // Get the token from the localStorage
     // const storedToken = localStorage.getItem("authToken");
 
     // axios
-      // .get(`${API_URL}/api/recipes`)
+      // // .get(`${API_URL}/api/recipes`)
       // .get(`${API_URL}/api/recipes`, { headers: { Authorization: `Bearer ${storedToken}` } })
     recipesService.getAllRecipes()
       .then((response) => {

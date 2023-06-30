@@ -15,26 +15,26 @@ function RecipeDetailsPage() {
       .then((res) => {
         setRecipe(res.data);
       })
-      .catch((e) => console.log('Error GET details from API', e));
+      .catch((e) => console.log('error getting the recipe\'s details', e));
   };
 
   useEffect(() => {
     getRecipe();
   }, []);
+
   return (
     <div className="RecipeDetailsPage">
       {recipe && (
         <>
-          {!recipe.image ? (
-            <img
+          {!recipe.image 
+            ? <img
               src="https://static.vecteezy.com/system/resources/previews/008/695/917/original/no-image-available-icon-simple-two-colors-template-for-no-image-or-picture-coming-soon-and-placeholder-illustration-isolated-on-white-background-vector.jpg"
-              alt="no image"
+              alt="default"
             />
-          ) : (
-            <img src={recipe.image} alt={recipe.name} />
-          )}
+            : <img src={recipe.image} alt={recipe.name} />
+          }
           <h3>{recipe.name}</h3>
-          <p>Preparation: {recipe.durationInMin} mins</p>
+          <p>Preparation: {recipe.durationInMin} min</p>
           <h4>Ingredients</h4>
 
           {recipe.recipeIngredients &&
