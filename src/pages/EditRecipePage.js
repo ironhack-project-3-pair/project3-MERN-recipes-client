@@ -38,7 +38,7 @@ function EditRecipePage() {
   //get all ingredients in the database
   const getAvailableIngredients = () => {
     // Get the token from the localStorage
-    const storedToken = localStorage.getItem("authToken");
+    const storedToken = localStorage.getItem('authToken');
 
     axios
       .get(`${API_URL}/api/ingredients`, {
@@ -61,10 +61,22 @@ function EditRecipePage() {
     ]);
   };
 
+  //delete ingredients from current recipe
+  function removeIngredient(index) {
+    const newIngredients = [...recipeIngredients];
+    newIngredients.splice(index, 1);
+    setRecipeIngredients(newIngredients);
+  }
+
   // Update an ingredient based on the index
   const updateIngredient = (index, inputField, inputFieldValue) => {
     const newRecipeIngredients = [...recipeIngredients];
-    newRecipeIngredients[index][inputField] = inputFieldValue;
+    if (inputField === 'ingredient' && inputFieldValue === '') {
+      // Set ingredient to an empty object when "No selection" is selected
+      newRecipeIngredients[index][inputField] = {};
+    } else {
+      newRecipeIngredients[index][inputField] = inputFieldValue;
+    }
     setRecipeIngredients(newRecipeIngredients);
   };
 
@@ -81,7 +93,7 @@ function EditRecipePage() {
       name,
       instructions,
       durationInMin,
-      recipeIngredients
+      recipeIngredients,
     };
 
     recipesService
@@ -120,36 +132,50 @@ function EditRecipePage() {
 
         {recipeIngredients.map((ingredient, index) => (
           <div key={index}>
-            <label>Ingredient:</label>
-            <select
-              name="ingredient"
-              value={ingredient.ingredient._id}
-              onChange={(e) =>
-                updateIngredient(index, 'ingredient', e.target.value)
-              }
-            >
-              {availableIngredients.map((availIngredient) => (
-                <option key={availIngredient._id} value={availIngredient._id}>
-                  {availIngredient.name}
-                </option>
-              ))}
-            </select>
+            <label className="ingredient-label">
+              {`Ingredient: ${index+1}`}
+              <span>
+                <button onClick={() => removeIngredient(index)}>x</button>
+              </span>
+              <span>
+                <button onClick={addIngredient}>
+                  +
+                </button>
+              </span>
+            </label>
 
-            <label>Quantity (in grams):</label>
-            <input
-              type="number"
-              name="qtyInGrams"
-              value={ingredient.qtyInGrams}
-              onChange={(e) =>
-                updateIngredient(index, 'qtyInGrams', e.target.value)
-              }
-            />
+            <div className="ingredient-row">
+              <select
+                className="option-input"
+                name="ingredient"
+                value={ingredient.ingredient ? ingredient.ingredient._id : ''}
+                onChange={(e) =>
+                  updateIngredient(index, 'ingredient', e.target.value)
+                }
+              >
+                <option value="">No selection</option>
+                {availableIngredients.map((availIngredient) => (
+                  <option key={availIngredient._id} value={availIngredient._id}>
+                    {availIngredient.name}
+                  </option>
+                ))}
+              </select>
+
+              <label className="qty-label">Qty (in gr):</label>
+              <input
+                className="qty-input"
+                type="number"
+                min="0"
+                name="qtyInGrams"
+                value={ingredient.qtyInGrams}
+                onChange={(e) =>
+                  updateIngredient(index, 'qtyInGrams', e.target.value)
+                }
+              />
+            </div>
+            <hr />
           </div>
         ))}
-
-        <button type="button" onClick={addIngredient}>
-          Add Ingredient
-        </button>
 
         <input type="submit" value="Submit" />
       </form>
