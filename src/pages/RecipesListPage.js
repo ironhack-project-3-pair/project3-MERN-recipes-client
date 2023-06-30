@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import RecipeCard from '../components/RecipeCard';
 
+
 // import axios from 'axios';
 // const API_URL = 'http://localhost:5005';
 
 import recipesService from '../services/recipes.service';
+const API_URL = 'http://localhost:5005';
+
 
 function RecipesListPage() {
 
@@ -37,7 +40,7 @@ function RecipesListPage() {
   return (
     <div className="RecipeListPage">
       {recipes.map((recipe) => {
-        return <RecipeCard key={recipe.id} recipe={recipe} />;
+        return <RecipeCard key={recipe._id} recipe={recipe} />;
       })}
     </div>
   );
