@@ -10,6 +10,7 @@ import authService from "./../services/auth.service"
 function LoginPage(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false); // updates only the HTMLInputElement's checked IDL attribute, not the content attribute of the actual HTML tag (only a default value for when page is loaded) - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#value
   const [errorMessage, setErrorMessage] = useState(undefined);
 
   const navigate = useNavigate();
@@ -18,10 +19,11 @@ function LoginPage(props) {
 
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
+  const handleRememberMe = (e) => setRememberMe(e.target.checked);
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    const requestBody = { email, password };
+    const requestBody = { email, password, rememberMe };
  
     // axios.post(`${API_URL}/auth/login`, requestBody)
     authService.login(requestBody)
@@ -63,6 +65,14 @@ function LoginPage(props) {
           name="password"
           value={password}
           onChange={handlePassword}
+        />
+
+        <label>Remember me:</label>
+        <input
+          type="checkbox"
+          name="rememberMe"
+          checked={rememberMe}
+          onChange={handleRememberMe}
         />
 
         <button type="submit">Login</button>
