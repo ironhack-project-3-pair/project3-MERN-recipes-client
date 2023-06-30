@@ -10,6 +10,7 @@ import MyKitchen from './pages/MyKitchen';
 
 import SignupPage from './pages/SignupPage.js';
 import LoginPage from './pages/LoginPage.js';
+import AboutPage from './pages/AboutPage.js';
 
 import IsPrivate from './components/IsPrivate';
 import IsAnon from './components/IsAnon';
@@ -30,6 +31,8 @@ function App() {
 
         <Route path="/signup"            element={<SignupPage />} />
         <Route path="/login"             element={<LoginPage />} />
+
+        <Route path="/about"             element={<AboutPage />} />
       </Routes>
     </div>
   );

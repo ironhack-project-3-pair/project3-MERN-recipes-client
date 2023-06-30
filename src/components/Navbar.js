@@ -12,19 +12,13 @@ function Navbar() {
   //  depending on whether the user is logged in or not
   return (
     <nav className="Navbar">
-      <NavLink to="/">
-        <button>Home</button>
-      </NavLink>
+
+      <NavLink to="/"><button>Home</button></NavLink>
 
       {isLoggedIn && (
         <>
-          <NavLink to="/recipes">
-            <button>Recipes</button>
-          </NavLink>
-
-          <NavLink to="/ingredients">
-            <button>Ingredients</button>
-          </NavLink>
+          <NavLink to="/recipes"><button>Recipes</button></NavLink>
+          <NavLink to="/ingredients"><button>Ingredients</button></NavLink>
 
           <button onClick={logOutUser}>Logout</button>
           <span>{user && user.name}</span>
@@ -37,6 +31,8 @@ function Navbar() {
           <NavLink to="/login"><button>Login</button></NavLink>
         </>
       )}
+
+      <NavLink to="/about"><button>About</button></NavLink>
 
     </nav>
   );
