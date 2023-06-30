@@ -3,8 +3,6 @@ import { Link, useParams } from 'react-router-dom';
 
 import recipesService from '../services/recipes.service';
 
-// const API_URL = 'http://localhost:5005';
-
 function RecipeDetailsPage() {
   const [recipe, setRecipe] = useState(null);
   const { recipeId } = useParams();
