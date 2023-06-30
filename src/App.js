@@ -14,6 +14,7 @@ import AboutPage from './pages/AboutPage.js';
 
 import IsPrivate from './components/IsPrivate';
 import IsAnon from './components/IsAnon';
+import EditRecipePage from './pages/EditRecipePage';
 
 function App() {
   return (
@@ -23,11 +24,13 @@ function App() {
       </header>
 
       <Routes>
-        <Route path="/"                  element={<IsAnon><HomePage /></IsAnon>}/>
-        <Route path="/my-kitchen"        element={<IsPrivate><MyKitchen /></IsPrivate>}/>
-        <Route path="/recipes"           element={<IsPrivate><RecipesListPage /></IsPrivate>}/>
-        <Route path="/recipes/:recipeId" element={<IsPrivate><RecipeDetailsPage /></IsPrivate>}/>
-        <Route path="/ingredients"       element={<IsPrivate><IngredientsListPage /></IsPrivate>}/>
+        <Route path="/"                      element={<IsAnon><HomePage /></IsAnon>}/>
+        <Route path="/my-kitchen"            element={<IsPrivate><MyKitchen /></IsPrivate>}/>
+        <Route path="/recipes"               element={<IsPrivate><RecipesListPage /></IsPrivate>}/>
+        <Route path="/recipes/:recipeId"     element={<IsPrivate><RecipeDetailsPage /></IsPrivate>}/>
+        <Route path="/recipes/edit/:recipeId"element={<IsPrivate><EditRecipePage /></IsPrivate>}/>
+        <Route path="/ingredients"           element={<IsPrivate><IngredientsListPage /></IsPrivate>} />
+
 
         <Route path="/signup"            element={<SignupPage />} />
         <Route path="/login"             element={<LoginPage />} />
