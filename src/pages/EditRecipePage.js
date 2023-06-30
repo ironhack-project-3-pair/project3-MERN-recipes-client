@@ -10,8 +10,6 @@ function EditRecipePage() {
   const [name, setName] = useState('');
   const [instructions, setInstructions] = useState('');
   const [durationInMin, setDurationInMin] = useState('');
-  const [ingredient, setIngredient] = useState('');
-  const [qtyInGrams, setQtyInGrams] = useState('');
   const [recipeIngredients, setRecipeIngredients] = useState([]);
   const [availableIngredients, setAvailableIngredients] = useState([]);
 
@@ -29,8 +27,6 @@ function EditRecipePage() {
         setInstructions(recipeToEdit.instructions);
         setDurationInMin(recipeToEdit.durationInMin);
         setRecipeIngredients(recipeToEdit.recipeIngredients);
-        setIngredient(recipeToEdit.recipeIngredients.ingredient);
-        setQtyInGrams(recipeToEdit.recipeIngredients.qtyInGrams);
       })
       .catch((e) => console.log('Error GET details from API', e));
   };
