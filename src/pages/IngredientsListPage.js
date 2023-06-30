@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+import AddIngredient from '../components/AddIngredient'
+
 import axios from 'axios';
 const API_URL = 'http://localhost:5005';
 
@@ -31,6 +33,9 @@ function IngredientsListPage() {
 
   return (
     <div className="IngredientsListPage">
+
+      <AddIngredient refreshIngredientsList={getAllIngredients} />
+
       <ul>
         {ingredients.map((ingredient) => {
           return <li key={ingredient._id}>
@@ -38,6 +43,7 @@ function IngredientsListPage() {
           </li>;
         })}
       </ul>
+
     </div>
   );
 }
