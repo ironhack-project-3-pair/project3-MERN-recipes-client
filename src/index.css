@@ -125,6 +125,53 @@ textarea {
   display: block;
 }
 
+.ingredient-label {
+  width: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ingredient-label button {
+  border: 0.5px solid rgba(0, 0, 0, 0.192);
+  padding: 0;
+  margin-left: 5px;
+  background: none;
+  width: 1em;
+  color: inherit;
+  font: 2em;
+  font-weight: bolder;
+  cursor: pointer;
+  outline: inherit;
+}
+.ingredient-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ingredient-row > div {
+  flex: 1;
+}
+
+.ingredient-row button {
+  /* margin-left: 10px; */
+}
+.option-input {
+  margin: 2px;
+  padding: 2px;
+
+  width: 190px;
+}
+.qty-label {
+  width: 100px;
+}
+.qty-input {
+  margin: 2px;
+  padding: 5px;
+  width: 50px;
+}
+
 .IngredientCard {
   background-color: #ffde381a;
   list-style: none;
