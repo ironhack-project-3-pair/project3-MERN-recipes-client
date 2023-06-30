@@ -34,19 +34,19 @@ function RecipeDetailsPage() {
           <h3>{recipe.name}</h3>
           <p>Preparation: {recipe.durationInMin} min</p>
           <h4>Ingredients</h4>
-
-          {recipe.recipeIngredients &&
-            recipe.recipeIngredients.map((ingredient, index) => (
-              <>
-                <div key={index}>
-                  <span>
-                    {ingredient.ingredient.name} -{' '}
-                    <span>{`${ingredient.qtyInGrams}gr`}</span>
-                  </span>
-                </div>
-              </>
-            ))}
-
+          <ul>
+          {recipe.recipeIngredients.map((recipeIngredient) => {
+            // JSX collapses whitespaces
+            // backticks are required with the white-space attribute in JSX
+            return <li key={recipeIngredient._id} style={{whiteSpace: "no-wrap"}}>
+              {`
+                ${recipeIngredient.ingredient.name} 
+                ${recipeIngredient.ingredient.emoji} | 
+                ${recipeIngredient.qtyInGrams} g
+              `}
+            </li>
+          })}
+          </ul>
           <h4>Instructions</h4>
           <p>{recipe.instructions}</p>
           <Link to={`/recipes/edit/${recipe._id}`}>Edit</Link>
