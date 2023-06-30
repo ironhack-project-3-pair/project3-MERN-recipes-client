@@ -1,19 +1,18 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-const API_URL = 'http://localhost:5005';
+import recipesService from '../services/recipes.service';
+
+// const API_URL = 'http://localhost:5005';
 
 function RecipeDetailsPage() {
   const [recipe, setRecipe] = useState(null);
-  console.log('RecipeCard............');
   const { recipeId } = useParams();
 
   const getRecipe = () => {
-    axios
-      .get(`${API_URL}/api/recipes/${recipeId}`)
+    recipesService
+      .getRecipe(recipeId)
       .then((res) => {
-        console.log('RESPONSE......', res);
         setRecipe(res.data);
       })
       .catch((e) => console.log('Error GET details from API', e));
@@ -37,10 +36,22 @@ function RecipeDetailsPage() {
           <h3>{recipe.name}</h3>
           <p>Preparation: {recipe.durationInMin} mins</p>
           <h4>Ingredients</h4>
-          <p>{recipe.recipeIngredients}</p>
+
+          {recipe.recipeIngredients &&
+            recipe.recipeIngredients.map((ingredient, index) => (
+              <>
+                <div key={index}>
+                  <span>
+                    {ingredient.ingredient.name} -{' '}
+                    <span>{`${ingredient.qtyInGrams}gr`}</span>
+                  </span>
+                </div>
+              </>
+            ))}
+
           <h4>Instructions</h4>
           <p>{recipe.instructions}</p>
-          
+          <Link to={`/recipes/edit/${recipe._id}`}>Edit</Link>
         </>
       )}
     </div>

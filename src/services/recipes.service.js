@@ -53,19 +53,19 @@ class RecipesService {
       // child component will be called first
   };
 
-  // GET /api/recipes/:id
-  getRecipe = id => {
-    return this.api.get(`/api/recipes/${id}`);
+  // GET /api/recipes/:recipeId
+  getRecipe = recipeId => {
+    return this.api.get(`/api/recipes/${recipeId}`);
   };
 
-  // PUT /api/recipes/:id
-  updateRecipe = (id, requestBody) => {
-    return this.api.put(`/api/recipes/${id}`, requestBody);
+  // PUT /api/recipes/:recipeId
+  updateRecipe = (recipeId, requestBody) => {
+    return this.api.put(`/api/recipes/${recipeId}`, requestBody);
   };
 
-  // DELETE /api/recipes/:id
-  deleteRecipe = id => {
-    return this.api.delete(`/api/recipes/${id}`);
+  // DELETE /api/recipes/:recipeId
+  deleteRecipe = recipeId => {
+    return this.api.delete(`/api/recipes/${recipeId}`);
   };
 }
 
