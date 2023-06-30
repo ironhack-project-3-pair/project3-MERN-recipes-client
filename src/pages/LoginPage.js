@@ -7,6 +7,8 @@ import { AuthContext } from "../context/auth.context";
 
 import authService from "./../services/auth.service"
 
+import TokenExpired from '../components/TokenExpired';
+
 function LoginPage(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +17,7 @@ function LoginPage(props) {
 
   const navigate = useNavigate();
 
-  const { storeToken, authenticateUser } = useContext(AuthContext);
+  const { storeToken, authenticateUser, hasTokenExpired } = useContext(AuthContext);
 
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
@@ -48,6 +50,13 @@ function LoginPage(props) {
 
   return (
     <div className="LoginPage">
+
+      { hasTokenExpired &&
+        <div className="TokenExpired">
+          <TokenExpired />
+        </div>
+      }
+
       <h1>Login</h1>
 
       <form onSubmit={handleLoginSubmit}>

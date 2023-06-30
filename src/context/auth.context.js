@@ -8,8 +8,12 @@ import authService from "./../services/auth.service";
 const AuthContext = React.createContext();
 
 function AuthProviderWrapper(props) {
+
+  console.log("rendering AuthProviderWrapper")
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [hasTokenExpired, setHasTokenExpired] = useState(false);
   const [user, setUser] = useState(null);
 
   const storeToken = (token) => {
@@ -20,7 +24,7 @@ function AuthProviderWrapper(props) {
 
     // Get the token stored in the browser's localStorage of the user
     const storedToken = localStorage.getItem('authToken');
-
+    
     if (storedToken) {
       // Send the JWT token in the request's "Authorization" Headers
       // axios.get(
@@ -44,6 +48,12 @@ function AuthProviderWrapper(props) {
         setIsLoggedIn(false);
         setIsLoading(false);
         setUser(null);
+        
+        if (error.response.data.UnauthorizedError?.name === "TokenExpiredError") {
+          console.log("token expired!");
+          setHasTokenExpired(true)
+          logOutUser(); // remove the expired token
+        }
       });
     } else {
       // The token is not available (or is removed)
@@ -77,7 +87,9 @@ function AuthProviderWrapper(props) {
         user, 
         storeToken, 
         authenticateUser, 
-        logOutUser }
+        logOutUser,
+        hasTokenExpired
+      }
     }>
       {props.children}
     </AuthContext.Provider>
