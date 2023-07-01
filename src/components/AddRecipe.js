@@ -94,7 +94,7 @@ function AddRecipe(props) {
     recipesService
       .createRecipe(newRecipe)
       .then(() => {
-        //To update the projects list
+        //To update the recipe list
         props.callbackToUpdateList();
         // Reset the state
         setName('');
