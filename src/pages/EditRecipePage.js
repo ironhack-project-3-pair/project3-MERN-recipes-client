@@ -27,6 +27,11 @@ function EditRecipePage() {
         setInstructions(recipeToEdit.instructions);
         setDurationInMin(recipeToEdit.durationInMin);
         setRecipeIngredients(recipeToEdit.recipeIngredients);
+
+        // If recipeIngredients is empty, add an empty ingredient
+        if (recipeToEdit.recipeIngredients.length === 0) {
+          addIngredient();
+        }
       })
       .catch((e) => console.log('Error GET details from API', e));
   };
