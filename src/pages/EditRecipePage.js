@@ -36,7 +36,7 @@ function EditRecipePage() {
       .catch((e) => console.log('Error GET details from API', e));
   };
 
-  //get all ingredients in the database
+  //get all ingredients in the database to show in the ingredient selections
   const getAvailableIngredients = () => {
     // Get the token from the localStorage
     const storedToken = localStorage.getItem('authToken');
@@ -108,6 +108,7 @@ function EditRecipePage() {
   return (
     <div className="EditRecipePage">
       <form onSubmit={handleSubmit}>
+        {/* Input field Name */}
         <label>Name (* required):</label>
         <input
           type="text"
@@ -115,13 +116,15 @@ function EditRecipePage() {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-
+        {/* Input field Instructions */}
         <label>Instructions:</label>
         <textarea
           name="instructions"
           value={instructions}
           onChange={(e) => setInstructions(e.target.value)}
         />
+
+        {/* Input field Preparation */}
         <label>Preparation (minutes):</label>
         <input
           type="Number"
@@ -131,20 +134,20 @@ function EditRecipePage() {
           onChange={(e) => setDurationInMin(e.target.value)}
         />
 
+        {/* Input field recipeIngredients */}
         {recipeIngredients.map((ingredient, index) => (
           <div key={index}>
             <label className="ingredient-label">
-              {`Ingredient: ${index+1}`}
+              {`Ingredient: ${index + 1}`}
               <span>
                 <button onClick={() => removeIngredient(index)}>x</button>
               </span>
               <span>
-                <button onClick={addIngredient}>
-                  +
-                </button>
+                <button onClick={addIngredient}>+</button>
               </span>
             </label>
 
+            {/* Select ingredients from availableIngredients in DB */}
             <div className="ingredient-row">
               <select
                 className="option-input"
@@ -154,6 +157,7 @@ function EditRecipePage() {
                   updateIngredient(index, 'ingredient', e.target.value)
                 }
               >
+                {/* No Selection option */}
                 <option value="">No selection</option>
                 {availableIngredients.map((availIngredient) => (
                   <option key={availIngredient._id} value={availIngredient._id}>
@@ -162,6 +166,7 @@ function EditRecipePage() {
                 ))}
               </select>
 
+              {/* Input field quantity */}
               <label className="qty-label">Qty (in gr):</label>
               <input
                 className="qty-input"
