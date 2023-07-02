@@ -139,9 +139,11 @@ function EditRecipePage() {
           <div key={index}>
             <label className="ingredient-label">
               {`Ingredient: ${index + 1}`}
+              {/* button to delete ingredient */}
               <span>
                 <button onClick={() => removeIngredient(index)}>x</button>
               </span>
+              {/* button to add ingredient */}
               <span>
                 <button onClick={addIngredient}>+</button>
               </span>
