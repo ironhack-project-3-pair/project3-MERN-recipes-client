@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import recipesService from '../services/recipes.service';
 import axios from 'axios';
 
-
 const API_URL = 'http://localhost:5005';
 
 function AddRecipe(props) {
@@ -12,29 +11,11 @@ function AddRecipe(props) {
   const [durationInMin, setDurationInMin] = useState('');
   const [recipeIngredients, setRecipeIngredients] = useState([
     {
-      ingredient: '',
-      qtyInGrams: '',
+      ingredient: 'No selection',
+      qtyInGrams: 0,
     },
   ]);
   const [availableIngredients, setAvailableIngredients] = useState([]);
-
-  // const navigate = useNavigate();
-
-  // const { recipeId } = useParams();
-  //pre-populate with details previously stored in DB
-  // const getRecipe = () => {
-  //   recipesService
-  //     .getRecipe(recipeId)
-  //     .then((res) => {
-  //       const recipeToEdit = res.data;
-
-  //       setName(recipeToEdit.name);
-  //       setInstructions(recipeToEdit.instructions);
-  //       setDurationInMin(recipeToEdit.durationInMin);
-  //       setRecipeIngredients(recipeToEdit.recipeIngredients);
-  //     })
-  //     .catch((e) => console.log('Error GET details from API', e));
-  // };
 
   // get all ingredients in the database
   const getAvailableIngredients = () => {
@@ -57,7 +38,7 @@ function AddRecipe(props) {
       ...recipeIngredients,
       {
         ingredient: '',
-        qtyInGrams: '',
+        qtyInGrams: 0,
       },
     ]);
   };
@@ -103,7 +84,7 @@ function AddRecipe(props) {
         setRecipeIngredients([
           {
             ingredient: '',
-            qtyInGrams: '',
+            qtyInGrams: 0,
           },
         ]);
       })
@@ -113,6 +94,7 @@ function AddRecipe(props) {
   return (
     <div className="AddRecipe">
       <form onSubmit={handleSubmit}>
+        {/* Input field Name */}
         <label>Name (* required):</label>
         <input
           type="text"
@@ -121,12 +103,15 @@ function AddRecipe(props) {
           onChange={(e) => setName(e.target.value)}
         />
 
+        {/* Input field Instructions */}
         <label>Instructions:</label>
         <textarea
           name="instructions"
           value={instructions}
           onChange={(e) => setInstructions(e.target.value)}
         />
+
+        {/* Input field Preparation */}
         <label>Preparation (minutes):</label>
         <input
           type="Number"
@@ -136,18 +121,26 @@ function AddRecipe(props) {
           onChange={(e) => setDurationInMin(e.target.value)}
         />
 
+        {/* Input field recipeIngredients */}
         {recipeIngredients.map((ingredient, index) => (
           <div key={index}>
             <label className="ingredient-label">
               {`Ingredient: ${index + 1}`}
+              {/* button to delete ingredient */}
               <span>
-                <button onClick={() => removeIngredient(index)}>x</button>
+                <button type={'button'} onClick={() => removeIngredient(index)}>
+                  x
+                </button>
               </span>
+              {/* button to add ingredient */}
               <span>
-                <button onClick={addIngredient}>+</button>
+                <button type={'button'} onClick={addIngredient}>
+                  +
+                </button>
               </span>
             </label>
 
+            {/* Select ingredients from availableIngredients in DB */}
             <div className="ingredient-row">
               <select
                 className="option-input"
@@ -157,6 +150,7 @@ function AddRecipe(props) {
                   updateIngredient(index, 'ingredient', e.target.value)
                 }
               >
+                {/* No Selection option */}
                 <option value="">No selection</option>
                 {availableIngredients.map((availIngredient) => (
                   <option key={availIngredient._id} value={availIngredient._id}>
@@ -165,6 +159,7 @@ function AddRecipe(props) {
                 ))}
               </select>
 
+              {/* Input field quantity */}
               <label className="qty-label">Qty (in gr):</label>
               <input
                 className="qty-input"
