@@ -12,6 +12,8 @@ function RecipesListPage() {
   console.log('rendering RecipesListPage');
 
   const [recipes, setRecipes] = useState([]);
+  const [deleteMessage, setDeleteMessage] = useState('');
+  const [createMessage, setCreateMessage] = useState('');
 
   const getAllRecipes = () => {
     // // Get the token from the localStorage
@@ -38,9 +40,24 @@ function RecipesListPage() {
 
   return (
     <div className="RecipeListPage">
-      <AddRecipe callbackToUpdateList={getAllRecipes} />
+      <AddRecipe
+        callbackToUpdateList={getAllRecipes}
+        setCreateMessage={setCreateMessage}
+      />
+      {/* Show the deletion message */}
+      {deleteMessage && <p>{deleteMessage}</p>}
+      {/* Show the creation message */}
+      {createMessage && <p>{createMessage}</p>}
+      {/* render list of recipesa */}
       {recipes.map((recipe) => {
-        return <RecipeCard key={recipe._id} recipe={recipe} />;
+        return (
+          <RecipeCard
+            key={recipe._id}
+            callbackToUpdateList={getAllRecipes}
+            recipe={recipe}
+            setDeleteMessage={setDeleteMessage}
+          />
+        );
       })}
     </div>
   );
