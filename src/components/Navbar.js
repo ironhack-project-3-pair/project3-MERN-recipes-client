@@ -17,6 +17,7 @@ function Navbar() {
 
       {isLoggedIn && (
         <>
+          <NavLink to="/my-kitchen"><button>My Kitchen</button></NavLink>
           <NavLink to="/recipes"><button>Recipes</button></NavLink>
           <NavLink to="/ingredients"><button>Ingredients</button></NavLink>
 
