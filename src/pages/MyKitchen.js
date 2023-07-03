@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
+import IngredientCard from '../components/IngredientCard';
 
 const API_URL = 'http://localhost:5005';
 
@@ -58,33 +59,7 @@ function MyKitchen() {
         </span>
       </h4>
       {userIngredients.map((ingredient) => {
-        return (
-          <Row
-            key={ingredient._id}
-            className="justify-content-center ingredient-card"
-          >
-            <Card className="m-1 flex-row" style={{ width: '15vw' }}>
-              <Card.Text className="my-2 mx-1 col-10">
-                <span className="m-1">
-                  {ingredient.ingredient.name}
-                  {ingredient.ingredient.emoji && ingredient.ingredient.emoji}
-                </span>
-                <span className="m-1">{ingredient.qtyInGrams}g</span>
-              </Card.Text>
-              {/* button to delete ingredient */}
-              <Col className="flex-column justify-content-start col-2">
-                <Link
-                  className='text-decoration-none'
-                  onClick={() => {
-                    deleteUserIngredient(ingredient._id);
-                  }}
-                >
-                  ⨉
-                </Link>
-              </Col>
-            </Card>
-          </Row>
-        );
+        return <IngredientCard key={ingredient._id} ingredient={ingredient} deleteUserIngredient={deleteUserIngredient} />;
       })}
     </Container>
   );
