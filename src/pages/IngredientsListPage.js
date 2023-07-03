@@ -112,8 +112,6 @@ function IngredientsListPage() {
           );
           // Refresh the ingredients list
           getAllIngredients();
-          setQuantity({}); // Clear the input field
-          setErrorMessage(''); // Clear the error message
         })
         .catch((error) => {
           console.log('Error updating quantity in kitchen', error);
@@ -141,6 +139,8 @@ function IngredientsListPage() {
           console.log('Error adding ingredient to kitchen', error);
         });
     }
+    setQuantity({}); // Clear the input field
+    setErrorMessage(''); // Clear the error message
   };
 
   //Filter ingredients from the whole list of ingredients according to search input
