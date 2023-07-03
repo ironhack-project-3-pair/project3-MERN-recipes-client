@@ -33,7 +33,7 @@ class RecipesService {
         // return onRejectedReason // the returned promise gets **fulfilled** with the error as its value
         throw onRejectedReason // the returned promise gets **rejected** with the error as its value
       })
-      // this previous .then() has no effect :)
+      // this previous .then() does not change the normal behavior in this case
       .catch(error => { // shortcut for Promise.prototype.then(undefined, onRejected)
         if (error.response.data.UnauthorizedError.name === "TokenExpiredError") {
           console.log("token expired!");
