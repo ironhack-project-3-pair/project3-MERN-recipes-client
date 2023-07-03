@@ -20,6 +20,7 @@ function Navbar() {
           <NavLink to="/my-kitchen"><button>My Kitchen</button></NavLink>
           <NavLink to="/recipes"><button>Recipes</button></NavLink>
           <NavLink to="/ingredients"><button>Ingredients</button></NavLink>
+          <NavLink to="/week-plan"><button>Week Plan</button></NavLink>
 
           <button onClick={logOutUser}>Logout</button>
           <span>{user && user.name}</span>
