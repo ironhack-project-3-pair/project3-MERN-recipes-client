@@ -47,7 +47,16 @@ function MyKitchen() {
   };
   return (
     <Container>
-      <h1>My Ingredients have: {userIngredients.length} items</h1>
+      <h4 className="row">
+        <span className="col-8 text-start">
+          My Ingredients Have: {userIngredients.length} Items
+        </span>
+        <span className="col-4">
+          <Link className="text-decoration-none" to={'/ingredients'}>
+            +
+          </Link>
+        </span>
+      </h4>
       {userIngredients.map((ingredient) => {
         return (
           <Row
@@ -65,11 +74,12 @@ function MyKitchen() {
               {/* button to delete ingredient */}
               <Col className="flex-column justify-content-start col-2">
                 <Link
+                  className='text-decoration-none'
                   onClick={() => {
                     deleteUserIngredient(ingredient._id);
                   }}
                 >
-                  x
+                  ⨉
                 </Link>
               </Col>
             </Card>
