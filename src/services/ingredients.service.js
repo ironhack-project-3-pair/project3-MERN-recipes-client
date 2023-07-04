@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 class IngredientsService {
   constructor() {
     this.api = axios.create({
