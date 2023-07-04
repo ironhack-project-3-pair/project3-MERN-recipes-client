@@ -20,7 +20,7 @@ class UserIngredientsService {
   }
 
   // POST /api/user-ingredients
-  createUserIngredient = (requestBody) => {
+  addUserIngredient = (requestBody) => {
     return this.api.post('/api/user-ingredients', requestBody);
   };
 

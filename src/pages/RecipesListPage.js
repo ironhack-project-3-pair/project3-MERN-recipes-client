@@ -12,6 +12,8 @@ function RecipesListPage() {
   console.log('rendering RecipesListPage');
 
   const [recipes, setRecipes] = useState([]);
+
+  //messages
   const [deleteMessage, setDeleteMessage] = useState('');
   const [createMessage, setCreateMessage] = useState('');
 
@@ -38,16 +40,22 @@ function RecipesListPage() {
     getAllRecipes();
   }, []);
 
+
+
+
   return (
     <div className="RecipeListPage">
       <AddRecipe
         callbackToUpdateList={getAllRecipes}
         setCreateMessage={setCreateMessage}
       />
-      {/* Show the deletion message */}
-      {deleteMessage && <p>{deleteMessage}</p>}
-      {/* Show the creation message */}
+
+      {/* Show the message */}
       {createMessage && <p>{createMessage}</p>}
+      {deleteMessage && <p>{deleteMessage}</p>}
+
+      <hr />
+
       {/* render list of recipesa */}
       {recipes.map((recipe) => {
         return (

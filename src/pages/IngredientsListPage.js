@@ -6,6 +6,7 @@ import IngredientCard from '../components/IngredientCard';
 
 import ingredientsService from '../services/ingredients.service';
 import userIngredientsService from '../services/userIngredients.service';
+import messagesService from '../services/messages.service';
 
 // import axios from 'axios';
 // const API_URL = 'http://localhost:5005';
@@ -18,8 +19,10 @@ function IngredientsListPage() {
   const [quantity, setQuantity] = useState({});
   const [userIngredients, setUserIngredients] = useState([]);
 
-  //message
-  const [errorMessage, setErrorMessage] = useState('');
+  //messages
+  const [warningMessage, setWarningMessage] = useState('');
+  const [addMessage, setAddMessage] = useState('');
+  const [updateMessage, setUpdateMessage] = useState('');
 
   //hide addIngredient form by default
   const [showForm, setShowForm] = useState(false);
@@ -97,9 +100,8 @@ function IngredientsListPage() {
 
     // Check if the quantity is provided
     const ingredientQuantity = quantity[ingredientToAdd._id];
-
     if (!ingredientQuantity) {
-      setErrorMessage('Please provide a quantity for the ingredient');
+      messagesService.showWarningMessage(ingredientToAdd.name, setWarningMessage);
       return;
     }
 
@@ -123,10 +125,12 @@ function IngredientsListPage() {
           qtyInGrams: updatedQuantity,
         })
         .then((response) => {
-          console.log(
-            `Updated quantity for ${existingIngredient.ingredient.name} in kitchen`,
-            existingIngredient
+          //show message for update User Ingredient
+          messagesService.showUpdateMessage(
+            existingIngredient.ingredient.name,
+            setUpdateMessage
           );
+
           // Refresh the ingredients list
           getAllIngredients();
         })
@@ -148,12 +152,13 @@ function IngredientsListPage() {
       //     }
       //   )
       userIngredientsService
-        .createUserIngredient({
+        .addUserIngredient({
           ingredientId: ingredientToAdd._id,
           qtyInGrams: quantity[ingredientToAdd._id],
         })
         .then((response) => {
-          console.log(`Added ${ingredientToAdd.name} to kitchen`);
+          //show message for update User Ingredient
+          messagesService.showAddMessage(ingredientToAdd.name, setAddMessage);
           // Refresh the ingredients list
           getAllIngredients();
         })
@@ -162,7 +167,6 @@ function IngredientsListPage() {
         });
     }
     setQuantity({}); // Clear the input field
-    setErrorMessage(''); // Clear the error message
   };
 
   //Filter ingredients from the whole list of ingredients according to search input
@@ -211,8 +215,10 @@ function IngredientsListPage() {
             ? 'No result found'
             : `${filteredIngredients.length} results`)}
 
-        {/* Show the error message */}
-        {errorMessage && <p>{errorMessage}</p>}
+        {/* Show the message */}
+        {warningMessage && <p>{warningMessage}</p>}
+        {addMessage && <p>{addMessage} to Kitchen</p>}
+        {updateMessage && <p>{updateMessage}</p>}
 
         <hr />
 

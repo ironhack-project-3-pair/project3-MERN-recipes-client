@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import recipesService from '../services/recipes.service';
 import ingredientsService from '../services/ingredients.service';
+import messagesService from '../services/messages.service';
 
 // import axios from 'axios';
 // const API_URL = 'http://localhost:5005';
@@ -18,16 +19,18 @@ function AddRecipe(props) {
   ]);
   const [availableIngredients, setAvailableIngredients] = useState([]);
 
+
   // get all ingredients in the database
   const getAvailableIngredients = () => {
-    // Get the token from the localStorage
-    const storedToken = localStorage.getItem('authToken');
+    // // Get the token from the localStorage
+    // const storedToken = localStorage.getItem('authToken');
 
     // axios
     //   .get(`${API_URL}/api/ingredients`, {
     //     headers: { Authorization: `Bearer ${storedToken}` },
     //   })
-    ingredientsService.getAllIngredients()
+    ingredientsService
+      .getAllIngredients()
       .then((res) => {
         setAvailableIngredients(res.data);
       })
@@ -77,6 +80,8 @@ function AddRecipe(props) {
     recipesService
       .createRecipe(newRecipe)
       .then(() => {
+        //set message after creation
+        messagesService.showCreateMessage(name, props.setCreateMessage);
         //To update the recipe list
         props.callbackToUpdateList();
         // Reset the state

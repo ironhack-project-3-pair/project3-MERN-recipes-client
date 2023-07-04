@@ -1,18 +1,22 @@
 import { Link, useParams } from 'react-router-dom';
 
 import recipesService from '../services/recipes.service';
+import messagesService from '../services/messages.service';
 
 function RecipeCard(props) {
   const recipeId = props.recipe._id;
+
+
   //delete from API
   const deleteRecipe = () => {
     recipesService
       .deleteRecipe(recipeId)
       .then(() => {
-        // Set deletion message after successful deletion
-        props.setDeleteMessage(`Deleted ${props.recipe.name}`);
-        // Clear message after awhile
-        setTimeout(() => props.setDeleteMessage(''), 400);
+        // Show deletion message after successful deletion
+        messagesService.showDeleteMessage(
+          props.recipe.name,
+          props.setDeleteMessage
+        );
         //To update the recipe list
         props.callbackToUpdateList();
       })
