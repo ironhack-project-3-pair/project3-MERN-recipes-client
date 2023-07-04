@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 
-import axios from 'axios';
-const API_URL = 'http://localhost:5005';
+// import axios from 'axios';
+// const API_URL = 'http://localhost:5005';
+
+import weekPlanService from '../services/weekPlan.service';
 
 function WeekPlan() {
   console.log('rendering WeekPlan');
@@ -12,10 +14,10 @@ function WeekPlan() {
     // Get the token from the localStorage
     const storedToken = localStorage.getItem('authToken');
 
-    axios
-      .get(`${API_URL}/api/week-plan`, {
-        headers: { Authorization: `Bearer ${storedToken}` },
-      })
+    // axios
+    //   .get(`${API_URL}/api/week-plan`, {
+    //     headers: { Authorization: `Bearer ${storedToken}` },
+    weekPlanService.getWeekPlan()
       .then((response) => {
         setWeekPlanRecipes(response.data.weekPlanRecipes);
       })
