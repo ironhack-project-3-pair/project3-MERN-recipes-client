@@ -113,7 +113,7 @@ function IngredientsListPage() {
       //     }
       //   )
       userIngredientsService
-        .updateUserIngredient(userIngredientId, { qtyInGrams: updatedQuantity })
+        .updateUserIngredient(existingIngredient._id, { qtyInGrams: updatedQuantity })
         .then((response) => {
           console.log(
             `Updated quantity for ${existingIngredient.ingredient.name} in kitchen`,

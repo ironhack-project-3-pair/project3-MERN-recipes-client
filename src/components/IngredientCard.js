@@ -16,7 +16,7 @@ function IngredientCard({
         className="m-1 flex-row row"
         style={{ width: `${children ? '45vw' : '25vw'} ` }}
       >
-        <Card.Text className={`my-2 mx-1 ${isDelete ? 'col-12' : 'col-10'}`}>
+        <Card className={`my-2 mx-1 ${isDelete ? 'col-12' : 'col-10'}`}>
           <span className="m-1">
             {ingredient.ingredient
               ? ingredient.ingredient.name
@@ -29,7 +29,7 @@ function IngredientCard({
             <span className="m-1">{ingredient.qtyInGrams}g</span>
           )}
           {children}
-        </Card.Text>
+        </Card>
         {!isDelete && (
           // button to delete ingredient
           <Col className="flex-column align-right col-1">
