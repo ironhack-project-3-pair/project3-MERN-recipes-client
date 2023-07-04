@@ -154,9 +154,9 @@ textarea {
   flex: 1;
 }
 
-.ingredient-row button {
-  /* margin-left: 10px; */
-}
+/* .ingredient-row button {
+  margin-left: 10px;
+} */
 .option-input {
   margin: 2px;
   padding: 2px;
