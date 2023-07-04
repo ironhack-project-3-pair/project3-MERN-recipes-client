@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 // import axios from "axios";
 // const API_URL = "http://localhost:5005";
@@ -8,13 +9,21 @@ import authService from "./../services/auth.service";
 const AuthContext = React.createContext();
 
 function AuthProviderWrapper(props) {
-
-  console.log("rendering AuthProviderWrapper")
+  const REACT_APP_DEBUG_COMPONENT_LIFECYCLE = process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE || false
+  // react-scripts only define env variable for the process the ones that are prefixed with "REACT_APP_"
+  // others will be undefined in process.env
+  // don't forget to restart
+  // https://stackoverflow.com/questions/53237293/react-evironment-variables-env-return-undefined/53237511#53237511
+  // https://create-react-app.dev/docs/adding-custom-environment-variables/
+  // if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE) console.log("rendering AuthProviderWrapper")
+  if (REACT_APP_DEBUG_COMPONENT_LIFECYCLE) console.log("AuthProviderWrapper: rendering (mounting) or re-rendering (updating)")
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [hasTokenExpired, setHasTokenExpired] = useState(false);
   const [user, setUser] = useState(null);
+
+  const location = useLocation();
 
   const storeToken = (token) => {
     localStorage.setItem('authToken', token);
@@ -75,9 +84,17 @@ function AuthProviderWrapper(props) {
     authenticateUser();
   }
 
+  const cleanup = () => {
+    if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE) console.log("AuthProviderWrapper: cleaning after component removed from DOM (unmounted)")
+  }
+
   useEffect(() => {
+    if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE) console.log("AuthProviderWrapper: effect hook")
+    // effect when rendering (mounting) only, not when re-rendering if stateful var updated (because of the empty dependency array)
     authenticateUser();
-  }, []);
+    return cleanup;
+  // }, []);
+  }, [location]);
 
   return (
     <AuthContext.Provider value={

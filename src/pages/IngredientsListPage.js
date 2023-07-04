@@ -11,7 +11,7 @@ import userIngredientsService from '../services/userIngredients.service';
 // const API_URL = 'http://localhost:5005';
 
 function IngredientsListPage() {
-  console.log('rendering IngredientsListPage');
+  if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE) console.log('IngredientsListPage: rendering (mounting) or re-rendering (updating)');
 
   const [ingredients, setIngredients] = useState([]);
   const [query, setQuery] = useState(''); //query for search functionality
@@ -56,7 +56,6 @@ function IngredientsListPage() {
       .getAllUserIngredients()
       .then((res) => {
         setUserIngredients(res.data);
-        console.log('USERINGREDIENT------', res.data);
       })
       .catch((error) => {
         console.log(
@@ -70,8 +69,18 @@ function IngredientsListPage() {
   // We set this effect will run only once, after the initial render
   // by setting the empty dependency array - []
   useEffect(() => {
+    if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE) console.log("IngredientsListPage: effect hook")
     getAllIngredients();
     getUserIngredients();
+    // each call updates a stateful variable
+    // the component will sometime be rendered once, sometimes twice
+    // using the updater function syntax of the useEffect hook (which takes the pending state and calculates/returns the next state from it)
+    // does not change how react schedules and queues the update of the stateful variable
+    // it is only intended to retieve the previous state
+    // setStatefulVar(prevState => prevState + 1);
+    // https://react.dev/reference/react/useState#updating-state-based-on-the-previous-state
+    // so I think the component is re-rendered twice when the time elapsed between responses is greater than a certain value fixed by react...
+    // maybe a good example to use Promise.all()
   }, []);
 
   // Handle input for qtyInGrams,

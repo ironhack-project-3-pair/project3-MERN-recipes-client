@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import weekPlanService from '../services/weekPlan.service';
 
 function WeekPlan() {
-  console.log('rendering WeekPlan');
+  if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE) console.log('WeekPlan: rendering (mounting) or re-rendering (updating)');
 
   const [weekPlanRecipes, setWeekPlanRecipes] = useState({});
 
@@ -31,6 +31,7 @@ function WeekPlan() {
   };
 
   useEffect(() => {
+    if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE) console.log("WeekPlan: effect hook")
     getWeekPlanRecipes();
   }, []);
 
