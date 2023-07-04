@@ -13,8 +13,6 @@ function Navbar() {
   return (
     <nav className="Navbar">
 
-      <NavLink to="/"><button>Home</button></NavLink>
-
       {isLoggedIn && (
         <>
           <NavLink to="/my-kitchen"><button>My Kitchen</button></NavLink>
@@ -29,6 +27,8 @@ function Navbar() {
 
       {!isLoggedIn && (
         <>
+          <NavLink to="/"><button>Home</button></NavLink>
+
           <NavLink to="/signup"><button>Sign Up</button></NavLink>
           <NavLink to="/login"><button>Login</button></NavLink>
         </>
