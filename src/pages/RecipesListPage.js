@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { Button } from 'react-bootstrap';
+
 import RecipeCard from '../components/RecipeCard';
 
 // import axios from 'axios';
@@ -16,6 +18,9 @@ function RecipesListPage() {
   //messages
   const [deleteMessage, setDeleteMessage] = useState('');
   const [createMessage, setCreateMessage] = useState('');
+
+  //hide addIngredient form by default
+  const [showForm, setShowForm] = useState(false);
 
   const getAllRecipes = () => {
     // // Get the token from the localStorage
@@ -40,15 +45,18 @@ function RecipesListPage() {
     getAllRecipes();
   }, []);
 
-
-
-
   return (
     <div className="RecipeListPage">
-      <AddRecipe
-        callbackToUpdateList={getAllRecipes}
-        setCreateMessage={setCreateMessage}
-      />
+      {/* button to show AddIngredient form */}
+      <Button variant="outline-warning" onClick={() => setShowForm(!showForm)}>
+        {showForm ? 'Hide Form' : 'Add New Ingredient'}
+      </Button>
+      {showForm && (
+        <AddRecipe
+          callbackToUpdateList={getAllRecipes}
+          setCreateMessage={setCreateMessage}
+        />
+      )}
 
       {/* Show the message */}
       {createMessage && <p>{createMessage}</p>}
