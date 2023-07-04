@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button, Col } from 'react-bootstrap';
+import { Button, FormControl } from 'react-bootstrap';
 
 import AddIngredient from '../components/AddIngredient';
 import IngredientCard from '../components/IngredientCard';
@@ -20,9 +20,6 @@ function IngredientsListPage() {
 
   //message
   const [errorMessage, setErrorMessage] = useState('');
-
-  // Get the token from the localStorage
-  const storedToken = localStorage.getItem('authToken');
 
   //hide addIngredient form by default
   const [showForm, setShowForm] = useState(false);
@@ -122,7 +119,9 @@ function IngredientsListPage() {
       //     }
       //   )
       userIngredientsService
-        .updateUserIngredient(existingIngredient._id, { qtyInGrams: updatedQuantity })
+        .updateUserIngredient(existingIngredient._id, {
+          qtyInGrams: updatedQuantity,
+        })
         .then((response) => {
           console.log(
             `Updated quantity for ${existingIngredient.ingredient.name} in kitchen`,
@@ -148,10 +147,11 @@ function IngredientsListPage() {
       //       headers: { Authorization: `Bearer ${storedToken}` },
       //     }
       //   )
-      userIngredientsService.createUserIngredient({
-            ingredientId: ingredientToAdd._id,
-            qtyInGrams: quantity[ingredientToAdd._id],
-          })
+      userIngredientsService
+        .createUserIngredient({
+          ingredientId: ingredientToAdd._id,
+          qtyInGrams: quantity[ingredientToAdd._id],
+        })
         .then((response) => {
           console.log(`Added ${ingredientToAdd.name} to kitchen`);
           // Refresh the ingredients list
@@ -180,9 +180,12 @@ function IngredientsListPage() {
     return (
       <div className="IngredientsListPage">
         {/* button to show AddIngredient form */}
-        <button onClick={() => setShowForm(!showForm)}>
+        <Button
+          variant="outline-warning"
+          onClick={() => setShowForm(!showForm)}
+        >
           {showForm ? 'Hide Form' : 'Add New Ingredient'}
-        </button>
+        </Button>
         {showForm && (
           <AddIngredient refreshIngredientsList={getAllIngredients} />
         )}
@@ -221,21 +224,25 @@ function IngredientsListPage() {
               isDelete={true}
               className="flex-row"
             >
-              <Col className="flex-row justify-content-center ">
-                <input
-                  min={0}
-                  type="number"
-                  value={quantity[ingredient._id] || ''}
-                  onChange={(e) => handleQuantityChange(e, ingredient._id)}
-                  placeholder="g"
-                />
-                <Button
-                  className="text-decoration-none"
-                  onClick={() => handleAddToKitchen(ingredient)}
-                >
-                  Add to Kitchen
-                </Button>
-              </Col>
+              {/* <Col className="col-7 "> */}
+              <FormControl
+                aria-label="Quantity of Ingredient in Gram"
+                style={{ width: '7vw' }}
+                className="col-2"
+                min={0}
+                type="number"
+                value={quantity[ingredient._id] || ''}
+                onChange={(e) => handleQuantityChange(e, ingredient._id)}
+                placeholder="grams"
+              />
+              <Button
+                variant="outline-warning"
+                className="align-self-center btn btn-outline-warning col-2 mx-1"
+                onClick={() => handleAddToKitchen(ingredient)}
+              >
+                +
+              </Button>
+              {/* </Col> */}
             </IngredientCard>
           );
         })}

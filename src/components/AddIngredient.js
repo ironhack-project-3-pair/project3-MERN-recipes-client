@@ -1,19 +1,19 @@
-import { useState } from "react";
+import { useState } from 'react';
+import { Button, FormControl } from 'react-bootstrap';
 
 // import axios from "axios";
 // const API_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:5005';
 
 import ingredientsService from '../services/ingredients.service';
 
-
 function AddIngredient(props) {
   // Get the token from the localStorage
-  const storedToken = localStorage.getItem("authToken");
+  const storedToken = localStorage.getItem('authToken');
 
-  const [name, setName] = useState("");
-  const [emoji, setEmoji] = useState("");
-  
-  const [errorMessage, setErrorMessage] = useState("");
+  const [name, setName] = useState('');
+  const [emoji, setEmoji] = useState('');
+
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -53,7 +53,7 @@ function AddIngredient(props) {
 
       <form onSubmit={handleSubmit}>
         <label>Name:</label>
-        <input
+        <FormControl
           type="text"
           name="name"
           value={name}
@@ -61,18 +61,19 @@ function AddIngredient(props) {
         />
 
         <label>Emoji:</label>
-        <input
+        <FormControl
           type="text"
           name="emoji"
           value={emoji}
           onChange={(e) => setEmoji(e.target.value)}
         />
 
-        <button type="submit">Add Ingredient</button>
+        <Button variant="outline-dark" type="submit">
+          Add Ingredient
+        </Button>
       </form>
 
-      { errorMessage && <p className="error-message">{errorMessage}</p> }
-
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>
   );
 }

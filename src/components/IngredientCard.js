@@ -13,10 +13,16 @@ function IngredientCard({
       className="justify-content-center ingredient-card"
     >
       <Card
-        className="m-1 flex-row row"
-        style={{ width: `${children ? '45vw' : '25vw'} ` }}
+        // className="m-1 flex-row row"
+        className="d-flex flex-row align-items-center mb-3"
+        style={{ width: `${children ? '23vw' : '15vw'} ` }}
       >
-        <Card className={`my-2 mx-1 ${isDelete ? 'col-12' : 'col-10'}`}>
+        {/* <Card.Body className={`my-2 mx-1 ${isDelete ? 'col-12' : 'col-10'}`}> */}
+        <Card.Body
+          className={`d-flex flex-row align-items-center justify-content-between p-1 ${
+            isDelete ? 'col-12' : 'col-10'
+          }`}
+        >
           <span className="m-1">
             {ingredient.ingredient
               ? ingredient.ingredient.name
@@ -28,8 +34,10 @@ function IngredientCard({
           {ingredient.qtyInGrams && (
             <span className="m-1">{ingredient.qtyInGrams}g</span>
           )}
-          {children}
-        </Card>
+          <div className="d-flex flex-row align-items-center justify-content-between">
+            {children}
+          </div>
+        </Card.Body>
         {!isDelete && (
           // button to delete ingredient
           <Col className="flex-column align-right col-1">

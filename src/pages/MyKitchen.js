@@ -56,7 +56,7 @@ function MyKitchen() {
     <Container>
       <h4 className="row">
         <span className="col-8 text-start">
-          My Ingredients Have: {userIngredients.length} Items
+          Your Kitchen has: {userIngredients.length===0} Items
         </span>
         <span className="col-4">
           <Link className="text-decoration-none" to={'/ingredients'}>
