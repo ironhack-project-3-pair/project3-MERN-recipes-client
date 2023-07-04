@@ -1,7 +1,10 @@
 import { useState } from "react";
-import axios from "axios";
 
-const API_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:5005';
+// import axios from "axios";
+// const API_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:5005';
+
+import ingredientsService from '../services/ingredients.service';
+
 
 function AddIngredient(props) {
   // Get the token from the localStorage
@@ -18,23 +21,27 @@ function AddIngredient(props) {
     // Create an object representing the body of the POST request
     const requestBody = { name, emoji };
 
-    axios
-      .post(`${API_URL}/api/ingredients`, requestBody, { headers: { Authorization: `Bearer ${storedToken}` } })
+    // axios
+    //   .post(`${API_URL}/api/ingredients`, requestBody, { headers: { Authorization: `Bearer ${storedToken}` } })
+    ingredientsService
+      .createIngredient(requestBody)
       .then((response) => {
         // Reset the state to clear the inputs
-        setName("");
-        setEmoji("");
-        setErrorMessage("");
+        setName('');
+        setEmoji('');
+        setErrorMessage('');
 
         // Invoke the callback function coming through the props
         // from the IngredientListPage, to refresh the list of ingredients
         props.refreshIngredientsList();
       })
       .catch((error) => {
-        console.log(error)
-        if (error.response.data.error?.message) { // ValidationError
+        console.log(error);
+        if (error.response.data.error?.message) {
+          // ValidationError
           setErrorMessage(error.response.data.error?.message);
-        } else { // MongoServerError
+        } else {
+          // MongoServerError
           setErrorMessage(error.response.data.error?.message2);
         }
       });

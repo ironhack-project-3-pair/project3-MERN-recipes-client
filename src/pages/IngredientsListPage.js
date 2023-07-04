@@ -2,10 +2,13 @@ import { useState, useEffect } from 'react';
 import { Button, Col } from 'react-bootstrap';
 
 import AddIngredient from '../components/AddIngredient';
-
-import axios from 'axios';
 import IngredientCard from '../components/IngredientCard';
-const API_URL = 'http://localhost:5005';
+
+import ingredientsService from '../services/ingredients.service';
+import userIngredientsService from '../services/userIngredients.service';
+
+// import axios from 'axios';
+// const API_URL = 'http://localhost:5005';
 
 function IngredientsListPage() {
   console.log('rendering IngredientsListPage');
@@ -25,10 +28,12 @@ function IngredientsListPage() {
   const [showForm, setShowForm] = useState(false);
 
   const getAllIngredients = () => {
-    axios
-      .get(`${API_URL}/api/ingredients`, {
-        headers: { Authorization: `Bearer ${storedToken}` },
-      })
+    // axios
+    //   .get(`${API_URL}/api/ingredients`, {
+    //     headers: { Authorization: `Bearer ${storedToken}` },
+    //   })
+    ingredientsService
+      .getAllIngredients()
       .then((response) => {
         setIngredients(response.data);
       })
@@ -43,10 +48,12 @@ function IngredientsListPage() {
 
   //Get userIngredients
   const getUserIngredients = () => {
-    axios
-      .get(`${API_URL}/api/user-ingredients`, {
-        headers: { Authorization: `Bearer ${storedToken}` },
-      })
+    // axios
+    //   .get(`${API_URL}/api/user-ingredients`, {
+    //     headers: { Authorization: `Bearer ${storedToken}` },
+    //   })
+    userIngredientsService
+      .getAllUserIngredients()
       .then((res) => {
         setUserIngredients(res.data);
         console.log('USERINGREDIENT------', res.data);
@@ -94,17 +101,19 @@ function IngredientsListPage() {
     if (existingIngredient) {
       const updatedQuantity = parseInt(quantity[ingredientToAdd._id]);
 
-      axios
-        .put(
-          `${API_URL}/api/user-ingredients/${existingIngredient._id}`,
-          {
-            //       userId: 'user-id', // Replace with the actual user ID
-            qtyInGrams: updatedQuantity,
-          },
-          {
-            headers: { Authorization: `Bearer ${storedToken}` },
-          }
-        )
+      // axios
+      //   .put(
+      //     `${API_URL}/api/user-ingredients/${existingIngredient._id}`,
+      //     {
+      //       //       userId: 'user-id', // Replace with the actual user ID
+      //       qtyInGrams: updatedQuantity,
+      //     },
+      //     {
+      //       headers: { Authorization: `Bearer ${storedToken}` },
+      //     }
+      //   )
+      userIngredientsService
+        .updateUserIngredient(userIngredientId, { qtyInGrams: updatedQuantity })
         .then((response) => {
           console.log(
             `Updated quantity for ${existingIngredient.ingredient.name} in kitchen`,
@@ -118,18 +127,22 @@ function IngredientsListPage() {
         });
     } else {
       // Add a new ingredient to the kitchen
-      axios
-        .post(
-          `${API_URL}/api/user-ingredients`,
-          {
-            // userId: 'user-id', // Replace with the actual user ID
+      // axios
+      //   .post(
+      //     `${API_URL}/api/user-ingredients`,
+      //     {
+      //       // userId: 'user-id', // Replace with the actual user ID
+      //       ingredientId: ingredientToAdd._id,
+      //       qtyInGrams: quantity[ingredientToAdd._id],
+      //     },
+      //     {
+      //       headers: { Authorization: `Bearer ${storedToken}` },
+      //     }
+      //   )
+      userIngredientsService.createUserIngredient({
             ingredientId: ingredientToAdd._id,
             qtyInGrams: quantity[ingredientToAdd._id],
-          },
-          {
-            headers: { Authorization: `Bearer ${storedToken}` },
-          }
-        )
+          })
         .then((response) => {
           console.log(`Added ${ingredientToAdd.name} to kitchen`);
           // Refresh the ingredients list
