@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 
 import recipesService from '../services/recipes.service';
-import axios from 'axios';
+import ingredientsService from '../services/ingredients.service';
 
-const API_URL = 'http://localhost:5005';
+// import axios from 'axios';
+// const API_URL = 'http://localhost:5005';
 
 function AddRecipe(props) {
   const [name, setName] = useState('');
@@ -22,10 +23,11 @@ function AddRecipe(props) {
     // Get the token from the localStorage
     const storedToken = localStorage.getItem('authToken');
 
-    axios
-      .get(`${API_URL}/api/ingredients`, {
-        headers: { Authorization: `Bearer ${storedToken}` },
-      })
+    // axios
+    //   .get(`${API_URL}/api/ingredients`, {
+    //     headers: { Authorization: `Bearer ${storedToken}` },
+    //   })
+    ingredientsService.getAllIngredients()
       .then((res) => {
         setAvailableIngredients(res.data);
       })

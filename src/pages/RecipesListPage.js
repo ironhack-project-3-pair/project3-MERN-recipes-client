@@ -5,8 +5,8 @@ import RecipeCard from '../components/RecipeCard';
 // const API_URL = 'http://localhost:5005';
 
 import recipesService from '../services/recipes.service';
+
 import AddRecipe from '../components/AddRecipe';
-const API_URL = 'http://localhost:5005';
 
 function RecipesListPage() {
   console.log('rendering RecipesListPage');
