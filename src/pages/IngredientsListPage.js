@@ -216,21 +216,20 @@ function IngredientsListPage() {
           </>
         )}
         {/* search bar */}
-        <div>
-          {/* <label for="search" className="mx-2">
-            Search
-          </label> */}
-          <input
-            aria-label="Input Label"
-            name="search"
-            className="col-10"
-            value={undefined}
-            type="text"
-            onChange={handleInput}
-            placeholder="Search your ingredients here"
-          />
-        </div>
-
+        <Container>
+          <Row>
+            <Col lg={8} md={8} className="mx-auto">
+              <FormControl
+                aria-label="Input Label"
+                name="search"
+                value={query}
+                type="text"
+                onChange={handleInput}
+                placeholder="Search your ingredients here"
+              />
+            </Col>
+          </Row>
+        </Container>
         {/* showing message if theres search input */}
         {query !== '' &&
           (filteredIngredients.length === 0
