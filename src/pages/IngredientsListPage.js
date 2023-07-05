@@ -14,9 +14,10 @@ import messagesService from '../services/messages.service';
 function IngredientsListPage() {
   if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
     console.log(
-      '%cIngredientsListPage:', 
-      'color: #badacc', 
-      ' rendering (mounting) or re-rendering (updating)');
+      '%cIngredientsListPage:',
+      'color: #badacc',
+      ' rendering (mounting) or re-rendering (updating)'
+    );
 
   const [ingredients, setIngredients] = useState([]);
   const [query, setQuery] = useState(''); //query for search functionality
@@ -27,6 +28,7 @@ function IngredientsListPage() {
   const [warningMessage, setWarningMessage] = useState('');
   const [addMessage, setAddMessage] = useState('');
   const [updateMessage, setUpdateMessage] = useState('');
+  const [createMessage, setCreateMessage] = useState('');
 
   //hide addIngredient form by default
   const [showForm, setShowForm] = useState(false);
@@ -75,10 +77,11 @@ function IngredientsListPage() {
   useEffect(() => {
     if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
       console.log(
-        '%cIngredientsListPage:%c effect hook', 
+        '%cIngredientsListPage:%c effect hook',
         'color: #badacc',
-        'color: red');
-    
+        'color: red'
+      );
+
     getAllIngredients();
     getUserIngredients();
     // each call updates a stateful variable
@@ -110,7 +113,10 @@ function IngredientsListPage() {
     // Check if the quantity is provided
     const ingredientQuantity = quantity[ingredientToAdd._id];
     if (!ingredientQuantity) {
-      messagesService.showWarningMessage(ingredientToAdd.name, setWarningMessage);
+      messagesService.showWarningMessage(
+        ingredientToAdd.name,
+        setWarningMessage
+      );
       return;
     }
 
@@ -200,7 +206,13 @@ function IngredientsListPage() {
           {showForm ? 'Hide Form' : 'Add New Ingredient'}
         </Button>
         {showForm && (
-          <AddIngredient refreshIngredientsList={getAllIngredients} />
+          <>
+            <AddIngredient
+              setCreateMessage={setCreateMessage}
+              refreshIngredientsList={getAllIngredients}
+            />
+            {createMessage && <p>{createMessage}</p>}
+          </>
         )}
         {/* search bar */}
         <div>

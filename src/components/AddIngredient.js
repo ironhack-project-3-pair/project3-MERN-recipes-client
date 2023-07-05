@@ -5,6 +5,7 @@ import { Button, FormControl } from 'react-bootstrap';
 // const API_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:5005';
 
 import ingredientsService from '../services/ingredients.service';
+import messagesService from '../services/messages.service';
 
 function AddIngredient(props) {
   // Get the token from the localStorage
@@ -14,6 +15,7 @@ function AddIngredient(props) {
   const [emoji, setEmoji] = useState('');
 
   //messages
+
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = (e) => {
@@ -27,6 +29,9 @@ function AddIngredient(props) {
     ingredientsService
       .createIngredient(requestBody)
       .then((response) => {
+        // Set message after successful creation
+        messagesService.showCreateMessage(name, props.setCreateMessage);
+
         // Reset the state to clear the inputs
         setName('');
         setEmoji('');
@@ -40,10 +45,13 @@ function AddIngredient(props) {
         console.log(error);
         if (error.response.data.error?.message) {
           // ValidationError
-          setErrorMessage(error.response.data.error?.message);
-        } else {
+          setErrorMessage(error.response.data.error.errors.name.message);
+        } else if (error.response.data.error.message2) {
           // MongoServerError
-          setErrorMessage(error.response.data.error?.message2);
+
+          setErrorMessage(
+            'Ingredient name already exists. Provide different ingredient'
+          );
         }
       });
   };
