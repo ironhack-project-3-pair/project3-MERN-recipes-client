@@ -152,7 +152,7 @@ function WeekPlan() {
 
   return (
     <div className="WeekPlan">
-      <Button variant="outline-warning" onClick={resetWeekPlan}>
+      <Button className='m-3' variant="outline-warning" onClick={resetWeekPlan}>
         {' '}
         Reset Week Plan{' '}
       </Button>
