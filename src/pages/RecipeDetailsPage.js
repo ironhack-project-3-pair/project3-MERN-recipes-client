@@ -5,7 +5,11 @@ import recipesService from '../services/recipes.service';
 import weekPlanService from '../services/weekPlan.service';
 
 function RecipeDetailsPage() {
-  if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE) console.log('RecipeDetailsPage: rendering (mounting) or re-rendering (updating)');
+  if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
+    console.log(
+      '%cRecipeDetailsPage:', 
+      'color: #6666cc', 
+      ' rendering (mounting) or re-rendering (updating)');
 
   const [recipe, setRecipe] = useState(null);
 
@@ -47,7 +51,11 @@ function RecipeDetailsPage() {
   // };
 
   useEffect(() => {
-    if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE) console.log("RecipeDetailsPage: effect hook");
+    if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
+      console.log(
+        '%cRecipeDetailsPage:%c effect hook', 
+        'color: #6666cc',
+        'color: red');
     //   (async () => {
     //     try {
     //       await Promise.all([

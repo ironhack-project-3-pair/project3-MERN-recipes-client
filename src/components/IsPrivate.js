@@ -29,7 +29,7 @@ function IsPrivate( { children } ) {
     if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
       console.log(
         '%cIsPrivate:%c effect hook', 
-        'color: #bada55',
+        'color: #888888',
         'color: red');
     // note: when setting up a useEffect hook, it does not necessarily re-render the component 
     // (e.g. if no stateful var changes)
