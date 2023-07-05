@@ -111,7 +111,6 @@ function WeekPlan() {
       .then(response => {
         const weekPlan = response.data;
         setWeekPlan(weekPlan);
-        console.log(weekPlan)
       })
       .catch(e => {
         console.log("error resetting week plan: ", e)
@@ -126,11 +125,12 @@ function WeekPlan() {
           return (
             <div key={day} className="WeekPlan-day-wrapper" id={day}>
               <h2>{day.slice(3)}</h2>
-              { weekPlan.weekPlanRecipes[day]?.length > 0 &&
-                <div className="WeekPlan-day-recipes-wrapper">
-                  { weekPlan.weekPlanRecipes[day].map((weekPlanRecipe, i) => {
-                    return weekPlanRecipe.recipe &&
-                      <div key={weekPlanRecipe.recipe?._id + "." + i} className="WeekPlan-day-recipe-wrapper">
+              <div className="WeekPlan-day-recipes-wrapper">
+                { weekPlan.weekPlanRecipes[day]?.length > 0
+                  // always true since the default value was added for the day fields
+                  && weekPlan.weekPlanRecipes[day].map((weekPlanRecipe, i) => {
+                    return weekPlanRecipe.recipe
+                      ? <div key={weekPlanRecipe.recipe?._id + "." + i} className="WeekPlan-day-recipe-wrapper">
                         <h3>{slotsNames[i]}</h3>
                         <h4>{weekPlanRecipe.recipe?.name}</h4>
                         { !weekPlanRecipe.consumed
@@ -138,9 +138,13 @@ function WeekPlan() {
                           : <p>Consumed</p>
                         }
                       </div>
-                  })}
-                </div>
-              }
+                      : <div className="WeekPlan-day-recipe-empty-wrapper">
+                        <h3>{slotsNames[i]}</h3>
+                        <h4>Empty Slot</h4>
+                      </div>
+                  })
+                }
+              </div>
             </div>
           )
         })
