@@ -256,7 +256,7 @@ function IngredientsListPage() {
               <FormControl
                 aria-label="Quantity of Ingredient in Gram"
                 style={{ width: '7vw' }}
-                className="col-2"
+                className="col-2 px-1"
                 min={0}
                 type="number"
                 value={quantity[ingredient._id] || ''}
@@ -265,7 +265,7 @@ function IngredientsListPage() {
               />
               <Button
                 variant="outline-warning"
-                className="align-self-center btn btn-outline-warning col-2 mx-1"
+                className="align-self-center btn btn-outline-warning col-4 mx-1"
                 onClick={() => handleAddToKitchen(ingredient)}
               >
                 +
