@@ -68,48 +68,114 @@ function AddRecipe(props) {
     getAvailableIngredients();
   }, []);
 
+  //Methods of validation inputs of creating new recipe
+  const isRecipeNameProvided = () => {
+    if (!name) {
+      setErrorMessage(
+        "Recipe's name is required. Please provide a name for the recipe."
+      );
+      return false;
+    }
+    return true;
+  };
+
+  const isRecipeNameUnique = async () => {
+    try {
+      const response = await recipesService.getAllRecipes();
+      const recipes = response.data;
+
+      console.log('name------', name);
+
+      for (let i = 0; i < recipes.length; i++) {
+        if (recipes[i].name === name) {
+          setErrorMessage(
+            'The recipe name already exists. Provide different name'
+          );
+          return false;
+        }
+      }
+
+      return true;
+    } catch (error) {
+      console.log('Error checking uniqueness of recipe name', error);
+      setErrorMessage('Recipe name needs to be unique');
+      return false;
+    }
+  };
+
+  const areIngredientsValid = () => {
+    const invalidIngredients = recipeIngredients.filter((ingredient) => {
+      return ingredient.ingredient === '' || ingredient.qtyInGrams <= 0;
+    });
+
+    if (invalidIngredients.length > 0) {
+      setErrorMessage('Please provide valid ingredient and quantity');
+      return false;
+    }
+
+    return true;
+  };
+
   //create new recipe
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newRecipe = {
-      name,
-      instructions,
-      durationInMin,
-      recipeIngredients,
-    };
+    try {
+      // Validate if recipe name is provided
+      if (!isRecipeNameProvided()) {
+        throw new Error(
+          "Recipe's name is required. Please provide a name for the recipe."
+        );
+      }
 
-    recipesService
-      .createRecipe(newRecipe)
-      .then(() => {
-        //set message after creation
-        messagesService.showCreateMessage(name, props.setCreateMessage);
-        //To update the recipe list
-        props.callbackToUpdateList();
-        // Reset the state
-        setName('');
-        setInstructions('');
-        setDurationInMin('');
-        setRecipeIngredients([
-          {
-            ingredient: '',
-            qtyInGrams: 0,
-          },
-        ]);
-      })
-      .catch((e) => {
-        console.log('Error POST newRecipe to API', e);
-        console.log();
-        if (e.response.data.message) {
-          console.log('e.response.data---------', e.response.data);
-          // ValidationError
-          setErrorMessage(e.response.data.errors.name.message);
-        } else {
-          // MongoServerError
-          console.log('e.response.data---------', e.response.data);
-          setErrorMessage(e.response.data.errorMessage);
-        }
+      // Validate if recipe name is unique
+      let isNameUnique = await isRecipeNameUnique();
+      if (!isNameUnique) {
+        throw new Error(
+          'The recipe name already exists. Provide different name'
+        );
+      }
+
+      // Validate user input for ingredients:
+      const invalidIngredients = recipeIngredients.filter((ingredient) => {
+        return ingredient.ingredient === '' || ingredient.qtyInGrams <= 0;
       });
+
+      if (invalidIngredients.length > 0) {
+        throw new Error('Please provide valid ingredient and quantity');
+      }
+
+      // After passing the validation checks, create the new recipe
+      const newRecipe = {
+        name,
+        instructions,
+        durationInMin,
+        recipeIngredients,
+      };
+
+      await recipesService.createRecipe(newRecipe);
+
+      // Set message after successful creation
+      messagesService.showCreateMessage(name, props.setCreateMessage);
+
+      // To update the recipe list
+      props.callbackToUpdateList();
+
+      // Reset the state
+      setName('');
+      setInstructions('');
+      setDurationInMin('');
+      setRecipeIngredients([
+        {
+          ingredient: '',
+          qtyInGrams: 0,
+        },
+      ]);
+      setErrorMessage(''); // Clear any error messages
+    } catch (error) {
+      console.log('Error while validating or creating recipe', error);
+      setErrorMessage(error.message);
+    }
   };
 
   return (
