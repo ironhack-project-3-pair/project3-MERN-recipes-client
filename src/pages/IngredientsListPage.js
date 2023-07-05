@@ -174,6 +174,7 @@ function IngredientsListPage() {
         .then((response) => {
           //show message for update User Ingredient
           messagesService.showAddMessage(ingredientToAdd.name, setAddMessage);
+          setUserIngredients([...userIngredients, response.data[response.data.length - 1]])
           // Refresh the ingredients list
           getAllIngredients();
         })

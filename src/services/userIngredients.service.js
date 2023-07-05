@@ -19,7 +19,7 @@ class UserIngredientsService {
     });
   }
 
-  // POST /api/user-ingredients
+  // POST /api/user-ingredients  -  returns all the ingredients after the add
   addUserIngredient = (requestBody) => {
     return this.api.post('/api/user-ingredients', requestBody);
   };
