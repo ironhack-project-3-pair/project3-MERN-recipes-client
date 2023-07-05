@@ -12,7 +12,11 @@ import messagesService from '../services/messages.service';
 // const API_URL = 'http://localhost:5005';
 
 function IngredientsListPage() {
-  if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE) console.log('IngredientsListPage: rendering (mounting) or re-rendering (updating)');
+  if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
+    console.log(
+      '%cIngredientsListPage:', 
+      'color: #badacc', 
+      ' rendering (mounting) or re-rendering (updating)');
 
   const [ingredients, setIngredients] = useState([]);
   const [query, setQuery] = useState(''); //query for search functionality
@@ -69,7 +73,12 @@ function IngredientsListPage() {
   // We set this effect will run only once, after the initial render
   // by setting the empty dependency array - []
   useEffect(() => {
-    if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE) console.log("IngredientsListPage: effect hook")
+    if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
+      console.log(
+        '%cIngredientsListPage:%c effect hook', 
+        'color: #badacc',
+        'color: red');
+    
     getAllIngredients();
     getUserIngredients();
     // each call updates a stateful variable

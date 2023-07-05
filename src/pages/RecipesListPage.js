@@ -11,7 +11,11 @@ import recipesService from '../services/recipes.service';
 import AddRecipe from '../components/AddRecipe';
 
 function RecipesListPage() {
-  console.log('rendering RecipesListPage');
+  if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
+    console.log(
+      '%cRecipesListPage:', 
+      'color: #eedd88', 
+      ' rendering (mounting) or re-rendering (updating)');
 
   const [recipes, setRecipes] = useState([]);
 
@@ -42,6 +46,11 @@ function RecipesListPage() {
   // We set this effect will run only once, after the initial render
   // by setting the empty dependency array - []
   useEffect(() => {
+    if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
+      console.log(
+        '%cRecipesListPage:%c effect hook', 
+        'color: #eedd88',
+        'color: red');
     getAllRecipes();
   }, []);
 

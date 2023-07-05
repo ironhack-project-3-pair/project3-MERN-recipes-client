@@ -5,7 +5,11 @@ import { Navigate } from "react-router-dom";
 import { useEffect } from "react";
 
 function IsPrivate( { children } ) {
-  if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE) console.log("IsPrivate: rendering (mounting) or re-rendering (updating)")
+  if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
+    console.log(
+      '%cIsPrivate:', 
+      'color: #888888', 
+      ' rendering (mounting) or re-rendering (updating)');
   // this component uses context from AuthProviderWrapper, 
   // so IsPrivate is also re-rendered each time AppProviderWrapper is re-rendered
   // (even if IsPrivate has no useEffect hook set up)
@@ -13,12 +17,20 @@ function IsPrivate( { children } ) {
   const { isLoggedIn, isLoading, authenticateUser } = useContext(AuthContext);
 
   const cleanup = () => {
-    if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE) console.log("IsPrivate: cleaning after component removed from DOM (unmounted)")
+    if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
+      console.log(
+        '%cIsPrivate:', 
+        'color: #888888', 
+        ' cleaning after component removed from DOM (unmounted)');
   }
   // operation(s) below must be perform in commit phase, not rendering phase, otherwise error:
   // Cannot update a component (`AuthProviderWrapper`) while rendering a different component (`IsPrivate`).
   useEffect(() => {
-    if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE) console.log("IsPrivate effect hook")
+    if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
+      console.log(
+        '%cIsPrivate:%c effect hook', 
+        'color: #bada55',
+        'color: red');
     // note: when setting up a useEffect hook, it does not necessarily re-render the component 
     // (e.g. if no stateful var changes)
 

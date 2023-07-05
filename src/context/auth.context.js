@@ -16,7 +16,11 @@ function AuthProviderWrapper(props) {
   // https://stackoverflow.com/questions/53237293/react-evironment-variables-env-return-undefined/53237511#53237511
   // https://create-react-app.dev/docs/adding-custom-environment-variables/
   // if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE) console.log("rendering AuthProviderWrapper")
-  if (REACT_APP_DEBUG_COMPONENT_LIFECYCLE) console.log("AuthProviderWrapper: rendering (mounting) or re-rendering (updating)")
+  if (REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
+    console.log(
+      '%cAuthProviderWrapper:', 
+      'color: #bada55', 
+      ' rendering (mounting) or re-rendering (updating)');
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -85,11 +89,19 @@ function AuthProviderWrapper(props) {
   }
 
   const cleanup = () => {
-    if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE) console.log("AuthProviderWrapper: cleaning after component removed from DOM (unmounted)")
+    if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
+      console.log(
+        '%cAuthProviderWrapper:', 
+        'color: #bada55', 
+        ' cleaning after component removed from DOM (unmounted)');
   }
 
   useEffect(() => {
-    if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE) console.log("AuthProviderWrapper: effect hook")
+    if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
+      console.log(
+        '%cAuthProviderWrapper:%c effect hook', 
+        'color: #bada55',
+        'color: red');
     // effect when rendering (mounting) only, not when re-rendering if stateful var updated (because of the empty dependency array)
     authenticateUser();
     return cleanup;

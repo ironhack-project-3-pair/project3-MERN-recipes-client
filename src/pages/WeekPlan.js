@@ -8,7 +8,11 @@ import recipesService from '../services/recipes.service'
 import userIngredientsService from '../services/userIngredients.service';
 
 function WeekPlan() {
-  if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE) console.log('WeekPlan: rendering (mounting) or re-rendering (updating)');
+  if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
+    console.log(
+      '%cWeekPlan:', 
+      'color: #badaff', 
+      ' rendering (mounting) or re-rendering (updating)');
 
   const [weekPlan, setWeekPlan] = useState({});
 
@@ -33,7 +37,11 @@ function WeekPlan() {
   };
 
   useEffect(() => {
-    if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE) console.log("WeekPlan: effect hook")
+    if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
+      console.log(
+        '%cWeekPlan:%c effect hook', 
+        'color: #badaff',
+        'color: red');
     getWeekPlan();
   }, []);
 
