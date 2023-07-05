@@ -19,6 +19,8 @@ function AddRecipe(props) {
   ]);
   const [availableIngredients, setAvailableIngredients] = useState([]);
 
+  //messages
+  const [errorMessage, setErrorMessage] = useState('');
 
   // get all ingredients in the database
   const getAvailableIngredients = () => {
@@ -95,7 +97,19 @@ function AddRecipe(props) {
           },
         ]);
       })
-      .catch((e) => console.log('Error POST newRecipe to API', e));
+      .catch((e) => {
+        console.log('Error POST newRecipe to API', e);
+        console.log();
+        if (e.response.data.message) {
+          console.log('e.response.data---------', e.response.data);
+          // ValidationError
+          setErrorMessage(e.response.data.errors.name.message);
+        } else {
+          // MongoServerError
+          console.log('e.response.data---------', e.response.data);
+          setErrorMessage(e.response.data.errorMessage);
+        }
+      });
   };
 
   return (
@@ -185,7 +199,8 @@ function AddRecipe(props) {
 
         <input type="submit" value="Submit" />
       </form>
-      {/* <button onClick={deleteRecipe}>Delete Recipe</button> */}
+      {/* show message */}
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>
   );
 }

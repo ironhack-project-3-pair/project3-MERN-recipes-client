@@ -13,6 +13,7 @@ function AddIngredient(props) {
   const [name, setName] = useState('');
   const [emoji, setEmoji] = useState('');
 
+  //messages
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = (e) => {
@@ -72,7 +73,7 @@ function AddIngredient(props) {
           Add Ingredient
         </Button>
       </form>
-
+      {/* show message */}
       {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>
   );

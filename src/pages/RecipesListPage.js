@@ -47,9 +47,9 @@ function RecipesListPage() {
 
   return (
     <div className="RecipeListPage">
-      {/* button to show AddIngredient form */}
+      {/* button to show AddRecipe form */}
       <Button variant="outline-warning" onClick={() => setShowForm(!showForm)}>
-        {showForm ? 'Hide Form' : 'Add New Ingredient'}
+        {showForm ? 'Hide Form' : 'Add New Recipe'}
       </Button>
       {showForm && (
         <AddRecipe
