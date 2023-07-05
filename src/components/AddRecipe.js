@@ -142,7 +142,7 @@ function AddRecipe(props) {
       });
 
       if (invalidIngredients.length > 0) {
-        throw new Error('Please provide valid ingredient and quantity');
+        throw new Error('Please provide valid ingredient and quantity should be greater than 0');
       }
 
       // After passing the validation checks, create the new recipe
