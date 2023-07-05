@@ -4,6 +4,14 @@ import { Link, useParams } from 'react-router-dom';
 import recipesService from '../services/recipes.service';
 import weekPlanService from '../services/weekPlan.service';
 
+import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+
 function RecipeDetailsPage() {
   if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
     console.log(
@@ -110,63 +118,87 @@ function RecipeDetailsPage() {
       })
   }
 
+  const test = (a) => {
+    console.log("test", a)
+  }
+
+  const test2 = (a) => {
+    console.log("test2", a.target.parentElement)
+  }
+
   return (
-    <div className="RecipeDetailsPage">
+    <Container className="text-center">
+    <Row className="justify-content-center">
+    <Col md="auto">
+    <Card className="RecipeDetailsPage" style={{ width: '20rem' }}>
       {recipe && (
         <>
           {!recipe.image 
-            ? <img
+            ? <Card.Img variant="top"
               src="https://static.vecteezy.com/system/resources/previews/008/695/917/original/no-image-available-icon-simple-two-colors-template-for-no-image-or-picture-coming-soon-and-placeholder-illustration-isolated-on-white-background-vector.jpg"
               alt="default"
             />
-            : <img src={recipe.image} alt={recipe.name} />
+            : <Card.Img variant="top" src={recipe.image} alt={recipe.name} />
           }
-          <h3>{recipe.name}</h3>
-          <p>Preparation: {recipe.durationInMin} min</p>
-          <h4>Ingredients</h4>
-          <ul>
-          {recipe.recipeIngredients.map((recipeIngredient) => {
-            // JSX collapses whitespaces
-            // backticks are required with the white-space attribute in JSX
-            return <li key={recipeIngredient._id} style={{whiteSpace: "no-wrap"}}>
-              {`
-                ${recipeIngredient.ingredient.name} 
-                ${recipeIngredient.ingredient.emoji} | 
-                ${recipeIngredient.qtyInGrams} g
-              `}
-            </li>
-          })}
-          </ul>
-          <h4>Instructions</h4>
-          <p>{recipe.instructions}</p>
-          <Link to={`/recipes/edit/${recipe._id}`}>Edit</Link>
-          <form onSubmit={handleSubmitAddToWeekPlan}>
-            <label>Affect this recipe to a slot: 
-              <select
-                name="selectedSlot"
-                value={selectedSlot}
-                onChange={handleChangeSelectedSlot}
-              >
-              { Object.keys(weekPlan.weekPlanRecipes ? weekPlan.weekPlanRecipes : {})
-                  .reduce((slots, day) => {
-                    for (let slotOfDay = 0; slotOfDay < slotsPerDay; slotOfDay++) {
-                      slots.push(
-                        <option key={`${day}.${slotOfDay}`} value={`${day}.${slotOfDay}`}>
-                          {`${day.slice(3)} - ${slotsNames[slotOfDay]}`}
-                        </option>
-                      );
+          <Card.Title className="text-center">{recipe.name}</Card.Title>
+          <ListGroup className="list-group-flush">
+            <ListGroup.Item>Preparation: {recipe.durationInMin} min</ListGroup.Item>
+            <ListGroup.Item>
+              <Card.Subtitle>Ingredients</Card.Subtitle>
+              <ListGroup as="ul">
+                {recipe.recipeIngredients.map((recipeIngredient) => {
+                  // JSX collapses whitespaces
+                  // backticks are required with the white-space attribute in JSX
+                  return <ListGroup.Item as="li" key={recipeIngredient._id} style={{ whiteSpace: "no-wrap" }}>
+                    {`
+                    ${recipeIngredient.ingredient.name} 
+                    ${recipeIngredient.ingredient.emoji} | 
+                    ${recipeIngredient.qtyInGrams} g
+                    `}
+                  </ListGroup.Item>
+                })}
+              </ListGroup>
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <Card.Subtitle>Instructions</Card.Subtitle>
+              <Card.Text>{recipe.instructions}</Card.Text>
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <Card.Subtitle>Actions</Card.Subtitle>
+              <Link to={`/recipes/edit/${recipe._id}`} role="button" className="btn btn-outline-primary">Edit</Link>
+              {/* do not use react-bootstrap <Card.Link> as it will reload the page */}
+              <Form onSubmit={handleSubmitAddToWeekPlan}>
+                <Form.Label style={{ width: "100%" }}>Affect this recipe to a slot:
+                  <Form.Select
+                    name="selectedSlot"
+                    value={selectedSlot}
+                    onChange={handleChangeSelectedSlot}
+                  >
+                    {Object.keys(weekPlan.weekPlanRecipes ? weekPlan.weekPlanRecipes : {})
+                      .reduce((slots, day) => {
+                        for (let slotOfDay = 0; slotOfDay < slotsPerDay; slotOfDay++) {
+                          slots.push(
+                            <option key={`${day}.${slotOfDay}`} value={`${day}.${slotOfDay}`}>
+                              {`${day.slice(3)} - ${slotsNames[slotOfDay]}`}
+                            </option>
+                          );
+                        }
+                        return slots;
+                      }, [])
                     }
-                    return slots;
-                  }, [])
-                }
-              </select>
-            </label>
-            <button> Add to Week Plan </button>
-          </form>
-          { notifMessage && <p className="notif-message">{notifMessage}</p>}
+                  </Form.Select>
+                </Form.Label>
+                <Button type="onSubmit" style={{ width: "100%" }}> Add to Week Plan </Button>
+              </Form>
+              {notifMessage && <p className="notif-message">{notifMessage}</p>}
+            </ListGroup.Item>
+          </ListGroup>
         </>
       )}
-    </div>
+    </Card>
+    </Col>
+    </Row>
+    </Container>
   );
 }
 export default RecipeDetailsPage;
