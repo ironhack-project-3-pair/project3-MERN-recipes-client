@@ -27,7 +27,7 @@ select {
 
 label {
   width: 200px;
-  display: block;
+  /* display: block; */
 }
 
 input,

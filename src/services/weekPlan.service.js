@@ -24,6 +24,17 @@ class WeekPlanService {
   updateWeekPlan = requestBody => {
     return this.api.put('/api/week-plan', requestBody);
   };
+  resetWeekPlan = () => {
+    return this.getWeekPlan()
+      .then(response => {
+        const weekPlan = response.data;
+        weekPlan.weekPlanRecipes = {};
+        return this.updateWeekPlan(weekPlan);
+      })
+      .catch(e => {
+        throw e;
+      })
+  };
 
   // GET /api/week-plan
   getWeekPlan = () => {

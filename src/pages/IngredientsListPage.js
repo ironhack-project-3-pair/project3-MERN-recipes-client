@@ -80,7 +80,7 @@ function IngredientsListPage() {
     // setStatefulVar(prevState => prevState + 1);
     // https://react.dev/reference/react/useState#updating-state-based-on-the-previous-state
     // so I think the component is re-rendered twice when the time elapsed between responses is greater than a certain value fixed by react...
-    // maybe a good example to use Promise.all()
+    // good example to use Promise.all() --> see proof of concept in RecipeDetailsPage
   }, []);
 
   // Handle input for qtyInGrams,
