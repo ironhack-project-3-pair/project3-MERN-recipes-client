@@ -39,6 +39,12 @@ class UserIngredientsService {
     return this.api.put(`/api/user-ingredients/${userIngredientId}`, requestBody);
   };
 
+  // PUT /api/user-ingredients/
+  updateUserIngredients = (userIngredients) => {
+    const requestBody = {userIngredients} // nested! see server
+    return this.api.put('/api/user-ingredients', requestBody);
+  };
+
   // DELETE /api/user-ingredients/:userIngredientId
   deleteUserIngredient = (userIngredientId) => {
     return this.api.delete(`/api/user-ingredients/${userIngredientId}`);

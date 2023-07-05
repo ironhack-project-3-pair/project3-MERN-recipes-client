@@ -77,22 +77,38 @@ function WeekPlan() {
       })
       .then(response => {
         const userIngredients = response.data;
-        return Promise.all(
-          consumingRecipe.recipeIngredients
-            .map(consumingRecipeIngredient => {
-              return userIngredients
-                .filter(userIngredient => {
-                  return userIngredient.ingredient._id.toString() === consumingRecipeIngredient.ingredient._id.toString();
-                })
-                .map(consumingUserIngredient => {
-                  return userIngredientsService
-                    .updateUserIngredient(consumingUserIngredient._id, {qtyInGrams: -consumingRecipeIngredient.qtyInGrams})
-                })[0];
-            })
-        ) 
+        // return Promise.all(
+        //   consumingRecipe.recipeIngredients
+        //     .map(consumingRecipeIngredient => {
+        //       return userIngredients
+        //         .filter(userIngredient => {
+        //           return userIngredient.ingredient._id.toString() === consumingRecipeIngredient.ingredient._id.toString();
+        //         })
+        //         .map(consumingUserIngredient => {
+        //           return userIngredientsService
+        //             .updateUserIngredient(consumingUserIngredient._id, {qtyInGrams: -consumingRecipeIngredient.qtyInGrams})
+        //         })[0];
+        //     })
+        // ) // might send too many requests
+
+        const newUserIngredients = [...userIngredients];
+        consumingRecipe.recipeIngredients.forEach(consumingRecipeIngredient => {
+          const newUserIngredient = newUserIngredients.find(newUserIngredient2 => {
+            return newUserIngredient2.ingredient._id.toString() === consumingRecipeIngredient.ingredient._id.toString();
+          })
+          if (newUserIngredient) {
+            if (newUserIngredient.qtyInGrams > consumingRecipeIngredient.qtyInGrams)
+              newUserIngredient.qtyInGrams -= consumingRecipeIngredient.qtyInGrams;
+            else {
+              newUserIngredients.splice(newUserIngredients.indexOf(newUserIngredient), 1)
+            }
+          }
+        })
+        return userIngredientsService
+          .updateUserIngredients(newUserIngredients);
       })
       .then(response => {
-        console.log(response)
+        // console.log(response)
         return response
       })
       .catch(e => {
