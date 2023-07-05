@@ -1,18 +1,20 @@
 import { useState, useEffect } from 'react';
+import { Container, Row, Button, Card, Col } from 'react-bootstrap';
 
 // import axios from 'axios';
 // const API_URL = 'http://localhost:5005';
 
 import weekPlanService from '../services/weekPlan.service';
-import recipesService from '../services/recipes.service'
+import recipesService from '../services/recipes.service';
 import userIngredientsService from '../services/userIngredients.service';
 
 function WeekPlan() {
   if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
     console.log(
-      '%cWeekPlan:', 
-      'color: #badaff', 
-      ' rendering (mounting) or re-rendering (updating)');
+      '%cWeekPlan:',
+      'color: #badaff',
+      ' rendering (mounting) or re-rendering (updating)'
+    );
 
   const [weekPlan, setWeekPlan] = useState({});
 
@@ -23,59 +25,50 @@ function WeekPlan() {
     // axios
     //   .get(`${API_URL}/api/week-plan`, {
     //     headers: { Authorization: `Bearer ${storedToken}` },
-    weekPlanService.getWeekPlan()
+    weekPlanService
+      .getWeekPlan()
       .then((response) => {
         setWeekPlan(response.data);
       })
       .catch((error) => {
-        console.log(
-          'error getting weekPlan: ',
-          error,
-          error.response.data
-        );
+        console.log('error getting weekPlan: ', error, error.response.data);
       });
   };
 
   useEffect(() => {
     if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
-      console.log(
-        '%cWeekPlan:%c effect hook', 
-        'color: #badaff',
-        'color: red');
+      console.log('%cWeekPlan:%c effect hook', 'color: #badaff', 'color: red');
     getWeekPlan();
   }, []);
 
   const days = [
-    "dayMonday",
-    "dayTuesday",
-    "dayWednesday",
-    "dayThursday",
-    "dayFriday",
-    "daySaturday",
-    "daySunday"
-  ]
-  const slotsNames = [
-    "Lunch",
-    "Dinner"
-  ]
+    'dayMonday',
+    'dayTuesday',
+    'dayWednesday',
+    'dayThursday',
+    'dayFriday',
+    'daySaturday',
+    'daySunday',
+  ];
+  const slotsNames = ['Lunch', 'Dinner'];
 
   const handleClick = (recipeId, consumingDay, consumingSlotOfDay) => {
     // recipeId param unnecessary, because it could also be retrieved with:
     // const recipeId = weekPlan.weekPlanRecipes[consumingDay][consumingSlotOfDay].recipe._id)
     consumeUserIngredients(recipeId)
-      .then(response => updateWeekPlan(consumingDay, consumingSlotOfDay))
-      .catch(e => console.log("error handling click: ", e));
-  }
+      .then((response) => updateWeekPlan(consumingDay, consumingSlotOfDay))
+      .catch((e) => console.log('error handling click: ', e));
+  };
 
   const consumeUserIngredients = (recipeId) => {
     let consumingRecipe;
     return recipesService
       .getRecipe(recipeId)
-      .then(response => {
+      .then((response) => {
         consumingRecipe = response.data;
         return userIngredientsService.getAllUserIngredients();
       })
-      .then(response => {
+      .then((response) => {
         const userIngredients = response.data;
         // return Promise.all(
         //   consumingRecipe.recipeIngredients
@@ -92,88 +85,140 @@ function WeekPlan() {
         // ) // might send too many requests
 
         const newUserIngredients = [...userIngredients];
-        consumingRecipe.recipeIngredients.forEach(consumingRecipeIngredient => {
-          const newUserIngredient = newUserIngredients.find(newUserIngredient2 => {
-            return newUserIngredient2.ingredient._id.toString() === consumingRecipeIngredient.ingredient._id.toString();
-          })
-          if (newUserIngredient) {
-            if (newUserIngredient.qtyInGrams > consumingRecipeIngredient.qtyInGrams)
-              newUserIngredient.qtyInGrams -= consumingRecipeIngredient.qtyInGrams;
-            else {
-              newUserIngredients.splice(newUserIngredients.indexOf(newUserIngredient), 1)
+        consumingRecipe.recipeIngredients.forEach(
+          (consumingRecipeIngredient) => {
+            const newUserIngredient = newUserIngredients.find(
+              (newUserIngredient2) => {
+                return (
+                  newUserIngredient2.ingredient._id.toString() ===
+                  consumingRecipeIngredient.ingredient._id.toString()
+                );
+              }
+            );
+            if (newUserIngredient) {
+              if (
+                newUserIngredient.qtyInGrams >
+                consumingRecipeIngredient.qtyInGrams
+              )
+                newUserIngredient.qtyInGrams -=
+                  consumingRecipeIngredient.qtyInGrams;
+              else {
+                newUserIngredients.splice(
+                  newUserIngredients.indexOf(newUserIngredient),
+                  1
+                );
+              }
             }
           }
-        })
-        return userIngredientsService
-          .updateUserIngredients(newUserIngredients);
+        );
+        return userIngredientsService.updateUserIngredients(newUserIngredients);
       })
-      .then(response => {
+      .then((response) => {
         // console.log(response)
-        return response
+        return response;
       })
-      .catch(e => {
-        console.log("error consuming user ingredients: ", e)
+      .catch((e) => {
+        console.log('error consuming user ingredients: ', e);
         throw e;
-      })
-
-  }
+      });
+  };
 
   const updateWeekPlan = (consumingDay, consumingSlotOfDay) => {
-    const newWeekPlan = {...weekPlan};
-    newWeekPlan.weekPlanRecipes[consumingDay][consumingSlotOfDay].consumed = true;
-    weekPlanService.updateWeekPlan(newWeekPlan)
-      .then(response => {
+    const newWeekPlan = { ...weekPlan };
+    newWeekPlan.weekPlanRecipes[consumingDay][
+      consumingSlotOfDay
+    ].consumed = true;
+    weekPlanService
+      .updateWeekPlan(newWeekPlan)
+      .then((response) => {
         setWeekPlan(newWeekPlan);
       })
-      .catch(e => {
-        console.log("error updating week plan: ", e)
-      })
-  }
+      .catch((e) => {
+        console.log('error updating week plan: ', e);
+      });
+  };
 
   const resetWeekPlan = () => {
-    weekPlanService.resetWeekPlan()
-      .then(response => {
+    weekPlanService
+      .resetWeekPlan()
+      .then((response) => {
         const weekPlan = response.data;
         setWeekPlan(weekPlan);
       })
-      .catch(e => {
-        console.log("error resetting week plan: ", e)
-      })
-  }
+      .catch((e) => {
+        console.log('error resetting week plan: ', e);
+      });
+  };
 
   return (
     <div className="WeekPlan">
-      <button onClick={resetWeekPlan}> Reset Week Plan </button>
-      { weekPlan.weekPlanRecipes
-        ? days.map(day => {
-          return (
-            <div key={day} className="WeekPlan-day-wrapper" id={day}>
-              <h2>{day.slice(3)}</h2>
-              <div className="WeekPlan-day-recipes-wrapper">
-                { weekPlan.weekPlanRecipes[day]?.length > 0
-                  // always true since the default value was added for the day fields
-                  && weekPlan.weekPlanRecipes[day].map((weekPlanRecipe, i) => {
-                    return weekPlanRecipe.recipe
-                      ? <div key={weekPlanRecipe.recipe?._id + "." + i} className="WeekPlan-day-recipe-wrapper">
-                        <h3>{slotsNames[i]}</h3>
-                        <h4>{weekPlanRecipe.recipe?.name}</h4>
-                        { !weekPlanRecipe.consumed
-                          ? <button onClick={() => handleClick(weekPlanRecipe.recipe?._id, day, i)}> Consume </button>
-                          : <p>Consumed</p>
-                        }
-                      </div>
-                      : <div key={"." + i} className="WeekPlan-day-recipe-empty-wrapper">
-                        <h3>{slotsNames[i]}</h3>
-                        <h4>Empty Slot</h4>
-                      </div>
-                  })
-                }
-              </div>
-            </div>
-          )
-        })
-        : <p>Loading...</p>
-      }
+      <Button variant="outline-warning" onClick={resetWeekPlan}>
+        {' '}
+        Reset Week Plan{' '}
+      </Button>
+      <Container fluid>
+        <Row className="cards-row m-3 p-2">
+          {weekPlan.weekPlanRecipes ? (
+            days.map((day) => {
+              return (
+                <Card
+                  
+                  key={day}
+                  className="WeekPlan-day-wrapper col mx-3 my-3"
+                  id={day}
+                >
+                  <Card.Title className="p-2" style={{ fontSize: '2rem' }}>
+                    {day.slice(3)}
+                  </Card.Title>
+                  <Card.Body className="WeekPlan-day-recipes-wrapper">
+                    {weekPlan.weekPlanRecipes[day]?.length > 0 &&
+                      // always true since the default value was added for the day fields
+                      weekPlan.weekPlanRecipes[day].map((weekPlanRecipe, i) => {
+                        return weekPlanRecipe.recipe ? (
+                          <Card
+                            key={weekPlanRecipe.recipe?._id + '.' + i}
+                            className="WeekPlan-day-recipe-wrapper"
+                          >
+                            <Card.Subtitle style={{fontSize:"1.3rem"}}>{slotsNames[i]}</Card.Subtitle>
+                            <div>{weekPlanRecipe.recipe?.name}</div>
+                            {!weekPlanRecipe.consumed ? (
+                              <Button
+                                variant='outline-dark'
+                                className='m-3'
+                                onClick={() =>
+                                  handleClick(
+                                    weekPlanRecipe.recipe?._id,
+                                    day,
+                                    i
+                                  )
+                                }
+                              >
+                                {' '}
+                                Consume{' '}
+                              </Button>
+                            ) : (
+                              <p>Consumed</p>
+                            )}
+                          </Card>
+                        ) : (
+                          <Card
+                            key={'.' + i}
+                            className="WeekPlan-day-recipe-empty-wrapper"
+                          >
+                            <Card.Subtitle style={{fontSize:"1.3rem"}}>{slotsNames[i]}</Card.Subtitle>
+                            <div>Empty Slot</div>
+                          </Card>
+                        );
+                      })}
+                  </Card.Body>
+                </Card>
+              );
+            })
+          ) : (
+            <p>Loading...</p>
+          )}
+        </Row>
+      </Container>
     </div>
   );
 }

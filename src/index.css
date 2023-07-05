@@ -184,3 +184,24 @@ textarea {
 .IngredientCard a:hover {
   font-weight: bolder;
 }
+
+.WeekPlan-day-wrapper {
+  border: 3px solid #f5d328;
+}
+
+.WeekPlan-day-recipe-empty-wrapper,
+.WeekPlan-day-recipe-wrapper {
+  height: 25vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  border: 3px dashed gray;
+  margin-bottom: 1rem;
+}
+
+
+.cards-row {
+  display: flex;
+  justify-content: space-evenly;
+}
+
