@@ -1,43 +1,76 @@
+import { Container, Nav, Navbar } from 'react-bootstrap';
+import { useContext } from 'react';
+import { AuthContext } from '../context/auth.context';
 
-import { NavLink } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "../context/auth.context";
-
-function Navbar() {
+function NavbarComponent() {
   // Subscribe to the AuthContext to gain access to
   // the values from AuthContext.Provider `value` prop
   const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
 
-  //  Update the rendering logic to display different content
-  //  depending on whether the user is logged in or not
   return (
-    <nav className="Navbar">
+    <Navbar
+      collapseOnSelect
+      expand="lg"
+      style={{
+        backgroundColor: '#ffdf38',
+        fontSize: '1.3em',
+      }}
+    >
+      <Container>
+        <Navbar.Brand
+          style={{
+            fontSize: '1.5em',
+            fontWeight: 'bold',
+          }}
+          href="/"
+        >
+          My Kitchen
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="me-auto">
+            {isLoggedIn && (
+              <>
+                {/* <Nav.Link href="/my-kitchen">My Kitchen</Nav.Link> */}
+                <Nav.Link href="/recipes">Recipes</Nav.Link>
+                <Nav.Link href="/ingredients">Ingredients</Nav.Link>
+                <Nav.Link href="/week-plan">Week Plan</Nav.Link>
+              </>
+            )}
+            {!isLoggedIn && (
+              <>
+                <Nav.Link href="/">Home</Nav.Link>
+                <Nav.Link href="/signup">Sign Up</Nav.Link>
+                <Nav.Link href="/login">Login</Nav.Link>
+              </>
+            )}
+            <Nav.Link href="/about">About</Nav.Link>
+          </Nav>
 
-      {isLoggedIn && (
-        <>
-          <NavLink to="/my-kitchen"><button>My Kitchen</button></NavLink>
-          <NavLink to="/recipes"><button>Recipes</button></NavLink>
-          <NavLink to="/ingredients"><button>Ingredients</button></NavLink>
-          <NavLink to="/week-plan"><button>Week Plan</button></NavLink>
-
-          <button onClick={logOutUser}>Logout</button>
-          <span>{user && user.name}</span>
-        </>
-      )}
-
-      {!isLoggedIn && (
-        <>
-          <NavLink to="/"><button>Home</button></NavLink>
-
-          <NavLink to="/signup"><button>Sign Up</button></NavLink>
-          <NavLink to="/login"><button>Login</button></NavLink>
-        </>
-      )}
-
-      <NavLink to="/about"><button>About</button></NavLink>
-
-    </nav>
+          {isLoggedIn && (
+            <Nav>
+              <Nav.Link
+                style={{
+                  fontSize: '1.2em',
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+                disabled
+              >
+                {user && user.name}
+              </Nav.Link>
+              <Nav.Link
+                style={{ display: 'flex', alignItems: 'center' }}
+                onClick={logOutUser}
+              >
+                Logout
+              </Nav.Link>
+            </Nav>
+          )}
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
 
-export default Navbar;
+export default NavbarComponent;
