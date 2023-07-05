@@ -1,4 +1,4 @@
-import { Row, Col, Card } from 'react-bootstrap';
+import { Row, Col, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 function IngredientCard({
@@ -13,13 +13,11 @@ function IngredientCard({
       className="justify-content-center ingredient-card"
     >
       <Card
-        // className="m-1 flex-row row"
-        className="d-flex flex-row align-items-center mb-3"
-        style={{ width: `${children ? '23vw' : '15vw'} ` }}
+        className="d-flex flex-row align-items-center mb-3 p-0"
+        style={{ width: `${children ? '30vw' : '20vw'}`, height: '5rem' }}
       >
-        {/* <Card.Body className={`my-2 mx-1 ${isDelete ? 'col-12' : 'col-10'}`}> */}
         <Card.Body
-          className={`d-flex flex-row align-items-center justify-content-between p-1 ${
+          className={`d-flex flex-row align-items-center justify-content-between p-1 p-0 ${
             isDelete ? 'col-12' : 'col-10'
           }`}
         >
@@ -39,16 +37,15 @@ function IngredientCard({
           </div>
         </Card.Body>
         {!isDelete && (
-          // button to delete ingredient
-          <Col className="flex-column align-right col-1">
-            <Link
-              className="text-decoration-none"
-              onClick={() => {
-                deleteUserIngredient(ingredient._id);
-              }}
+          <Col className="flex-column align-right p-0 m-0">
+            <Button
+              className="p-0 m-0 text-decoration-none"
+              style={{color:"black"}}
+              variant="link"
+              onClick={() => deleteUserIngredient(ingredient._id)}
             >
               ⨉
-            </Link>
+            </Button>
           </Col>
         )}
       </Card>

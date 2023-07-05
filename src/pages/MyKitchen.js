@@ -6,25 +6,13 @@ import IngredientCard from '../components/IngredientCard';
 import userIngredientsService from '../services/userIngredients.service';
 import messageService from '../services/messages.service';
 
-// import axios from 'axios';
-// const API_URL = 'http://localhost:5005';
-
 function MyKitchen() {
   const [userIngredients, setUserIngredients] = useState([]);
-
-  //messages
   const [deleteMessage, setDeleteMessage] = useState('');
 
-  // // Get the token from the localStorage
   const storedToken = localStorage.getItem('authToken');
 
-  // const { userIngredientId } = useParams();
-
   const getUserIngredients = () => {
-    // axios
-    //   .get(`${API_URL}/api/user-ingredients`, {
-    //     headers: { Authorization: `Bearer ${storedToken}` },
-    //   })
     userIngredientsService
       .getAllUserIngredients()
       .then((res) => {
@@ -43,36 +31,32 @@ function MyKitchen() {
     getUserIngredients();
   }, []);
 
-  //delete ingredient from userIngredients
   const deleteUserIngredient = (userIngredientId) => {
     const userIngredientToDelete = userIngredients.find(
       (ingredient) => ingredient._id === userIngredientId
     );
-    // axios
-    //   .delete(`${API_URL}/api/user-ingredients/${userIngredientId}`, {
-    //     headers: { Authorization: `Bearer ${storedToken}` },
-    //   })
+
     userIngredientsService
       .deleteUserIngredient(userIngredientId)
       .then((res) => {
         const deleteUserIngredient = res.data;
-        //show message after deletion
         messageService.showDeleteMessage(
           userIngredientToDelete.ingredient.name,
           setDeleteMessage
         );
-        //refresh userIngredients
         getUserIngredients();
       })
       .catch((error) => {
         console.log('error delete userRecipes: ', error, error.response.data);
       });
   };
+
   return (
     <Container>
-      <h4 className="row">
+      <h4 className="row border-bottom" style={{height:"3rem", display:"flex", alignItems:"center"}}>
         <span className="col-8 text-start">
-          Your Kitchen - {userIngredients.length} Ingredients
+          {userIngredients.length}{' '}
+          {userIngredients.length === 1 ? 'Ingredient' : 'Ingredients'}
         </span>
         <span className="col-4">
           <Link className="text-decoration-none" to={'/ingredients'}>
@@ -80,20 +64,19 @@ function MyKitchen() {
           </Link>
         </span>
       </h4>
-      <hr />
 
-      {/* Show the message */}
       {deleteMessage && <p>{deleteMessage}</p>}
 
-      {userIngredients.map((ingredient) => {
-        return (
-          <IngredientCard
-            key={ingredient._id}
-            ingredient={ingredient}
-            deleteUserIngredient={deleteUserIngredient}
-          />
-        );
-      })}
+      <Row>
+        {userIngredients.map((ingredient) => (
+          <Col key={ingredient._id} sm={6} md={4} lg={3} xl={2} className="m-1">
+            <IngredientCard
+              ingredient={ingredient}
+              deleteUserIngredient={deleteUserIngredient}
+            />
+          </Col>
+        ))}
+      </Row>
     </Container>
   );
 }
