@@ -188,7 +188,8 @@ function RecipeDetailsPage() {
                     }
                   </Form.Select>
                 </Form.Label>
-                <Button type="onSubmit" style={{ width: "100%" }}> Add to Week Plan </Button>
+                {/* Button does not default to type "submit" when in FOrm with react bootstrap... */}
+                <Button type="submit" style={{ width: "100%" }}> Add to Week Plan </Button>
               </Form>
               {notifMessage && <p className="notif-message">{notifMessage}</p>}
             </ListGroup.Item>
