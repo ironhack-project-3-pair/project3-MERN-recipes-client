@@ -14,14 +14,14 @@ function IngredientCard({
     >
       <Card
         className="d-flex flex-row align-items-center mb-3 p-0"
-        style={{ width: `${children ? '30vw' : '20vw'}`, height: '5rem' }}
+        style={{ width: `${children ? '25vw' : '20vw'}`, height: '5rem' }}
       >
         <Card.Body
           className={`d-flex flex-row align-items-center justify-content-between p-1 p-0 ${
-            isDelete ? 'col-12' : 'col-10'
+            isDelete ? 'col-10' : 'col-9'
           }`}
         >
-          <span className="m-1">
+          <span className="m-1 col-7">
             {ingredient.ingredient
               ? ingredient.ingredient.name
               : ingredient.name}
@@ -30,7 +30,7 @@ function IngredientCard({
               : ingredient.emoji}
           </span>
           {ingredient.qtyInGrams && (
-            <span className="m-1">{ingredient.qtyInGrams}g</span>
+            <span className="m-1 col-2">{ingredient.qtyInGrams}g</span>
           )}
           <div className="d-flex flex-row align-items-center justify-content-between">
             {children}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button, FormControl } from 'react-bootstrap';
+import { Container, Row, Col, Button, FormControl } from 'react-bootstrap';
 
 import AddIngredient from '../components/AddIngredient';
 import IngredientCard from '../components/IngredientCard';
@@ -174,7 +174,10 @@ function IngredientsListPage() {
         .then((response) => {
           //show message for update User Ingredient
           messagesService.showAddMessage(ingredientToAdd.name, setAddMessage);
-          setUserIngredients([...userIngredients, response.data[response.data.length - 1]])
+          setUserIngredients([
+            ...userIngredients,
+            response.data[response.data.length - 1],
+          ]);
           // Refresh the ingredients list
           getAllIngredients();
         })
@@ -200,7 +203,8 @@ function IngredientsListPage() {
     return (
       <div className="IngredientsListPage">
         {/* button to show AddIngredient form */}
-        <Button className='m-3'
+        <Button
+          className="m-3"
           variant="outline-warning"
           onClick={() => setShowForm(!showForm)}
         >
@@ -251,25 +255,27 @@ function IngredientsListPage() {
               isDelete={true}
               className="flex-row"
             >
-              {/* <Col className="col-7 "> */}
-              <FormControl
-                aria-label="Quantity of Ingredient in Gram"
-                style={{ width: '7vw' }}
-                className="col-2 px-1"
-                min={0}
-                type="number"
-                value={quantity[ingredient._id] || ''}
-                onChange={(e) => handleQuantityChange(e, ingredient._id)}
-                placeholder="grams"
-              />
-              <Button
-                variant="outline-warning"
-                className="align-self-center btn btn-outline-warning col-4 mx-1"
-                onClick={() => handleAddToKitchen(ingredient)}
-              >
-                +
-              </Button>
-              {/* </Col> */}
+              <Col xs={7} md={7} className="d-flex justify-content-end pl-0">
+                <FormControl
+                  aria-label="Quantity of Ingredient in Gram"
+                  // style={{ width: '7rem' }}
+                  className="px-1"
+                  min={0}
+                  type="number"
+                  value={quantity[ingredient._id] || ''}
+                  onChange={(e) => handleQuantityChange(e, ingredient._id)}
+                  placeholder="grams"
+                />
+              </Col>
+              <Col xs={5} md={5}>
+                <Button
+                  variant="outline-warning"
+                  className="align-self-center btn btn-outline-warning mx-1"
+                  onClick={() => handleAddToKitchen(ingredient)}
+                >
+                  +
+                </Button>
+              </Col>
             </IngredientCard>
           );
         })}
