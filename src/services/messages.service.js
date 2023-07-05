@@ -1,7 +1,7 @@
 class MessageService {
   constructor() {
     this.timeoutId = null;
-    this.defaultTimer = 800; // default duration for message display
+    this.defaultTimer = 2000; // default duration for message display
   }
 
   showMessage = (message, setMessage, timer = this.defaultTimer) => {
