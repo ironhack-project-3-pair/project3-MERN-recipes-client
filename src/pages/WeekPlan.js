@@ -146,7 +146,7 @@ function WeekPlan() {
                           : <p>Consumed</p>
                         }
                       </div>
-                      : <div className="WeekPlan-day-recipe-empty-wrapper">
+                      : <div key={"." + i} className="WeekPlan-day-recipe-empty-wrapper">
                         <h3>{slotsNames[i]}</h3>
                         <h4>Empty Slot</h4>
                       </div>
