@@ -61,7 +61,7 @@ function AddIngredient(props) {
       <h3>Add New Ingredient</h3>
 
       <form onSubmit={handleSubmit}>
-        <label>Name:</label>
+        <label>Name (*required):</label>
         <FormControl
           type="text"
           name="name"

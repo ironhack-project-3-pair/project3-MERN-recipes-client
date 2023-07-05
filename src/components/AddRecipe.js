@@ -180,9 +180,11 @@ function AddRecipe(props) {
 
   return (
     <div className="AddRecipe">
+      <h3>Add New Recipe</h3>
+
       <form onSubmit={handleSubmit}>
         {/* Input field Name */}
-        <label>Name (* required):</label>
+        <label>Name (*required):</label>
         <input
           type="text"
           name="name"
