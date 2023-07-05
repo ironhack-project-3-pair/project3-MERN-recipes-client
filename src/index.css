@@ -17,7 +17,7 @@ a {
   color: black;
 }
 
-button,
+/* button, */
 select {
   padding: 5px 10px;
   min-width: 50px;
@@ -25,20 +25,20 @@ select {
   font-size: 18px;
 }
 
-label {
+/* label {
   width: 200px;
-  /* display: block; */
-}
+  display: block;
+} */
 
-input,
+/* input,
 textarea {
   width: 200px;
   padding: 10px;
   display: inline-block;
   margin: 10px;
-}
+} */
 
-.Navbar {
+/* .Navbar {
   background: #ffdf38;
   color: black;
   padding: 0px 20px;
@@ -56,7 +56,7 @@ textarea {
   color: white;
   font-size: 24px;
   font-weight: 600;
-}
+} */
 
 .RecipeCard.card {
   width: 220px;
@@ -111,19 +111,19 @@ textarea {
   background-color: rgb(239, 196, 88);
 }
 
+/* .AddIngredient form, */
+/* .AddRecipe form */
 .EditIngredientPage form,
-.EditRecipePage form,
-.AddIngredient form,
-.AddRecipe form {
+.EditRecipePage form {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.AddIngredient button,
+/* .AddIngredient button,
 .AddRecipe button {
   display: block;
-}
+} */
 
 .ingredient-label {
   width: 400px;

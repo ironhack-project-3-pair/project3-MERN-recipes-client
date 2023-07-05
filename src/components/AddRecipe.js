@@ -1,4 +1,11 @@
 import { useEffect, useState } from 'react';
+import {
+  Button,
+  Form,
+  FormControl,
+  FormGroup,
+  FormLabel,
+} from 'react-bootstrap';
 
 import recipesService from '../services/recipes.service';
 import ingredientsService from '../services/ingredients.service';
@@ -142,7 +149,9 @@ function AddRecipe(props) {
       });
 
       if (invalidIngredients.length > 0) {
-        throw new Error('Please provide valid ingredient and quantity should be greater than 0');
+        throw new Error(
+          'Please provide valid ingredient and quantity should be greater than 0'
+        );
       }
 
       // After passing the validation checks, create the new recipe
@@ -179,60 +188,88 @@ function AddRecipe(props) {
   };
 
   return (
-    <div className="AddRecipe">
+    <div className="AddRecipe ">
       <h3>Add New Recipe</h3>
 
-      <form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         {/* Input field Name */}
-        <label>Name (*required):</label>
-        <input
-          type="text"
-          name="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+        <FormGroup className="mt-3">
+          <FormLabel>Name (*required):</FormLabel>
+          <FormControl
+            type="text"
+            name="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </FormGroup>
 
         {/* Input field Instructions */}
-        <label>Instructions:</label>
-        <textarea
-          name="instructions"
-          value={instructions}
-          onChange={(e) => setInstructions(e.target.value)}
-        />
+        <FormGroup className="mt-3">
+          <FormLabel>Instructions:</FormLabel>
+          <FormControl
+            as="textarea"
+            name="instructions"
+            value={instructions}
+            onChange={(e) => setInstructions(e.target.value)}
+          />
+        </FormGroup>
 
         {/* Input field Preparation */}
-        <label>Preparation (minutes):</label>
-        <input
-          type="Number"
-          min="1"
-          name="durationInMin"
-          value={durationInMin}
-          onChange={(e) => setDurationInMin(e.target.value)}
-        />
+        <FormGroup className="mt-3">
+          <FormLabel>Preparation (minutes):</FormLabel>
+          <FormControl
+            type="number"
+            min="1"
+            name="durationInMin"
+            value={durationInMin}
+            onChange={(e) => setDurationInMin(e.target.value)}
+          />
+        </FormGroup>
 
         {/* Input field recipeIngredients */}
         {recipeIngredients.map((ingredient, index) => (
-          <div key={index}>
-            <label className="ingredient-label">
+          <FormGroup className="mt-3" key={index}>
+            <FormLabel className="mb-0 d-flex align-items-center justify-content-center">
               {`Ingredient: ${index + 1}`}
               {/* button to delete ingredient */}
-              <span>
-                <button type={'button'} onClick={() => removeIngredient(index)}>
-                  x
-                </button>
-              </span>
+
+              <Button
+                className="text-decoration-none pb-2"
+                variant="link"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  fontSize: '1.5rem',
+                  color: 'black',
+                }}
+                type={'button'}
+                onClick={() => removeIngredient(index)}
+              >
+                x
+              </Button>
+
               {/* button to add ingredient */}
-              <span>
-                <button type={'button'} onClick={addIngredient}>
-                  +
-                </button>
-              </span>
-            </label>
+
+              <Button
+                className="text-decoration-none pb-2"
+                variant="link"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  fontSize: '1.5rem',
+                  color: 'black',
+                }}
+                type={'button'}
+                onClick={addIngredient}
+              >
+                +
+              </Button>
+            </FormLabel>
 
             {/* Select ingredients from availableIngredients in DB */}
             <div className="ingredient-row">
-              <select
-                className="option-input"
+              <FormControl
+                as="select"
                 name="ingredient"
                 value={ingredient.ingredient ? ingredient.ingredient._id : ''}
                 onChange={(e) =>
@@ -246,14 +283,11 @@ function AddRecipe(props) {
                     {availIngredient.name}
                   </option>
                 ))}
-              </select>
-
-              {/* Input field quantity */}
-              <label className="qty-label">Qty (in gr):</label>
-              <input
-                className="qty-input"
+              </FormControl>
+              {/* input field for qtyInGrams */}
+              <FormControl
                 type="number"
-                min="0"
+                min="1"
                 name="qtyInGrams"
                 value={ingredient.qtyInGrams}
                 onChange={(e) =>
@@ -261,12 +295,13 @@ function AddRecipe(props) {
                 }
               />
             </div>
-            <hr />
-          </div>
+          </FormGroup>
         ))}
+        <Button className='mt-3' variant="outline-dark" type="submit">
+          Add Recipe
+        </Button>
+      </Form>
 
-        <input type="submit" value="Submit" />
-      </form>
       {/* show message */}
       {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>

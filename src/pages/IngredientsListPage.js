@@ -200,7 +200,7 @@ function IngredientsListPage() {
     return (
       <div className="IngredientsListPage">
         {/* button to show AddIngredient form */}
-        <Button
+        <Button className='m-3'
           variant="outline-warning"
           onClick={() => setShowForm(!showForm)}
         >

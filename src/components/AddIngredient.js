@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, FormControl } from 'react-bootstrap';
+import { Button, Form, FormControl, FormLabel } from 'react-bootstrap';
 
 // import axios from "axios";
 // const API_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:5005';
@@ -60,8 +60,8 @@ function AddIngredient(props) {
     <div className="AddIngredient">
       <h3>Add New Ingredient</h3>
 
-      <form onSubmit={handleSubmit}>
-        <label>Name (*required):</label>
+      <Form onSubmit={handleSubmit}>
+        <FormLabel className='mt-3'>Name (*required):</FormLabel>
         <FormControl
           type="text"
           name="name"
@@ -69,7 +69,7 @@ function AddIngredient(props) {
           onChange={(e) => setName(e.target.value)}
         />
 
-        <label>Emoji:</label>
+        <FormLabel className='mt-3'>Emoji:</FormLabel>
         <FormControl
           type="text"
           name="emoji"
@@ -77,10 +77,10 @@ function AddIngredient(props) {
           onChange={(e) => setEmoji(e.target.value)}
         />
 
-        <Button variant="outline-dark" type="submit">
+        <Button className='mt-3' variant="outline-dark" type="submit">
           Add Ingredient
         </Button>
-      </form>
+      </Form>
       {/* show message */}
       {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>

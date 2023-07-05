@@ -13,9 +13,10 @@ import AddRecipe from '../components/AddRecipe';
 function RecipesListPage() {
   if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
     console.log(
-      '%cRecipesListPage:', 
-      'color: #eedd88', 
-      ' rendering (mounting) or re-rendering (updating)');
+      '%cRecipesListPage:',
+      'color: #eedd88',
+      ' rendering (mounting) or re-rendering (updating)'
+    );
 
   const [recipes, setRecipes] = useState([]);
 
@@ -48,23 +49,26 @@ function RecipesListPage() {
   useEffect(() => {
     if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
       console.log(
-        '%cRecipesListPage:%c effect hook', 
+        '%cRecipesListPage:%c effect hook',
         'color: #eedd88',
-        'color: red');
+        'color: red'
+      );
     getAllRecipes();
   }, []);
 
   return (
     <div className="RecipeListPage">
       {/* button to show AddRecipe form */}
-      <Button variant="outline-warning" onClick={() => setShowForm(!showForm)}>
+      <Button className='m-3' variant="outline-warning" onClick={() => setShowForm(!showForm)}>
         {showForm ? 'Hide Form' : 'Add New Recipe'}
       </Button>
       {showForm && (
-        <AddRecipe
-          callbackToUpdateList={getAllRecipes}
-          setCreateMessage={setCreateMessage}
-        />
+        <>
+          <AddRecipe
+            callbackToUpdateList={getAllRecipes}
+            setCreateMessage={setCreateMessage}
+          />
+        </>
       )}
 
       {/* Show the message */}
