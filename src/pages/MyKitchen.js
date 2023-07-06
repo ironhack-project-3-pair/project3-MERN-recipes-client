@@ -53,20 +53,16 @@ function MyKitchen() {
 
   return (
     <Container>
-      <h4
-        className="row border-bottom"
-        style={{ height: '3rem', display: 'flex', alignItems: 'center' }}
-      >
-        <span className="col-8 text-start">
-          {userIngredients.length}{' '}
-          {userIngredients.length === 1 ? 'Ingredient' : 'Ingredients'}
-        </span>
-        <span className="col-4">
+      <h3 className="row border-bottom" style={{height:"3rem", display:"flex", alignItems:"center"}}>
+        <div className="col-8 text-start">
+          <h4 style={{marginBottom: 0}}>Available to consume: <span>{userIngredients.length}</span> ingredient{userIngredients.length === 1 ? '' : 's'}</h4>
+        </div>
+        <div className="col-4">
           <Link className="text-decoration-none link-hover" to={'/ingredients'}>
             +
           </Link>
-        </span>
-      </h4>
+        </div>
+      </h3>
 
       {deleteMessage && <p>{deleteMessage}</p>}
 
