@@ -71,6 +71,8 @@ function RecipesListPage() {
         'color: red'
       );
 
+      // set the delete message keeping the old state
+      // avoid changing JSX to conditionally render deleteMessageCtxRecipesListPage instead
       setDeleteMessage(deleteMessageCtxRecipesListPage);
 
     getAllRecipes();
@@ -80,7 +82,7 @@ function RecipesListPage() {
 
   return (
     <div className="RecipeListPage">
-      {/* button to show AddRecipe form */}
+      {/* button to show AddRecipe component */}
       <Button className='m-3' variant="outline-warning" onClick={() => setShowForm(!showForm)}>
         {showForm ? 'Hide Form' : 'Add New Recipe'}
       </Button>
@@ -93,7 +95,7 @@ function RecipesListPage() {
         </>
       )}
 
-      {/* Show the message */}
+      {/* show messages */}
       {createMessage && <p>{createMessage}</p>}
       {deleteMessage && <p>{deleteMessage}</p>}
 
