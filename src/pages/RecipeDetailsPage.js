@@ -22,8 +22,7 @@ function RecipeDetailsPage() {
     console.log(
       '%cRecipeDetailsPage:',
       'color: #6666cc',
-      ' rendering (mounting) or re-rendering (updating)'
-    );
+      ' rendering (mounting) or re-rendering (updating)');
 
   const [recipe, setRecipe] = useState(null);
 
@@ -34,7 +33,10 @@ function RecipeDetailsPage() {
   const [selectedSlot, setSelectedSlot] = useState('dayMonday.0');
   const [notifMessage, setNotifMessage] = useState('');
   const slotsPerDay = 2;
-  const slotsNames = ['Lunch', 'Dinner'];
+  const slotsNames = [
+    'Lunch', 
+    'Dinner'
+  ];
   // const days = [
   //   "dayMonday",
   //   "dayTuesday",
@@ -53,7 +55,7 @@ function RecipeDetailsPage() {
   //     .then((response) => {
   //       setRecipe(response.data);
   //     })
-  //     .catch((e) => console.log('error getting the recipe\'s details', e));
+  //     .catch(e => console.log('error getting the recipe\'s details', e));
   // };
   // const getWeekPlan = () => {
   //   weekPlanService
@@ -61,7 +63,7 @@ function RecipeDetailsPage() {
   //     .then((response) => {
   //       setWeekPlan(response.data);
   //     })
-  //     .catch((e) => console.log('error getting week plan', e));
+  //     .catch(e => console.log('error getting week plan', e));
   // };
 
   useEffect(() => {
@@ -69,8 +71,7 @@ function RecipeDetailsPage() {
       console.log(
         '%cRecipeDetailsPage:%c effect hook',
         'color: #6666cc',
-        'color: red'
-      );
+        'color: red');
     //   (async () => {
     //     try {
     //       await Promise.all([
@@ -91,22 +92,20 @@ function RecipeDetailsPage() {
         setRecipe(responseRecipe.data);
         setWeekPlan(responseWeekPlan.data);
       })
-      .catch((e) =>
-        console.log('error getting in useEffect (batched requests)', e)
-      );
+      .catch(e => console.log('error getting in useEffect (batched requests)', e));
 
     return cleanup;
   }, []);
 
   const handleChangeSelectedSlot = (e) => {
     setSelectedSlot(e.target.value);
-    setNotifMessage('');
+    setNotifMessage("");
   };
 
   const showNotificationMessage = (message) => {
     setNotifMessage(message);
     setTimeout(() => {
-      setNotifMessage('');
+      setNotifMessage("");
     }, 2000);
   };
 
@@ -121,19 +120,17 @@ function RecipeDetailsPage() {
         newWeekPlan.weekPlanRecipes[selectedDay].push({}); // pushing 2 anyway in case selectedSlotOfDay = 1
       }
     newWeekPlan.weekPlanRecipes[selectedDay][selectedSlotOfDay].recipe = recipe;
-    newWeekPlan.weekPlanRecipes[selectedDay][
-      selectedSlotOfDay
-    ].consumed = false;
+    newWeekPlan.weekPlanRecipes[selectedDay][selectedSlotOfDay].consumed = false;
     // defaults to false as per model if not specified, but force the property in case user is trying to add to a slot which already contains a consumed recipe...
     weekPlanService
       .updateWeekPlan(newWeekPlan)
-      .then((response) => {
+      .then(response => {
         setWeekPlan(newWeekPlan);
-        showNotificationMessage('Successfully added to Week Plan!');
+        showNotificationMessage("Successfully added to Week Plan!");
       })
-      .catch((e) => {
-        console.log('error updating week plan: ', e);
-        setNotifMessage('Something went wrong...');
+      .catch(e => {
+        console.log("error updating week plan: ", e);
+        setNotifMessage("Something went wrong...");
       });
   };
 
@@ -146,9 +143,9 @@ function RecipeDetailsPage() {
           recipe.name,
           setDeleteMessageCtxRecipesListPage
         );
-        navigate('/recipes');
+        navigate("/recipes");
       })
-      .catch((e) => console.log('error deleting recipe: ', e));
+      .catch(e => console.log('error deleting recipe: ', e));
   };
 
   const cleanup = () => {
@@ -156,8 +153,7 @@ function RecipeDetailsPage() {
       console.log(
         '%cRecipeDetailsPage:',
         'color: #6666cc',
-        ' cleaning after component removed from DOM (unmounted)'
-      );
+        ' cleaning after component removed from DOM (unmounted)');
   };
 
   return (
@@ -167,25 +163,19 @@ function RecipeDetailsPage() {
           <Card className="RecipeDetailsPage" style={{ width: '20rem' }}>
             {recipe && (
               <>
-                {!recipe.image ? (
-                  <Card.Img
-                    variant="top"
+                { !recipe.picture 
+                  ? <Card.Img variant="top"
                     src="https://static.vecteezy.com/system/resources/previews/008/695/917/original/no-image-available-icon-simple-two-colors-template-for-no-image-or-picture-coming-soon-and-placeholder-illustration-isolated-on-white-background-vector.jpg"
                     alt="default"
                   />
-                ) : (
-                  <Card.Img
-                    variant="top"
-                    src={recipe.image}
-                    alt={recipe.name}
-                  />
-                )}
+                  : <Card.Img variant="top" src={recipe.picture} alt={recipe.name} />
+                }
                 <Card.Title className="text-center">{recipe.name}</Card.Title>
                 <ListGroup className="list-group-flush">
                   <ListGroup.Item>
                     <Card.Subtitle>Preparation</Card.Subtitle>
                     <Card.Body>
-                      {recipe.durationInMin
+                      { recipe.durationInMin
                         ? `${recipe.durationInMin} min`
                         : 'Not specified'}
                     </Card.Body>
@@ -193,97 +183,58 @@ function RecipeDetailsPage() {
                   <ListGroup.Item>
                     <Card.Subtitle>Ingredients</Card.Subtitle>
                     <ListGroup as="ul">
-                      {recipe.recipeIngredients.map((recipeIngredient) => {
+                      { recipe.recipeIngredients.map((recipeIngredient) => {
                         // JSX collapses whitespaces
                         // backticks are required with the white-space attribute in JSX
-                        return (
-                          <ListGroup.Item
-                            as="li"
-                            key={recipeIngredient._id}
-                            style={{ whiteSpace: 'no-wrap' }}
-                          >
-                            {`
-                    ${recipeIngredient.ingredient.name} 
-                    ${recipeIngredient.ingredient.emoji} | 
-                    ${recipeIngredient.qtyInGrams} g
-                    `}
+                        return <ListGroup.Item as="li" key={recipeIngredient._id} style={{ whiteSpace: 'no-wrap' }}>
+                          {`
+                            ${recipeIngredient.ingredient.name} 
+                            ${recipeIngredient.ingredient.emoji} | 
+                            ${recipeIngredient.qtyInGrams} g
+                          `}
                           </ListGroup.Item>
-                        );
                       })}
                     </ListGroup>
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <Card.Subtitle>Instructions</Card.Subtitle>
                     <Card.Body>
-                      {recipe.instructions
+                      { recipe.instructions
                         ? `${recipe.instructions}`
                         : 'Not specified'}
                     </Card.Body>
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <Card.Subtitle>Actions</Card.Subtitle>
-                    <Link
-                      to={`/recipes/edit/${recipe._id}`}
-                      role="button"
-                      className="btn btn-outline-warning m-3 col-4"
-                    >
-                      Edit
-                    </Link>
-                    <Button
-                      className="btn btn-outline-warning m-3 col-4 "
-                      variant="outline-warning"
-                      onClick={deleteRecipe}
-                    >
-                      Delete
-                    </Button>
+                    <Link to={`/recipes/edit/${recipe._id}`} role="button" className="btn btn-outline-warning m-3 col-4">Edit</Link>
+                    <Button className="m-3 col-4" variant="outline-warning" onClick={deleteRecipe}> Delete </Button>
                     {/* do not use react-bootstrap <Card.Link> as it will reload the page */}
-
-                    <hr />
                     <Form onSubmit={handleSubmitAddToWeekPlan}>
-                      <Form.Label style={{ width: '100%' }}>
-                        Add this recipe to a slot:
+                      <Form.Label style={{ width: '100%' }}>Add this recipe to a slot:
                         <Form.Select
                           className="mt-2 mb-0 mx-0"
                           name="selectedSlot"
                           value={selectedSlot}
                           onChange={handleChangeSelectedSlot}
                         >
-                          {Object.keys(
-                            weekPlan.weekPlanRecipes
-                              ? weekPlan.weekPlanRecipes
-                              : {}
-                          ).reduce((slots, day) => {
-                            for (
-                              let slotOfDay = 0;
-                              slotOfDay < slotsPerDay;
-                              slotOfDay++
-                            ) {
-                              slots.push(
-                                <option
-                                  key={`${day}.${slotOfDay}`}
-                                  value={`${day}.${slotOfDay}`}
-                                >
-                                  {`${day.slice(3)} - ${slotsNames[slotOfDay]}`}
-                                </option>
-                              );
-                            }
-                            return slots;
-                          }, [])}
+                          {Object.keys(weekPlan.weekPlanRecipes ? weekPlan.weekPlanRecipes : {})
+                            .reduce((slots, day) => {
+                              for (let slotOfDay = 0; slotOfDay < slotsPerDay; slotOfDay++) {
+                                slots.push(
+                                  <option key={`${day}.${slotOfDay}`} value={`${day}.${slotOfDay}`}>
+                                    {`${day.slice(3)} - ${slotsNames[slotOfDay]}`}
+                                  </option>
+                                );
+                              }
+                              return slots;
+                            }, [])
+                          }
                         </Form.Select>
                       </Form.Label>
-                      {/* Button does not default to type "submit" when in FOrm with react bootstrap... */}
-                      <Button
-                        variant="warning"
-                        type="submit"
-                        style={{ width: '100%' }}
-                      >
-                        {' '}
-                        Add to Week Plan{' '}
-                      </Button>
+                      {/* Button does not default to type "submit" when in Form with react bootstrap... */}
+                      <Button variant="warning" type="submit" style={{ width: '100%' }}> Add to Week Plan </Button>
                     </Form>
-                    {notifMessage && (
-                      <p className="notif-message">{notifMessage}</p>
-                    )}
+                    {notifMessage && <p className="notif-message">{notifMessage}</p>}
                   </ListGroup.Item>
                 </ListGroup>
               </>
