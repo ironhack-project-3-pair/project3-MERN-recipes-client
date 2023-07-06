@@ -27,7 +27,7 @@ class MessageService {
   };
   
   showWarningMessage = (itemName, setMessage, timer = this.defaultTimer) => {
-    this.showMessage(`Please provide quantity for ${itemName}`, setMessage, timer);
+    this.showMessage(`Please provide a valid quantity for ${itemName}`, setMessage, timer);
   };
 
   showUpdateMessage = (itemName, setMessage, timer = this.defaultTimer) => {

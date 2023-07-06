@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Container, Row, Col, Button, Form } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form, InputGroup } from 'react-bootstrap';
 
 import AddIngredient from '../components/AddIngredient';
 import IngredientCard from '../components/IngredientCard';
@@ -20,17 +20,17 @@ function IngredientsListPage() {
     );
 
   const [ingredients, setIngredients] = useState([]);
-  const [query, setQuery] = useState(''); //query for search functionality
-  const [quantity, setQuantity] = useState({});
+  const [query, setQuery] = useState(''); // for the search functionality
+  const [quantities, setQuantities] = useState({});
   const [userIngredients, setUserIngredients] = useState([]);
 
-  //messages
+  // messages
   const [warningMessage, setWarningMessage] = useState('');
   const [addMessage, setAddMessage] = useState('');
   const [updateMessage, setUpdateMessage] = useState('');
   const [createMessage, setCreateMessage] = useState('');
 
-  //hide addIngredient form by default
+  // hide addIngredient form by default
   const [showForm, setShowForm] = useState(false);
 
   const getAllIngredients = () => {
@@ -52,7 +52,6 @@ function IngredientsListPage() {
       });
   };
 
-  //Get userIngredients
   const getUserIngredients = () => {
     // axios
     //   .get(`${API_URL}/api/user-ingredients`, {
@@ -95,24 +94,31 @@ function IngredientsListPage() {
     // good example to use Promise.all() --> see proof of concept in RecipeDetailsPage
   }, []);
 
-  // Handle input for qtyInGrams,
-  // use ingredient's _id as key of the quantity object
-  const handleQuantityChange = (e, id) => {
-    setQuantity({
-      ...quantity,
-      [id]: e.target.value,
-    });
+  // handle input for qtyInGrams
+  // use ingredient's _id as key of the quantities stateful variable object
+  const handleQtyChange = (e, id) => {
+    // if (isNaN(Number(e.target.value))) e.target.value = ""; 
+    // prevent user from using negative number even if its the logic of the consume feature of the app
+    // no, "-" does not trigger the event
+    if (Number(e.target.value) < 0) {
+      e.target.value = ""
+      messagesService.showWarningMessage(
+        ingredients.find(ingredient => ingredient._id.toString() === id).name,
+        setWarningMessage
+      );
+    }
+    setQuantities({...quantities, [id]: e.target.value});
   };
 
   const handleAddToKitchen = (ingredientToAdd) => {
-    // Check if the ingredient is already in the user's kitchen
+    // check if the ingredient is already in the user's kitchen
     const existingIngredient = userIngredients.find(
       (userIngredient) => userIngredient.ingredient._id === ingredientToAdd._id
     );
 
-    // Check if the quantity is provided
-    const ingredientQuantity = quantity[ingredientToAdd._id];
-    if (!ingredientQuantity) {
+    // check if the quantity is provided
+    const ingredientQty = quantities[ingredientToAdd._id];
+    if (!ingredientQty) {
       messagesService.showWarningMessage(
         ingredientToAdd.name,
         setWarningMessage
@@ -120,9 +126,9 @@ function IngredientsListPage() {
       return;
     }
 
-    //update quantity for existing ingredient
+    // update quantity for existing ingredient
     if (existingIngredient) {
-      const updatedQuantity = parseInt(quantity[ingredientToAdd._id]);
+      const updatedQuantity = parseInt(quantities[ingredientToAdd._id]);
 
       // axios
       //   .put(
@@ -140,27 +146,27 @@ function IngredientsListPage() {
           qtyInGrams: updatedQuantity,
         })
         .then((response) => {
-          //show message for update User Ingredient
+          // show update message
           messagesService.showUpdateMessage(
             existingIngredient.ingredient.name,
             setUpdateMessage
           );
 
-          // Refresh the ingredients list
+          // refresh the ingredients list
           getAllIngredients();
         })
         .catch((error) => {
           console.log('Error updating quantity in kitchen', error);
         });
     } else {
-      // Add a new ingredient to the kitchen
+      // add a new ingredient to the kitchen
       // axios
       //   .post(
       //     `${API_URL}/api/user-ingredients`,
       //     {
-      //       // userId: 'user-id', // Replace with the actual user ID
+      //       // userId: 'user-id', // replace with the actual user id
       //       ingredientId: ingredientToAdd._id,
-      //       qtyInGrams: quantity[ingredientToAdd._id],
+      //       qtyInGrams: quantities[ingredientToAdd._id],
       //     },
       //     {
       //       headers: { Authorization: `Bearer ${storedToken}` },
@@ -169,26 +175,26 @@ function IngredientsListPage() {
       userIngredientsService
         .addUserIngredient({
           ingredientId: ingredientToAdd._id,
-          qtyInGrams: quantity[ingredientToAdd._id],
+          qtyInGrams: quantities[ingredientToAdd._id],
         })
         .then((response) => {
-          //show message for update User Ingredient
+          // show update message
           messagesService.showAddMessage(ingredientToAdd.name, setAddMessage);
           setUserIngredients([
             ...userIngredients,
             response.data[response.data.length - 1],
           ]);
-          // Refresh the ingredients list
+          // refresh the ingredients list
           getAllIngredients();
         })
         .catch((error) => {
           console.log('Error adding ingredient to kitchen', error);
         });
     }
-    setQuantity({}); // Clear the input field
+    setQuantities({}); // clear the controlled input fields
   };
 
-  //Filter ingredients from the whole list of ingredients according to search input
+  // filter ingredients from the whole list of ingredients according to search query
   let filteredIngredients = ingredients;
   if (ingredients === null) {
     return <p>loading...</p>;
@@ -240,7 +246,7 @@ function IngredientsListPage() {
             ? 'No result found'
             : `${filteredIngredients.length} results`)}
 
-        {/* Show the message */}
+        {/* show messages */}
         {warningMessage && <p>{warningMessage}</p>}
         {addMessage && <p>{addMessage} to Kitchen</p>}
         {updateMessage && <p>{updateMessage}</p>}
@@ -256,18 +262,37 @@ function IngredientsListPage() {
             >
 
               <Col xs={7} md={7}>
+                <InputGroup className="d-flex align-items-center">
+                  <Form.Control 
+                    aria-label="Quantity of ingredient in grams"
+                    min={0}
+                    type="number"
+                    value={quantities[ingredient._id] || ''}
+                    onChange={(e) => handleQtyChange(e, ingredient._id)}
+                    placeholder="qty"
+                  />
+                  <InputGroup.Text>g</InputGroup.Text>
+                </InputGroup>
+              </Col> 
+
+              
+              {/*
+              <Col xs={7} md={7}>
                 <Form.Label className="d-flex align-items-center mb-0">
                 <Form.Control className="me-2"
                   aria-label="Quantity of ingredient in grams"
                   min={0}
                   type="number"
-                  value={quantity[ingredient._id] || ''}
-                  onChange={(e) => handleQuantityChange(e, ingredient._id)}
+                  // does not prevent negative number....
+                  value={quantities[ingredient._id] || ''}
+                  onChange={(e) => handleQtyChange(e, ingredient._id)}
                   placeholder="qty"
                 />
                   <span>g</span>
                 </Form.Label>
               </Col>
+              */}
+             
               <Col xs={3} md={3}>
                 <Button
                   variant="outline-warning"
