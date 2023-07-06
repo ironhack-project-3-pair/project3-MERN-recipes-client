@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, FormGroup, Row } from 'react-bootstrap';
 
 import recipesService from '../services/recipes.service';
 import ingredientsService from '../services/ingredients.service';
@@ -188,13 +188,16 @@ function AddRecipe(props) {
       <Form onSubmit={handleSubmit}>
         {/* Input field Name */}
         <Form.Group className="mt-3">
-          <Form.Label>Name (*required):</Form.Label>
+          <Form.Label>Name:</Form.Label>
           <Form.Control
             type="text"
             name="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
+          <Form.Text className="d-block text-end text-muted px-3">
+            Name is required.
+          </Form.Text>
         </Form.Group>
 
         {/* Input field Instructions */}
@@ -223,7 +226,7 @@ function AddRecipe(props) {
         {/* Input field recipeIngredients */}
         {recipeIngredients.map((ingredient, index) => (
           <Form.Group className="mt-3" key={index}>
-            <Form.Label className="mb-0 d-flex align-items-center justify-content-center">
+            <Form.Label className="m-0 p-0 d-flex align-items-center justify-content-center">
               {`Ingredient: ${index + 1}`}
               {/* button to delete ingredient */}
 
@@ -261,34 +264,49 @@ function AddRecipe(props) {
             </Form.Label>
 
             {/* Select ingredients from availableIngredients in DB */}
-            <div className="ingredient-row">
-              <Form.Control
-                as="select"
-                name="ingredient"
-                value={ingredient.ingredient ? ingredient.ingredient._id : ''}
-                onChange={(e) =>
-                  updateIngredient(index, 'ingredient', e.target.value)
-                }
-              >
-                {/* No Selection option */}
-                <option value="">No selection</option>
-                {availableIngredients.map((availIngredient) => (
-                  <option key={availIngredient._id} value={availIngredient._id}>
-                    {availIngredient.name}
-                  </option>
-                ))}
-              </Form.Control>
+            <Row className="ingredient-row">
+              <FormGroup>
+                <Form.Control
+                  className="m-0"
+                  as="select"
+                  name="ingredient"
+                  value={ingredient.ingredient ? ingredient.ingredient._id : ''}
+                  onChange={(e) =>
+                    updateIngredient(index, 'ingredient', e.target.value)
+                  }
+                >
+                  {/* No Selection option */}
+                  <option value="">No selection</option>
+                  {availableIngredients.map((availIngredient) => (
+                    <option
+                      key={availIngredient._id}
+                      value={availIngredient._id}
+                    >
+                      {availIngredient.name}
+                    </option>
+                  ))}
+                </Form.Control>
+                <Form.Text className="d-block pt-0 text-end text-muted pe-1">
+                  Recipe's required
+                </Form.Text>
+              </FormGroup>
+
               {/* input field for qtyInGrams */}
-              <Form.Control
-                type="number"
-                min="1"
-                name="qtyInGrams"
-                value={ingredient.qtyInGrams}
-                onChange={(e) =>
-                  updateIngredient(index, 'qtyInGrams', e.target.value)
-                }
-              />
-            </div>
+              <FormGroup>
+                <Form.Control
+                  type="number"
+                  min="1"
+                  name="qtyInGrams"
+                  value={ingredient.qtyInGrams}
+                  onChange={(e) =>
+                    updateIngredient(index, 'qtyInGrams', e.target.value)
+                  }
+                />
+                <Form.Text className="d-block pt-0 text-end text-muted pe-1">
+                  Must greater than 0
+                </Form.Text>
+              </FormGroup>
+            </Row>
           </Form.Group>
         ))}
         <Button className="mt-3" variant="outline-dark" type="submit">
