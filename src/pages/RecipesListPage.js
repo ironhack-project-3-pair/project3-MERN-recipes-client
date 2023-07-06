@@ -141,7 +141,7 @@ function RecipesListPage() {
         <Container fluid>
           <Row className="justify-content-center m-3 p-2">
             {/* render list of recipesa */}
-            {recipes.map((recipe) => {
+            {filteredRecipes.map((recipe) => {
               return (
                 <RecipeCard
                   key={recipe._id}
