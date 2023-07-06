@@ -22,20 +22,21 @@ function RecipeCard(props) {
           alt={props.recipe.name}
         />
       )}
-      <Card.Body>
-        <Card.Title className="d-block  link-hover">
-          <Link
-            className="text-decoration-none text-center"
-            to={`/recipes/${props.recipe._id}`}
-          >
-            {props.recipe.name}
-          </Link>
-          {/* button to delete recipe */}
-          {/* <span>
-          <button onClick={deleteRecipe}>x</button>
-        </span> */}
-        </Card.Title>
-      </Card.Body>
+
+      <Card.Title className="d-block link-hover">
+        <Link
+          className="text-decoration-none text-center"
+          to={`/recipes/${props.recipe._id}`}
+        >
+          {props.recipe.name}
+        </Link>
+        {/* button to delete recipe */}
+        {/*
+          <span>
+            <button onClick={deleteRecipe}>x</button>
+          </span> 
+        */}
+      </Card.Title>
     </Card>
     // </div>
   );
