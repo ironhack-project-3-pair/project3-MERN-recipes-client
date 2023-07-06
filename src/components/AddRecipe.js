@@ -86,8 +86,6 @@ function AddRecipe(props) {
       const response = await recipesService.getAllRecipes();
       const recipes = response.data;
 
-      console.log('name------', name);
-
       for (let i = 0; i < recipes.length; i++) {
         if (recipes[i].name === name) {
           setErrorMessage(
@@ -120,7 +118,7 @@ function AddRecipe(props) {
 
   const handleFileUpload = (e) => {
     const uploadData = new FormData();
-    uploadData.append("picture", e.target.files[0]);
+    uploadData.append("pictureBodyFormDataKey", e.target.files[0]);
     const storedToken = localStorage.getItem('authToken');
     if (storedToken) {
       axios.post(API_URL + "/api/upload", uploadData, { 
