@@ -8,7 +8,7 @@ function RecipeCard(props) {
   return (
     // <div className=" card">
     <Card className="m-3" style={{ width: '18rem' }}>
-      {!props.recipe.image ? (
+      {!props.recipe.picture ? (
         <CardImg
           variant="top"
           // style={{ margin: 'auto' }}
@@ -18,7 +18,7 @@ function RecipeCard(props) {
       ) : (
         <CardImg
           variant="top"
-          src={props.recipe.image}
+          src={props.recipe.picture}
           alt={props.recipe.name}
         />
       )}

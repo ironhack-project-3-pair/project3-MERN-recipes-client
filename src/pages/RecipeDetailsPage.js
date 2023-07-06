@@ -102,7 +102,7 @@ function RecipeDetailsPage() {
     setSelectedSlot(e.target.value);
     setNotifMessage('');
   };
-  //handle Notification
+
   const showNotificationMessage = (message) => {
     setNotifMessage(message);
     setTimeout(() => {

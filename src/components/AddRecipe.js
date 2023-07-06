@@ -5,8 +5,8 @@ import recipesService from '../services/recipes.service';
 import ingredientsService from '../services/ingredients.service';
 import messagesService from '../services/messages.service';
 
-// import axios from 'axios';
-// const API_URL = 'http://localhost:5005';
+import axios from 'axios';
+const API_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:5005';
 
 function AddRecipe(props) {
   const [name, setName] = useState('');
@@ -19,6 +19,7 @@ function AddRecipe(props) {
     },
   ]);
   const [availableIngredients, setAvailableIngredients] = useState([]);
+  const [picture, setPicture] = useState("");
 
   //messages
   const [errorMessage, setErrorMessage] = useState('');
@@ -117,6 +118,23 @@ function AddRecipe(props) {
     return true;
   };
 
+  const handleFileUpload = (e) => {
+    const uploadData = new FormData();
+    uploadData.append("picture", e.target.files[0]);
+    const storedToken = localStorage.getItem('authToken');
+    if (storedToken) {
+      axios.post(API_URL + "/api/upload", uploadData, { 
+        headers: { Authorization: `Bearer ${storedToken}`}
+      })
+        .then(response => {
+          setPicture(response.data.picture);
+        })
+        .catch(err => console.log("Error while uploading the file: ", err));
+    } else {
+      console.log("token required for upload");
+    }
+  };
+
   //create new recipe
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -154,10 +172,11 @@ function AddRecipe(props) {
         instructions,
         durationInMin,
         recipeIngredients,
+        picture
       };
 
-      await recipesService.createRecipe(newRecipe);
-
+      const response = await recipesService.createRecipe(newRecipe);
+      
       // Set message after successful creation
       messagesService.showCreateMessage(name, props.setCreateMessage);
 
@@ -175,6 +194,7 @@ function AddRecipe(props) {
         },
       ]);
       setErrorMessage(''); // Clear any error messages
+      setPicture("");
     } catch (error) {
       console.log('Error while validating or creating recipe', error);
       setErrorMessage(error.message);
@@ -199,6 +219,8 @@ function AddRecipe(props) {
             Name is required.
           </Form.Text>
         </Form.Group>
+
+        <Form.Control type="file" onChange={(e) => handleFileUpload(e)} />
 
         {/* Input field Instructions */}
         <Form.Group className="mt-3">
