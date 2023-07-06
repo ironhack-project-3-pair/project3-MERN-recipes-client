@@ -68,7 +68,7 @@ textarea {
   border-radius: 4px;
 } */
 /* .RecipeCard.card img , */
-.RecipeDetailsPage img{
+.RecipeDetailsPage img {
   width: 200px;
   padding: 10px;
   box-shadow: 0px 2px 3px grey;
@@ -198,7 +198,7 @@ textarea {
 }
 
 .WeekPlan-day-recipe-wrapper {
-  background-color: #f5d32880;;
+  background-color: #f5d32880;
   height: 25vh;
   display: flex;
   flex-direction: column;
@@ -208,7 +208,7 @@ textarea {
 }
 
 .WeekPlan-day-recipe-wrapper-consumed {
-  background-color: #69624080;;
+  background-color: #69624080;
   height: 25vh;
   display: flex;
   flex-direction: column;
@@ -234,9 +234,12 @@ textarea {
   transform: translateY(-3px);
 }
 
+.navbar-link-hover.active {
+  background-color: #8a7e641f;
+}
 .navbar-link-hover {
   transition: all 0.3s ease;
-  color: black;
+  color: rgb(0, 0, 0);
   text-decoration: none;
 }
 
