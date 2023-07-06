@@ -1,5 +1,12 @@
 import { useState, useEffect } from 'react';
+
+import { useContext } from "react";
+import { RecipesContext } from "../context/recipes.context";
+
 import { Button } from 'react-bootstrap';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 import RecipeCard from '../components/RecipeCard';
 
@@ -20,11 +27,13 @@ function RecipesListPage() {
 
   const [recipes, setRecipes] = useState([]);
 
-  //messages
+  // messages
   const [deleteMessage, setDeleteMessage] = useState('');
   const [createMessage, setCreateMessage] = useState('');
 
-  //hide addIngredient form by default
+  const { deleteMessageCtxRecipesListPage } = useContext(RecipesContext);
+
+  // hide addIngredient form by default
   const [showForm, setShowForm] = useState(false);
 
   const getAllRecipes = () => {
@@ -44,6 +53,14 @@ function RecipesListPage() {
       });
   };
 
+  const cleanup = () => {
+    if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
+      console.log(
+        '%cRecipesListPage:', 
+        'color: #eedd88', 
+        ' cleaning after component removed from DOM (unmounted)');
+  }
+
   // We set this effect will run only once, after the initial render
   // by setting the empty dependency array - []
   useEffect(() => {
@@ -53,8 +70,13 @@ function RecipesListPage() {
         'color: #eedd88',
         'color: red'
       );
+
+      setDeleteMessage(deleteMessageCtxRecipesListPage);
+
     getAllRecipes();
-  }, []);
+
+    return cleanup;
+  }, [deleteMessageCtxRecipesListPage]);
 
   return (
     <div className="RecipeListPage">
@@ -77,17 +99,20 @@ function RecipesListPage() {
 
       <hr />
 
-      {/* render list of recipesa */}
-      {recipes.map((recipe) => {
-        return (
-          <RecipeCard
-            key={recipe._id}
-            callbackToUpdateList={getAllRecipes}
-            recipe={recipe}
-            setDeleteMessage={setDeleteMessage}
-          />
-        );
-      })}
+      {/* render list of recipes */}
+      <Container>
+        <Row>
+        {recipes.map((recipe) => {
+          return (
+            <Col key={recipe._id}>
+              <RecipeCard
+                recipe={recipe}
+              />
+            </Col>
+          );
+        })}
+        </Row>
+      </Container>
     </div>
   );
 }

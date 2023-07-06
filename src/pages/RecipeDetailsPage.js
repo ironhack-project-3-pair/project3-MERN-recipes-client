@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+
+import { useContext } from "react";
+import { RecipesContext } from "../context/recipes.context";
+
+import { Link, useParams, useNavigate } from 'react-router-dom';
 
 import recipesService from '../services/recipes.service';
 import weekPlanService from '../services/weekPlan.service';
+import messagesService from '../services/messages.service';
 
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
@@ -20,6 +25,9 @@ function RecipeDetailsPage() {
       ' rendering (mounting) or re-rendering (updating)');
 
   const [recipe, setRecipe] = useState(null);
+
+  const navigate = useNavigate();
+  const { setDeleteMessageCtxRecipesListPage } = useContext(RecipesContext);
 
   const [weekPlan, setWeekPlan] = useState({});
   const [selectedSlot, setSelectedSlot] = useState("dayMonday.0");
@@ -87,6 +95,8 @@ function RecipeDetailsPage() {
         setWeekPlan(responseWeekPlan.data);
       })
       .catch((e) => console.log('error getting in useEffect (batched requests)', e));
+
+      return cleanup;
   }, []);
 
   const handleChangeSelectedSlot = (e) => {
@@ -118,12 +128,26 @@ function RecipeDetailsPage() {
       })
   }
 
-  const test = (a) => {
-    console.log("test", a)
-  }
+  const deleteRecipe = () => {
+    recipesService
+      .deleteRecipe(recipeId)
+      .then(() => {
+        // show message in UI after successful deletion
+        messagesService.showDeleteMessage(
+          recipe.name,
+          setDeleteMessageCtxRecipesListPage
+        );
+        navigate("/recipes")
+      })
+      .catch((e) => console.log('error deleting recipe: ', e));
+  };
 
-  const test2 = (a) => {
-    console.log("test2", a.target.parentElement)
+  const cleanup = () => {
+    if (process.env.REACT_APP_DEBUG_COMPONENT_LIFECYCLE)
+      console.log(
+        '%cRecipeDetailsPage:', 
+        'color: #6666cc', 
+        ' cleaning after component removed from DOM (unmounted)');
   }
 
   return (
@@ -165,7 +189,8 @@ function RecipeDetailsPage() {
             </ListGroup.Item>
             <ListGroup.Item>
               <Card.Subtitle>Actions</Card.Subtitle>
-              <Link to={`/recipes/edit/${recipe._id}`} role="button" className="btn btn-outline-primary">Edit</Link>
+              <Link to={`/recipes/edit/${recipe._id}`} role="button" className="btn btn-outline-warning">Edit</Link>
+              <Button variant="outline-warning" onClick={deleteRecipe}>Delete</Button>
               {/* do not use react-bootstrap <Card.Link> as it will reload the page */}
               <Form onSubmit={handleSubmitAddToWeekPlan}>
                 <Form.Label style={{ width: "100%" }}>Affect this recipe to a slot:
@@ -189,7 +214,7 @@ function RecipeDetailsPage() {
                   </Form.Select>
                 </Form.Label>
                 {/* Button does not default to type "submit" when in FOrm with react bootstrap... */}
-                <Button type="submit" style={{ width: "100%" }}> Add to Week Plan </Button>
+                <Button variant="warning" type="submit" style={{ width: "100%" }}> Add to Week Plan </Button>
               </Form>
               {notifMessage && <p className="notif-message">{notifMessage}</p>}
             </ListGroup.Item>

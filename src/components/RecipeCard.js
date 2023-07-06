@@ -1,27 +1,6 @@
-import { Link, useParams } from 'react-router-dom';
-
-import recipesService from '../services/recipes.service';
-import messagesService from '../services/messages.service';
+import { Link } from 'react-router-dom';
 
 function RecipeCard(props) {
-  const recipeId = props.recipe._id;
-
-
-  //delete from API
-  const deleteRecipe = () => {
-    recipesService
-      .deleteRecipe(recipeId)
-      .then(() => {
-        // Show deletion message after successful deletion
-        messagesService.showDeleteMessage(
-          props.recipe.name,
-          props.setDeleteMessage
-        );
-        //To update the recipe list
-        props.callbackToUpdateList();
-      })
-      .catch((e) => console.log('Error DELETE from API', e));
-  };
 
   return (
     <div className="RecipeCard card">
@@ -33,13 +12,7 @@ function RecipeCard(props) {
       ) : (
         <img src={props.recipe.image} alt={props.recipe.name} />
       )}
-      <h3>
-        <Link to={`/recipes/${props.recipe._id}`}>{props.recipe.name}</Link>
-        {/* button to delete recipe */}
-        <span>
-          <button onClick={deleteRecipe}>x</button>
-        </span>
-      </h3>
+      <h3><Link to={`/recipes/${props.recipe._id}`}>{props.recipe.name}</Link></h3>
     </div>
   );
 }
