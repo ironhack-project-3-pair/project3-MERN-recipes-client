@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import IngredientCard from '../components/IngredientCard';
 
@@ -50,14 +50,20 @@ function MyKitchen() {
 
   return (
     <Container>
-      <h3 className="row border-bottom" style={{height:"3rem", display:"flex", alignItems:"center"}}>
+      <h3
+        className="row border-bottom"
+        style={{ height: '3rem', display: 'flex', alignItems: 'center' }}
+      >
         <div className="col-8 text-start">
-          <h4 style={{marginBottom: 0}}>Available to consume: <span>{userIngredients.length}</span> ingredient{userIngredients.length === 1 ? '' : 's'}</h4>
+          <h4 style={{ marginBottom: 0 }}>
+            Available to consume: <span>{userIngredients.length}</span>{' '}
+            ingredient{userIngredients.length === 1 ? '' : 's'}
+          </h4>
         </div>
         <div className="col-4">
-          <Link className="text-decoration-none link-hover" to={'/ingredients'}>
-            +
-          </Link>
+          <Button variant="outline-warning" as={Link} to={'/ingredients'}>
+            Add Ingredient
+          </Button>
         </div>
       </h3>
 
