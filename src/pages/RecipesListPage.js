@@ -100,7 +100,7 @@ function RecipesListPage() {
       <hr />
 
       <Container fluid>
-        <Row className="cards-row m-3 p-2">
+        <Row className="justify-content-center m-3 p-2">
           {/* render list of recipesa */}
           {recipes.map((recipe) => {
             return (
