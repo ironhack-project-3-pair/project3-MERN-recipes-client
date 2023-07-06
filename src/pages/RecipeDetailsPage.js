@@ -101,8 +101,12 @@ function RecipeDetailsPage() {
 
   const handleChangeSelectedSlot = (e) => {
     setSelectedSlot(e.target.value);
-    setNotifMessage("");
-  }
+  const showNotificationMessage = (message) => {
+    setNotifMessage(message);
+    setTimeout(() => {
+      setNotifMessage('');
+    }, 2000);
+  };
 
   const handleSubmitAddToWeekPlan = (e) => {
     e.preventDefault();
@@ -120,7 +124,7 @@ function RecipeDetailsPage() {
     weekPlanService.updateWeekPlan(newWeekPlan)
       .then(response => {
         setWeekPlan(newWeekPlan);
-        setNotifMessage("Added!");
+        showNotificationMessage('Successfully added to Week Plan!');
       })
       .catch(e => {
         console.log("error updating week plan: ", e)
