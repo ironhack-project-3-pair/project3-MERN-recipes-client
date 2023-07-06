@@ -193,7 +193,7 @@ textarea {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  border: 0.5px dashed rgba(128, 128, 128, 0.164);
+  border: 2px dashed rgba(0, 0, 0, 0.176);
   margin-bottom: 1rem;
 }
 
@@ -203,17 +203,16 @@ textarea {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  border: 1px solid #f5d328;
+  border: 2px solid #f5d328;
   margin-bottom: 1rem;
 }
 
-.WeekPlan-day-recipe-wrapper-consumed {
-  background-color: #69624080;
+.WeekPlan-day-recipe-consumed-wrapper {
+  background-color: rgba(0, 0, 0, 0.176);
   height: 25vh;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  border: 1px solid #f5d328;
   margin-bottom: 1rem;
 }
 
