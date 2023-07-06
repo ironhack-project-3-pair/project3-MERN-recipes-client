@@ -19,6 +19,7 @@ function AppNavbar() {
     >
       <Container>
         <Navbar.Brand
+          className="navbar-link-hover"
           as={NavLink}
           style={{
             fontSize: '1.5em',
@@ -34,38 +35,50 @@ function AppNavbar() {
             {isLoggedIn && (
               <>
                 {/* <Nav.Link to="/my-kitchen">My Kitchen</Nav.Link> */}
-                <Nav.Link as={NavLink} to="/recipes">
+                <Nav.Link className="navbar-link-hover" as={NavLink} to="/recipes">
                   Recipes
                 </Nav.Link>
-                <Nav.Link as={NavLink} to="/ingredients">
+                <Nav.Link className="navbar-link-hover" as={NavLink} to="/ingredients">
                   Ingredients
                 </Nav.Link>
-                <Nav.Link as={NavLink} to="/week-plan">Week Plan</Nav.Link>
+                <Nav.Link className="navbar-link-hover" as={NavLink} to="/week-plan">
+                  Week Plan
+                </Nav.Link>
               </>
             )}
             {!isLoggedIn && (
               <>
-                <Nav.Link as={NavLink} to="/">Home</Nav.Link>
-                <Nav.Link as={NavLink} to="/signup">Sign Up</Nav.Link>
-                <Nav.Link as={NavLink} to="/login">Login</Nav.Link>
+                <Nav.Link className="navbar-link-hover" as={NavLink} to="/">
+                  Home
+                </Nav.Link>
+                <Nav.Link className="navbar-link-hover" as={NavLink} to="/signup">
+                  Sign Up
+                </Nav.Link>
+                <Nav.Link className="navbar-link-hover" as={NavLink} to="/login">
+                  Login
+                </Nav.Link>
               </>
             )}
-            <Nav.Link as={NavLink} to="/about">About</Nav.Link>
+            <Nav.Link className="navbar-link-hover" as={NavLink} to="/about">
+              About
+            </Nav.Link>
           </Nav>
 
           {isLoggedIn && (
             <Nav>
               <Nav.Link
                 style={{
+                  color: "white",
                   fontSize: '1.2em',
                   display: 'flex',
                   alignItems: 'center',
                 }}
                 disabled
               >
-                {user && user.name}
+                {user && `Tit tit! ${user.name}`}
               </Nav.Link>
               <Nav.Link
+                className="navbar-link-hover"
                 style={{ display: 'flex', alignItems: 'center' }}
                 onClick={logOutUser}
               >

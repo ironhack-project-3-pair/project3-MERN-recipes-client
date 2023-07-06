@@ -184,20 +184,38 @@ textarea {
   font-weight: bolder;
 }
 
-.WeekPlan-day-wrapper {
+/* .WeekPlan-day-wrapper {
   border: 3px solid #f5d328;
-}
+} */
 
-.WeekPlan-day-recipe-empty-wrapper,
-.WeekPlan-day-recipe-wrapper {
+.WeekPlan-day-recipe-empty-wrapper {
   height: 25vh;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  border: 3px dashed gray;
+  border: 0.5px dashed rgba(128, 128, 128, 0.164);
   margin-bottom: 1rem;
 }
 
+.WeekPlan-day-recipe-wrapper {
+  background-color: #f5d32880;;
+  height: 25vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  border: 1px solid #f5d328;
+  margin-bottom: 1rem;
+}
+
+.WeekPlan-day-recipe-wrapper-consumed {
+  background-color: #69624080;;
+  height: 25vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  border: 1px solid #f5d328;
+  margin-bottom: 1rem;
+}
 
 .cards-row {
   display: flex;
@@ -213,4 +231,17 @@ textarea {
 .link-hover:hover {
   color: #ffdf38;
   text-shadow: 1px 1px 2px #f5b428;
+  transform: translateY(-3px);
+}
+
+.navbar-link-hover {
+  transition: all 0.3s ease;
+  color: black;
+  text-decoration: none;
+}
+
+.navbar-link-hover:hover {
+  color: #ffffff;
+  text-shadow: 1px 1px 2px #f5b428;
+  transform: translateY(-3px);
 }

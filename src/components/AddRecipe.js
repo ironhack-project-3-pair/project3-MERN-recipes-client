@@ -234,12 +234,12 @@ function AddRecipe(props) {
               {/* button to delete ingredient */}
 
               <Button
-                className="text-decoration-none link-hover pb-2"
+                className="text-decoration-none link-hover pb-3"
                 variant="link"
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  fontSize: '1.5rem',
+                  fontSize: '1.7rem',
                   color: 'black',
                 }}
                 type={'button'}
@@ -251,12 +251,12 @@ function AddRecipe(props) {
               {/* button to add ingredient */}
 
               <Button
-                className="text-decoration-none link-hover pb-2"
+                className="text-decoration-none link-hover pb-3"
                 variant="link"
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  fontSize: '1.5rem',
+                  fontSize: '1.7rem',
                   color: 'black',
                 }}
                 type={'button'}
