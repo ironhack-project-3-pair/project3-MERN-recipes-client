@@ -287,7 +287,7 @@ function AddRecipe(props) {
                   ))}
                 </Form.Control>
                 <Form.Text className="d-block pt-0 text-end text-muted pe-1">
-                  Recipe's required
+                  Ingredient's required
                 </Form.Text>
               </FormGroup>
 
