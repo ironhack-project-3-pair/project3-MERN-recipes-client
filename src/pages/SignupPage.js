@@ -1,15 +1,25 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  Container,
+  Button,
+  Form,
+  FormGroup,
+  FormLabel,
+  FormControl,
+  Row,
+  Col,
+} from 'react-bootstrap';
 
 // import axios from "axios";
 // const API_URL = "http://localhost:5005";
 
-import authService from "./../services/auth.service"
+import authService from './../services/auth.service';
 
 function SignupPage(props) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const [errorMessage, setErrorMessage] = useState(undefined);
 
   const navigate = useNavigate();
@@ -27,54 +37,88 @@ function SignupPage(props) {
     // If the POST request is a successful redirect to the login page
     // If the request resolves with an error, set the error message in the state
     // axios.post(`${API_URL}/auth/signup`, requestBody)
-    authService.signup(requestBody)
+    authService
+      .signup(requestBody)
       .then((response) => {
         navigate('/login');
       })
       .catch((error) => {
         const errorDescription = error.response.data.message;
         setErrorMessage(errorDescription);
-      })
+      });
   };
 
   return (
     <div className="SignupPage">
-      <h1>Sign Up</h1>
+      <Container>
+        <h1 className="m-3">Sign Up</h1>
+        <Row className="justify-content-center">
+          <Col xs={12} md={8} lg={6}>
+            <Form onSubmit={handleSignupSubmit} sx={10} md={6} lg={6}>
+              <FormGroup className="mb-3">
+                <FormLabel>Email:</FormLabel>
+                <FormControl
+                  type="email"
+                  name="email"
+                  placeholder="Enter email"
+                  value={email}
+                  onChange={handleEmail}
+                />
+                <Form.Text className="d-block text-end text-muted px-3">
+                  Email is required.
+                </Form.Text>
+              </FormGroup>
 
-      <form onSubmit={handleSignupSubmit}>
-        <label>Email:</label>
-        <input 
-          type="email"
-          name="email"
-          value={email}
-          onChange={handleEmail}
-        />
+              <FormGroup className="mb-3">
+                <FormLabel>Password:</FormLabel>
+                <FormControl
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={handlePassword}
+                />
+                <Form.Text className="d-block text-end text-muted px-3">
+                  Password is required.
+                </Form.Text>
+              </FormGroup>
 
-        <label>Password:</label>
-        <input 
-          type="password"
-          name="password"
-          value={password}
-          onChange={handlePassword}
-        />
+              <FormGroup className="mb-3">
+                <FormLabel>Name:</FormLabel>
+                <FormControl
+                  type="text"
+                  name="name"
+                  placeholder="Enter name"
+                  value={name}
+                  onChange={handleName}
+                />
+                <Form.Text className="d-block text-end text-muted px-3">
+                  Name is required.
+                </Form.Text>
+              </FormGroup>
 
-        <label>Name:</label>
-        <input 
-          type="text"
-          name="name"
-          value={name}
-          onChange={handleName}
-        />
+              <Button className="mb-3" variant="outline-warning" type="submit">
+                Sign Up
+              </Button>
+            </Form>
 
-        <button type="submit">Sign Up</button>
-      </form>
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-      { errorMessage && <p className="error-message">{errorMessage}</p> }
-
-      <p>Already have account?</p>
-      <Link to={"/login"}> Login</Link>
+            <p>Already have an account?</p>
+            <Button
+              style={{ color: 'black' }}
+              className="text-decoration-none link-hover"
+              variant="link"
+              as={Link}
+              to={'/login'}
+            >
+              Login
+            </Button>
+          </Col>
+        </Row>
+      </Container>
     </div>
-  )
+  );
 }
 
 export default SignupPage;
