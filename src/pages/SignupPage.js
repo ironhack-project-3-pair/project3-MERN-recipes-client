@@ -47,45 +47,51 @@ function SignupPage(props) {
           <Col xs={12} md={8} lg={6}>
             <Form onSubmit={handleSignupSubmit} sx={10} md={6} lg={6}>
               <Form.Group className="mb-3">
-                <Form.Label>Email:</Form.Label>
+                {/* <Form.Label>Email: </Form.Label> */}
                 <Form.Control
                   type="email"
                   name="email"
-                  placeholder="Enter email"
+                  placeholder="Email *"
                   value={email}
                   onChange={handleEmail}
                 />
+                {/*
                 <Form.Text className="d-block text-end text-muted px-3">
                   Email is required.
                 </Form.Text>
+                */}
               </Form.Group>
 
               <Form.Group className="mb-3">
-                <Form.Label>Password:</Form.Label>
+                {/* <Form.Label>Password: </Form.Label> */}
                 <Form.Control
                   type="password"
                   name="password"
-                  placeholder="Password"
+                  placeholder="Password *"
                   value={password}
                   onChange={handlePassword}
                 />
+                {/*
                 <Form.Text className="d-block text-end text-muted px-3">
                   Password is required.
                 </Form.Text>
+                */}
               </Form.Group>
 
               <Form.Group className="mb-3">
-                <Form.Label>Name:</Form.Label>
+                {/* <Form.Label>Username: </Form.Label> */}
                 <Form.Control
                   type="text"
                   name="name"
-                  placeholder="Enter name"
+                  placeholder="Username *"
                   value={name}
                   onChange={handleName}
                 />
+                {/*
                 <Form.Text className="d-block text-end text-muted px-3">
                   Name is required.
                 </Form.Text>
+                */}
               </Form.Group>
 
               <Button className="mb-3" variant="outline-warning" type="submit">

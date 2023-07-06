@@ -65,31 +65,35 @@ function LoginPage(props) {
           <Col xs={12} md={8} lg={6}>
             <Form onSubmit={handleLoginSubmit}>
               <Form.Group className="mb-3">
-                <Form.Label>Email:</Form.Label>
+                {/* <Form.Label>Email: </Form.Label> */}
                 <Form.Control
                   type="email"
                   name="email"
-                  placeholder="Enter email"
+                  placeholder="Email *"
                   value={email}
                   onChange={handleEmail}
                 />
+                {/* 
                 <Form.Text className="d-block text-end text-muted px-3">
                   Email is required.
                 </Form.Text>
+                */}
               </Form.Group>
 
               <Form.Group className="mb-3">
-                <Form.Label>Password:</Form.Label>
+                {/* <Form.Label>Password: </Form.Label> */}
                 <Form.Control
                   type="password"
                   name="password"
-                  placeholder="Password"
+                  placeholder="Password *"
                   value={password}
                   onChange={handlePassword}
                 />
+                {/*
                 <Form.Text className="d-block text-end text-muted px-3">
                   Password is required.
                 </Form.Text>
+                */}
               </Form.Group>
 
               <Form.Group className="mb-3">
