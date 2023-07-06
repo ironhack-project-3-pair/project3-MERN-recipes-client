@@ -164,7 +164,7 @@ function WeekPlan() {
                 <Card
                   
                   key={day}
-                  className="WeekPlan-day-wrapper col mx-3 my-3"
+                  className="WeekPlan-day-wrapper col m-3"
                   id={day}
                 >
                   <Card.Title className="p-2" style={{ fontSize: '2rem' }}>
