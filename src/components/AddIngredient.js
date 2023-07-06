@@ -58,15 +58,20 @@ function AddIngredient(props) {
       <h3>Add New Ingredient</h3>
 
       <Form onSubmit={handleSubmit}>
-        <Form.Label className='mt-3'>Name (*required):</Form.Label>
-        <Form.Control
-          type="text"
-          name="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+        <Form.Group className="mt-3">
+          <Form.Label className="mt-3">Name:</Form.Label>
+          <Form.Control
+            type="text"
+            name="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Form.Text className="d-block text-end text-muted px-3">
+            Name is required.
+          </Form.Text>
+        </Form.Group>
 
-        <Form.Label className='mt-3'>Emoji:</Form.Label>
+        <Form.Label className="mt-3">Emoji:</Form.Label>
         <Form.Control
           type="text"
           name="emoji"
@@ -74,7 +79,7 @@ function AddIngredient(props) {
           onChange={(e) => setEmoji(e.target.value)}
         />
 
-        <Button className='mt-3' variant="outline-dark" type="submit">
+        <Button className="mt-3" variant="outline-dark" type="submit">
           Add Ingredient
         </Button>
       </Form>
