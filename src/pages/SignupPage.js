@@ -1,15 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-  Container,
-  Button,
-  Form,
-  FormGroup,
-  FormLabel,
-  FormControl,
-  Row,
-  Col,
-} from 'react-bootstrap';
+import { Container, Button, Form, Row, Col } from 'react-bootstrap';
 
 // import axios from "axios";
 // const API_URL = "http://localhost:5005";
@@ -55,9 +46,9 @@ function SignupPage(props) {
         <Row className="justify-content-center">
           <Col xs={12} md={8} lg={6}>
             <Form onSubmit={handleSignupSubmit} sx={10} md={6} lg={6}>
-              <FormGroup className="mb-3">
-                <FormLabel>Email:</FormLabel>
-                <FormControl
+              <Form.Group className="mb-3">
+                <Form.Label>Email:</Form.Label>
+                <Form.Control
                   type="email"
                   name="email"
                   placeholder="Enter email"
@@ -67,11 +58,11 @@ function SignupPage(props) {
                 <Form.Text className="d-block text-end text-muted px-3">
                   Email is required.
                 </Form.Text>
-              </FormGroup>
+              </Form.Group>
 
-              <FormGroup className="mb-3">
-                <FormLabel>Password:</FormLabel>
-                <FormControl
+              <Form.Group className="mb-3">
+                <Form.Label>Password:</Form.Label>
+                <Form.Control
                   type="password"
                   name="password"
                   placeholder="Password"
@@ -81,11 +72,11 @@ function SignupPage(props) {
                 <Form.Text className="d-block text-end text-muted px-3">
                   Password is required.
                 </Form.Text>
-              </FormGroup>
+              </Form.Group>
 
-              <FormGroup className="mb-3">
-                <FormLabel>Name:</FormLabel>
-                <FormControl
+              <Form.Group className="mb-3">
+                <Form.Label>Name:</Form.Label>
+                <Form.Control
                   type="text"
                   name="name"
                   placeholder="Enter name"
@@ -95,7 +86,7 @@ function SignupPage(props) {
                 <Form.Text className="d-block text-end text-muted px-3">
                   Name is required.
                 </Form.Text>
-              </FormGroup>
+              </Form.Group>
 
               <Button className="mb-3" variant="outline-warning" type="submit">
                 Sign Up

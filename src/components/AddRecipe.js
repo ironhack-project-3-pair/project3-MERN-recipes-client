@@ -1,11 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  Button,
-  Form,
-  FormControl,
-  FormGroup,
-  FormLabel,
-} from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 
 import recipesService from '../services/recipes.service';
 import ingredientsService from '../services/ingredients.service';
@@ -193,43 +187,43 @@ function AddRecipe(props) {
 
       <Form onSubmit={handleSubmit}>
         {/* Input field Name */}
-        <FormGroup className="mt-3">
-          <FormLabel>Name (*required):</FormLabel>
-          <FormControl
+        <Form.Group className="mt-3">
+          <Form.Label>Name (*required):</Form.Label>
+          <Form.Control
             type="text"
             name="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-        </FormGroup>
+        </Form.Group>
 
         {/* Input field Instructions */}
-        <FormGroup className="mt-3">
-          <FormLabel>Instructions:</FormLabel>
-          <FormControl
+        <Form.Group className="mt-3">
+          <Form.Label>Instructions:</Form.Label>
+          <Form.Control
             as="textarea"
             name="instructions"
             value={instructions}
             onChange={(e) => setInstructions(e.target.value)}
           />
-        </FormGroup>
+        </Form.Group>
 
         {/* Input field Preparation */}
-        <FormGroup className="mt-3">
-          <FormLabel>Preparation (minutes):</FormLabel>
-          <FormControl
+        <Form.Group className="mt-3">
+          <Form.Label>Preparation (minutes):</Form.Label>
+          <Form.Control
             type="number"
             min="1"
             name="durationInMin"
             value={durationInMin}
             onChange={(e) => setDurationInMin(e.target.value)}
           />
-        </FormGroup>
+        </Form.Group>
 
         {/* Input field recipeIngredients */}
         {recipeIngredients.map((ingredient, index) => (
-          <FormGroup className="mt-3" key={index}>
-            <FormLabel className="mb-0 d-flex align-items-center justify-content-center">
+          <Form.Group className="mt-3" key={index}>
+            <Form.Label className="mb-0 d-flex align-items-center justify-content-center">
               {`Ingredient: ${index + 1}`}
               {/* button to delete ingredient */}
 
@@ -264,11 +258,11 @@ function AddRecipe(props) {
               >
                 +
               </Button>
-            </FormLabel>
+            </Form.Label>
 
             {/* Select ingredients from availableIngredients in DB */}
             <div className="ingredient-row">
-              <FormControl
+              <Form.Control
                 as="select"
                 name="ingredient"
                 value={ingredient.ingredient ? ingredient.ingredient._id : ''}
@@ -283,9 +277,9 @@ function AddRecipe(props) {
                     {availIngredient.name}
                   </option>
                 ))}
-              </FormControl>
+              </Form.Control>
               {/* input field for qtyInGrams */}
-              <FormControl
+              <Form.Control
                 type="number"
                 min="1"
                 name="qtyInGrams"
@@ -295,7 +289,7 @@ function AddRecipe(props) {
                 }
               />
             </div>
-          </FormGroup>
+          </Form.Group>
         ))}
         <Button className="mt-3" variant="outline-dark" type="submit">
           Add Recipe

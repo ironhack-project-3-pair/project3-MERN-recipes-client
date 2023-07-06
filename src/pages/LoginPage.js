@@ -1,16 +1,6 @@
 import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-  Container,
-  Form,
-  FormCheck,
-  FormControl,
-  FormGroup,
-  FormLabel,
-  Button,
-  Row,
-  Col
-} from 'react-bootstrap';
+import { Container, Form, Button, Row, Col } from 'react-bootstrap';
 
 import { AuthContext } from '../context/auth.context';
 // import axios from "axios";
@@ -74,9 +64,9 @@ function LoginPage(props) {
         <Row className="justify-content-center">
           <Col xs={12} md={8} lg={6}>
             <Form onSubmit={handleLoginSubmit}>
-              <FormGroup className="mb-3">
-                <FormLabel>Email:</FormLabel>
-                <FormControl
+              <Form.Group className="mb-3">
+                <Form.Label>Email:</Form.Label>
+                <Form.Control
                   type="email"
                   name="email"
                   placeholder="Enter email"
@@ -86,11 +76,11 @@ function LoginPage(props) {
                 <Form.Text className="d-block text-end text-muted px-3">
                   Email is required.
                 </Form.Text>
-              </FormGroup>
+              </Form.Group>
 
-              <FormGroup className="mb-3">
-                <FormLabel>Password:</FormLabel>
-                <FormControl
+              <Form.Group className="mb-3">
+                <Form.Label>Password:</Form.Label>
+                <Form.Control
                   type="password"
                   name="password"
                   placeholder="Password"
@@ -100,17 +90,17 @@ function LoginPage(props) {
                 <Form.Text className="d-block text-end text-muted px-3">
                   Password is required.
                 </Form.Text>
-              </FormGroup>
+              </Form.Group>
 
-              <FormGroup className="mb-3">
-                <FormLabel>Remember me:</FormLabel>
-                <FormCheck
+              <Form.Group className="mb-3">
+                <Form.Label>Remember me:</Form.Label>
+                <Form.Check
                   type="checkbox"
                   name="rememberMe"
                   checked={rememberMe}
                   onChange={handleRememberMe}
                 />
-              </FormGroup>
+              </Form.Group>
 
               <Button className="mb-3" variant="outline-warning" type="submit">
                 Login

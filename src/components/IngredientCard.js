@@ -1,5 +1,4 @@
 import { Row, Col, Card, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 
 function IngredientCard({
   ingredient,

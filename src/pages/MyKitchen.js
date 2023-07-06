@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
-import { Link, useParams } from 'react-router-dom';
+import { Container, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import IngredientCard from '../components/IngredientCard';
 
 import userIngredientsService from '../services/userIngredients.service';
@@ -9,8 +9,6 @@ import messageService from '../services/messages.service';
 function MyKitchen() {
   const [userIngredients, setUserIngredients] = useState([]);
   const [deleteMessage, setDeleteMessage] = useState('');
-
-  const storedToken = localStorage.getItem('authToken');
 
   const getUserIngredients = () => {
     userIngredientsService
@@ -39,7 +37,6 @@ function MyKitchen() {
     userIngredientsService
       .deleteUserIngredient(userIngredientId)
       .then((res) => {
-        const deleteUserIngredient = res.data;
         messageService.showDeleteMessage(
           userIngredientToDelete.ingredient.name,
           setDeleteMessage

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Form, FormControl, FormLabel } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 
 // import axios from "axios";
 // const API_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:5005';
@@ -8,9 +8,6 @@ import ingredientsService from '../services/ingredients.service';
 import messagesService from '../services/messages.service';
 
 function AddIngredient(props) {
-  // Get the token from the localStorage
-  const storedToken = localStorage.getItem('authToken');
-
   const [name, setName] = useState('');
   const [emoji, setEmoji] = useState('');
 
@@ -61,16 +58,16 @@ function AddIngredient(props) {
       <h3>Add New Ingredient</h3>
 
       <Form onSubmit={handleSubmit}>
-        <FormLabel className='mt-3'>Name (*required):</FormLabel>
-        <FormControl
+        <Form.Label className='mt-3'>Name (*required):</Form.Label>
+        <Form.Control
           type="text"
           name="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
 
-        <FormLabel className='mt-3'>Emoji:</FormLabel>
-        <FormControl
+        <Form.Label className='mt-3'>Emoji:</Form.Label>
+        <Form.Control
           type="text"
           name="emoji"
           value={emoji}
