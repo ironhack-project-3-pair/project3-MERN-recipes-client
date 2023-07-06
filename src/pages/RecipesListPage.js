@@ -1,12 +1,9 @@
+import { Button, Container, Row } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-
 import { useContext } from "react";
+
 import { RecipesContext } from "../context/recipes.context";
 
-import { Button } from 'react-bootstrap';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 
 import RecipeCard from '../components/RecipeCard';
 
@@ -84,6 +81,7 @@ function RecipesListPage() {
     <div className="RecipeListPage">
       {/* button to show AddRecipe component */}
       <Button className='m-3' variant="outline-warning" onClick={() => setShowForm(!showForm)}>
+      {/* button to show AddRecipe form */}
         {showForm ? 'Hide Form' : 'Add New Recipe'}
       </Button>
       {showForm && (
@@ -101,18 +99,19 @@ function RecipesListPage() {
 
       <hr />
 
-      {/* render list of recipes */}
-      <Container>
-        <Row>
-        {recipes.map((recipe) => {
-          return (
-            <Col key={recipe._id}>
+      <Container fluid>
+        <Row className="cards-row m-3 p-2">
+          {/* render list of recipesa */}
+          {recipes.map((recipe) => {
+            return (
               <RecipeCard
+                key={recipe._id}
+                callbackToUpdateList={getAllRecipes}
                 recipe={recipe}
+                setDeleteMessage={setDeleteMessage}
               />
-            </Col>
-          );
-        })}
+            );
+          })}
         </Row>
       </Container>
     </div>
