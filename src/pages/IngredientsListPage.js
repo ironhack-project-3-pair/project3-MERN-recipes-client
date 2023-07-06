@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Container, Row, Col, Button, FormControl } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 
 import AddIngredient from '../components/AddIngredient';
 import IngredientCard from '../components/IngredientCard';
@@ -223,7 +223,7 @@ function IngredientsListPage() {
         <Container>
           <Row>
             <Col lg={8} md={8} className="mx-auto">
-              <FormControl
+              <Form.Control
                 aria-label="Input Label"
                 name="search"
                 value={query}
@@ -253,21 +253,22 @@ function IngredientsListPage() {
               key={ingredient._id}
               ingredient={ingredient}
               isDelete={true}
-              className="flex-row"
             >
-              <Col xs={7} md={7} className="d-flex justify-content-end pl-0">
-                <FormControl
-                  aria-label="Quantity of Ingredient in Gram"
-                  // style={{ width: '7rem' }}
-                  className="px-1"
+
+              <Col xs={7} md={7}>
+                <Form.Label className="d-flex align-items-center mb-0">
+                <Form.Control className="me-2"
+                  aria-label="Quantity of ingredient in grams"
                   min={0}
                   type="number"
                   value={quantity[ingredient._id] || ''}
                   onChange={(e) => handleQuantityChange(e, ingredient._id)}
-                  placeholder="grams"
+                  placeholder="qty"
                 />
+                  <span>g</span>
+                </Form.Label>
               </Col>
-              <Col xs={5} md={5}>
+              <Col xs={3} md={3}>
                 <Button
                   variant="outline-warning"
                   className="align-self-center btn btn-outline-warning mx-1"
