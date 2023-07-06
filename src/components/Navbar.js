@@ -1,8 +1,9 @@
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { useContext } from 'react';
 import { AuthContext } from '../context/auth.context';
+import { NavLink } from 'react-router-dom';
 
-function NavbarComponent() {
+function AppNavbar() {
   // Subscribe to the AuthContext to gain access to
   // the values from AuthContext.Provider `value` prop
   const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
@@ -18,11 +19,12 @@ function NavbarComponent() {
     >
       <Container>
         <Navbar.Brand
+          as={NavLink}
           style={{
             fontSize: '1.5em',
             fontWeight: 'bold',
           }}
-          href="/"
+          to="/"
         >
           My Kitchen
         </Navbar.Brand>
@@ -31,20 +33,24 @@ function NavbarComponent() {
           <Nav className="me-auto">
             {isLoggedIn && (
               <>
-                {/* <Nav.Link href="/my-kitchen">My Kitchen</Nav.Link> */}
-                <Nav.Link href="/recipes">Recipes</Nav.Link>
-                <Nav.Link href="/ingredients">Ingredients</Nav.Link>
-                <Nav.Link href="/week-plan">Week Plan</Nav.Link>
+                {/* <Nav.Link to="/my-kitchen">My Kitchen</Nav.Link> */}
+                <Nav.Link as={NavLink} to="/recipes">
+                  Recipes
+                </Nav.Link>
+                <Nav.Link as={NavLink} to="/ingredients">
+                  Ingredients
+                </Nav.Link>
+                <Nav.Link as={NavLink} to="/week-plan">Week Plan</Nav.Link>
               </>
             )}
             {!isLoggedIn && (
               <>
-                <Nav.Link href="/">Home</Nav.Link>
-                <Nav.Link href="/signup">Sign Up</Nav.Link>
-                <Nav.Link href="/login">Login</Nav.Link>
+                <Nav.Link as={NavLink} to="/">Home</Nav.Link>
+                <Nav.Link as={NavLink} to="/signup">Sign Up</Nav.Link>
+                <Nav.Link as={NavLink} to="/login">Login</Nav.Link>
               </>
             )}
-            <Nav.Link href="/about">About</Nav.Link>
+            <Nav.Link as={NavLink} to="/about">About</Nav.Link>
           </Nav>
 
           {isLoggedIn && (
@@ -73,4 +79,4 @@ function NavbarComponent() {
   );
 }
 
-export default NavbarComponent;
+export default AppNavbar;

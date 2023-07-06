@@ -1,7 +1,7 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 
-import Navbar from './components/Navbar';
+import AppNavbar from './components/Navbar';
 import HomePage from './pages/HomePage';
 import RecipesListPage from './pages/RecipesListPage';
 import RecipeDetailsPage from './pages/RecipeDetailsPage';
@@ -21,22 +21,71 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Navbar />
+        <AppNavbar />
       </header>
 
       <Routes>
-        <Route path="/"                       element={<IsAnon><HomePage /></IsAnon>}/>
-        <Route path="/my-kitchen"             element={<IsPrivate><MyKitchen /></IsPrivate>}/>
-        <Route path="/recipes"                element={<IsPrivate><RecipesListPage /></IsPrivate>}/>
-        <Route path="/recipes/:recipeId"      element={<IsPrivate><RecipeDetailsPage /></IsPrivate>}/>
-        <Route path="/recipes/edit/:recipeId" element={<IsPrivate><EditRecipePage /></IsPrivate>}/>
-        <Route path="/ingredients"            element={<IsPrivate><IngredientsListPage /></IsPrivate>} />
-        <Route path="/week-plan"              element={<IsPrivate><WeekPlan /></IsPrivate>} />
+        <Route
+          path="/"
+          element={
+            <IsAnon>
+              <HomePage />
+            </IsAnon>
+          }
+        />
+        <Route
+          path="/my-kitchen"
+          element={
+            <IsPrivate>
+              <MyKitchen />
+            </IsPrivate>
+          }
+        />
+        <Route
+          path="/recipes"
+          element={
+            <IsPrivate>
+              <RecipesListPage />
+            </IsPrivate>
+          }
+        />
+        <Route
+          path="/recipes/:recipeId"
+          element={
+            <IsPrivate>
+              <RecipeDetailsPage />
+            </IsPrivate>
+          }
+        />
+        <Route
+          path="/recipes/edit/:recipeId"
+          element={
+            <IsPrivate>
+              <EditRecipePage />
+            </IsPrivate>
+          }
+        />
+        <Route
+          path="/ingredients"
+          element={
+            <IsPrivate>
+              <IngredientsListPage />
+            </IsPrivate>
+          }
+        />
+        <Route
+          path="/week-plan"
+          element={
+            <IsPrivate>
+              <WeekPlan />
+            </IsPrivate>
+          }
+        />
 
-        <Route path="/signup"                 element={<SignupPage />} />
-        <Route path="/login"                  element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/login" element={<LoginPage />} />
 
-        <Route path="/about"                  element={<AboutPage />} />
+        <Route path="/about" element={<AboutPage />} />
       </Routes>
     </div>
   );
