@@ -39,7 +39,7 @@ function IngredientCard({
         {!isDelete && (
           <Col className="flex-column align-right p-0 m-0">
             <Button
-              className="px-3 m-0 text-decoration-none"
+              className="px-3 m-0 text-decoration-none link-hover "
               style={{color:"black"}}
               variant="link"
               onClick={() => deleteUserIngredient(ingredient._id)}

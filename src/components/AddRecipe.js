@@ -234,7 +234,7 @@ function AddRecipe(props) {
               {/* button to delete ingredient */}
 
               <Button
-                className="text-decoration-none pb-2"
+                className="text-decoration-none link-hover pb-2"
                 variant="link"
                 style={{
                   display: 'flex',
@@ -251,7 +251,7 @@ function AddRecipe(props) {
               {/* button to add ingredient */}
 
               <Button
-                className="text-decoration-none pb-2"
+                className="text-decoration-none link-hover pb-2"
                 variant="link"
                 style={{
                   display: 'flex',
@@ -297,7 +297,7 @@ function AddRecipe(props) {
             </div>
           </FormGroup>
         ))}
-        <Button className='mt-3' variant="outline-dark" type="submit">
+        <Button className="mt-3" variant="outline-dark" type="submit">
           Add Recipe
         </Button>
       </Form>

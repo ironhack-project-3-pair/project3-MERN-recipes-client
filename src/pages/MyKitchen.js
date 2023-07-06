@@ -53,13 +53,16 @@ function MyKitchen() {
 
   return (
     <Container>
-      <h4 className="row border-bottom" style={{height:"3rem", display:"flex", alignItems:"center"}}>
+      <h4
+        className="row border-bottom"
+        style={{ height: '3rem', display: 'flex', alignItems: 'center' }}
+      >
         <span className="col-8 text-start">
           {userIngredients.length}{' '}
           {userIngredients.length === 1 ? 'Ingredient' : 'Ingredients'}
         </span>
         <span className="col-4">
-          <Link className="text-decoration-none" to={'/ingredients'}>
+          <Link className="text-decoration-none link-hover" to={'/ingredients'}>
             +
           </Link>
         </span>

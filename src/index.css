@@ -205,3 +205,13 @@ textarea {
   justify-content: space-evenly;
 }
 
+.link-hover {
+  transition: all 0.3s ease;
+  color: black;
+  text-decoration: none;
+}
+
+.link-hover:hover {
+  color: #ffdf38;
+  text-shadow: 1px 1px 2px #f5b428;
+}
