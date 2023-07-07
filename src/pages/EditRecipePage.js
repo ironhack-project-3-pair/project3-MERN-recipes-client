@@ -11,7 +11,7 @@ const API_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:5005';
 function EditRecipePage() {
   const [name, setName] = useState('');
   const [instructions, setInstructions] = useState('');
-  const [durationInMin, setDurationInMin] = useState('');
+  const [durationInMin, setDurationInMin] = useState(0);
   const [recipeIngredients, setRecipeIngredients] = useState([]);
   const [availableIngredients, setAvailableIngredients] = useState([]);
   const [picture, setPicture] = useState("");
@@ -30,7 +30,11 @@ function EditRecipePage() {
 
         setName(recipeToEdit.name);
         setInstructions(recipeToEdit.instructions);
-        setDurationInMin(recipeToEdit.durationInMin);
+        setDurationInMin(recipeToEdit.durationInMin ? recipeToEdit.durationInMin : 0);
+        // if not filled, value is "", and when passed to API, model/schema coerce it to null
+        // then when opening the details:
+        // Warning: `value` prop on `input` should not be null. Consider using an empty string to clear the component or `undefined` for uncontrolled components.
+        // Warning: A component is changing a controlled input to be uncontrolled. This is likely caused by the value changing from a defined to undefined, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component.
         setRecipeIngredients(recipeToEdit.recipeIngredients);
 
         // if recipeIngredients is empty, add an empty ingredient
@@ -43,7 +47,6 @@ function EditRecipePage() {
 
   // get all ingredients in the database to show in the ingredients selection
   const getAvailableIngredients = () => {
-    
     ingredientsService
       .getAllIngredients()
       .then((res) => {
@@ -152,7 +155,6 @@ function EditRecipePage() {
     return true;
   };
 
-  
   // handle upload
   const handleFileUpload = (e) => {
     const uploadData = new FormData();
