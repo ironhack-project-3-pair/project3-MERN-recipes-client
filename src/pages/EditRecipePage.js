@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button, Container, Form, FormGroup, Row } from 'react-bootstrap';
-
+import { Button, Form, FormGroup, Row } from 'react-bootstrap';
 
 import recipesService from '../services/recipes.service';
 import ingredientsService from '../services/ingredients.service';
 
 import axios from 'axios';
 const API_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:5005';
-
 
 function EditRecipePage() {
   const [name, setName] = useState('');
@@ -17,13 +15,12 @@ function EditRecipePage() {
   const [recipeIngredients, setRecipeIngredients] = useState([]);
   const [availableIngredients, setAvailableIngredients] = useState([]);
   const [picture, setPicture] = useState("");
-//messages
   const [errorMessage, setErrorMessage] = useState('');
 
   const navigate = useNavigate();
 
   const { recipeId } = useParams();
-  //pre-populate with details previously stored in DB
+  // pre-populate with details previously stored in DB
   const getRecipe = () => {
     recipesService
       .getRecipe(recipeId)
@@ -35,7 +32,7 @@ function EditRecipePage() {
         setDurationInMin(recipeToEdit.durationInMin);
         setRecipeIngredients(recipeToEdit.recipeIngredients);
 
-        // If recipeIngredients is empty, add an empty ingredient
+        // if recipeIngredients is empty, add an empty ingredient
         if (recipeToEdit.recipeIngredients.length === 0) {
           addIngredient();
         }
@@ -43,7 +40,7 @@ function EditRecipePage() {
       .catch((e) => console.log('Error GET details from API', e));
   };
 
-  //get all ingredients in the database to show in the ingredient selections
+  // get all ingredients in the database to show in the ingredients selection
   const getAvailableIngredients = () => {
     
     ingredientsService
@@ -54,7 +51,7 @@ function EditRecipePage() {
       .catch((e) => console.log('Error GET available ingredients from API', e));
   };
 
-  //add more ingredients to current recipe
+  // add more ingredients to current recipe
   const addIngredient = () => {
     setRecipeIngredients([
       ...recipeIngredients,
@@ -65,10 +62,10 @@ function EditRecipePage() {
     ]);
   };
 
-  //delete ingredients from current recipe
+  // delete ingredients from current recipe
   function removeIngredient(index) {
 
-    // prevent user to remove last ingredient inputs
+    // prevent user from removing last ingredient inputs
     if (recipeIngredients.length === 1) {
       return;
     }
@@ -77,11 +74,11 @@ function EditRecipePage() {
     setRecipeIngredients(newIngredients);
   }
 
-  // Update an ingredient based on the index
+  // update an ingredient based on the index
   const updateIngredient = (index, inputField, inputFieldValue) => {
     const newRecipeIngredients = [...recipeIngredients];
     if (inputField === 'ingredient' && inputFieldValue === '') {
-      // Set ingredient to an empty object when "No selection" is selected
+      // set ingredient to an empty object when "No selection" is selected
       newRecipeIngredients[index][inputField] = {};
     } else {
       newRecipeIngredients[index][inputField] = inputFieldValue;
@@ -92,10 +89,10 @@ function EditRecipePage() {
   useEffect(() => {
     getAvailableIngredients();
     getRecipe();
-  }, [recipeId]); //change the state when the id of the recipe is different
+  }, [recipeId]); // change the state when the id of the recipe is different
 
 
-  //Methods of validation inputs of creating new recipe
+  // validate inputs when creating new recipe
   const isRecipeNameProvided = () => {
     if (!name) {
       setErrorMessage(
@@ -129,16 +126,16 @@ function EditRecipePage() {
     }
   };
 
-  // Ensure that ingredients are valid
+  // ensure that ingredients are valid
   const areIngredientsValid = () => {
-    // Make sure there is at least one ingredient
+    // make sure there is at least one ingredient
     if (recipeIngredients.length === 0) {
       setErrorMessage('At least one ingredient is required');
       return false;
     }
 
     const invalidIngredients = recipeIngredients.filter((ingredient) => {
-      // Make sure ingredient is not 'No selection' or an empty string
+      // make sure ingredient is not 'No selection' or an empty string
       return (
         !ingredient.ingredient ||
         ingredient.ingredient === 'No selection' ||
@@ -155,7 +152,7 @@ function EditRecipePage() {
   };
 
   
-  //handle upload
+  // handle upload
   const handleFileUpload = (e) => {
     const uploadData = new FormData();
     uploadData.append("pictureBodyFormDataKey", e.target.files[0]);
@@ -173,20 +170,19 @@ function EditRecipePage() {
     }
   };
 
-
-  //update current recipe details with new details
+  // update current recipe details with new details
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // Validate if recipe name is provided
+      // validate if recipe name is provided
       if (!isRecipeNameProvided()) {
         throw new Error(
           "Recipe's name is required. Please provide a name for the recipe."
         );
       }
 
-      // Validate if recipe name is unique
+      // validate if recipe name is unique
       let isNameUnique = await isRecipeNameUnique();
       if (!isNameUnique) {
         throw new Error(
@@ -194,14 +190,14 @@ function EditRecipePage() {
         );
       }
 
-      // Validate user input for ingredients:
+      // validate user input for ingredients
       if (!areIngredientsValid()) {
         throw new Error(
           'Please provide valid ingredient and quantity should be greater than 0'
         );
       }
-    
-      // After passing the validation checks, create the new recipe
+  
+      // after passing the validation checks, create the new recipe
       const newDetails = {
         name,
         instructions,
@@ -210,9 +206,9 @@ function EditRecipePage() {
         picture
       };
 
-      await recipesService
-      .updateRecipe(recipeId, newDetails);
-      
+      const response = await recipesService
+        .updateRecipe(recipeId, newDetails);
+
       navigate(`/recipes/${recipeId}`);
       
     } catch(e) {console.log('Error PUT update to API', e)};
@@ -224,7 +220,7 @@ function EditRecipePage() {
         <h3 className='d-flex justify-content-center'>Edit Recipe</h3>
 
         <Form  onSubmit={handleSubmit}>
-          {/* Input field Name */}
+          {/* input field Name */}
           <Form.Group className="mt-3">
             <Form.Label>Name:</Form.Label>
             <Form.Control
@@ -238,10 +234,10 @@ function EditRecipePage() {
             </Form.Text>
           </Form.Group>
 
-          {/* Input file upload */}
+          {/* input file Upload */}
           <Form.Control type="file" onChange={(e) => handleFileUpload(e)} />
         
-          {/* Input field Instructions */}
+          {/* input field Instructions */}
           <Form.Group className="mt-3">
             <Form.Label>Instructions:</Form.Label>
             <Form.Control
@@ -269,8 +265,8 @@ function EditRecipePage() {
             <Form.Group className="mt-3" key={index}>
               <Form.Label className="m-0 p-0 d-flex align-items-center justify-content-center">
                 {`Ingredient: ${index + 1}`}
-                {/* button to delete ingredient */}
 
+                {/* button to delete ingredient */}
                 <Button
                   className="text-decoration-none link-hover pb-3"
                   variant="link"
@@ -287,9 +283,7 @@ function EditRecipePage() {
                   x
                 </Button>
 
-
                 {/* button to add ingredient */}
-
                 <Button
                   className="text-decoration-none link-hover pb-3"
                   variant="link"
@@ -330,7 +324,7 @@ function EditRecipePage() {
                     ))}
                   </Form.Select>
                   <Form.Text className="d-block pt-0 text-end text-muted pe-1">
-                    Ingredient's required
+                    Ingredient is required.
                   </Form.Text>
                 </FormGroup>
 
@@ -346,7 +340,7 @@ function EditRecipePage() {
                     }
                   />
                   <Form.Text className="d-block pt-0 text-end text-muted pe-1">
-                    Must greater than 0
+                    Qty is required.
                   </Form.Text>
                 </FormGroup>
               </Row>

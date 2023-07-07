@@ -12,7 +12,6 @@ function AddIngredient(props) {
   const [emoji, setEmoji] = useState('');
 
   //messages
-
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = (e) => {
@@ -21,8 +20,6 @@ function AddIngredient(props) {
     // Create an object representing the body of the POST request
     const requestBody = { name, emoji };
 
-    // axios
-    //   .post(`${API_URL}/api/ingredients`, requestBody, { headers: { Authorization: `Bearer ${storedToken}` } })
     ingredientsService
       .createIngredient(requestBody)
       .then((response) => {

@@ -52,10 +52,10 @@ function AddRecipe(props) {
     ]);
   };
 
-  // //delete ingredients from current recipe
+  // delete ingredients from current recipe
   function removeIngredient(index) {
  
-    // prevent user to remove last ingredient inputs
+    // prevent user from removing last ingredient inputs
     if (recipeIngredients.length === 1) {
       return;
     }
@@ -64,7 +64,7 @@ function AddRecipe(props) {
     setRecipeIngredients(newIngredients);
   }
 
-  // Update an ingredient based on the index
+  // update an ingredient based on the index
   const updateIngredient = (index, inputField, inputFieldValue) => {
     const newRecipeIngredients = [...recipeIngredients];
     newRecipeIngredients[index][inputField] = inputFieldValue;
@@ -75,7 +75,7 @@ function AddRecipe(props) {
     getAvailableIngredients();
   }, []);
 
-  //Methods of validation inputs of creating new recipe
+  // validate recipe name when creating new recipe
   const isRecipeNameProvided = () => {
     if (!name) {
       setErrorMessage(
@@ -108,16 +108,16 @@ function AddRecipe(props) {
     }
   };
 
-  // Ensure that ingredients are valid
+  // ensure that ingredients are valid
   const areIngredientsValid = () => {
-    // Make sure there is at least one ingredient
+    // make sure there is at least one ingredient
     if (recipeIngredients.length === 0) {
       setErrorMessage('At least one ingredient is required');
       return false;
     }
 
     const invalidIngredients = recipeIngredients.filter((ingredient) => {
-      // Make sure ingredient is not 'No selection' or an empty string
+      // make sure ingredient is not 'No selection' or an empty string
       return (
         !ingredient.ingredient ||
         ingredient.ingredient === 'No selection' ||
@@ -150,19 +150,19 @@ function AddRecipe(props) {
     }
   };
 
-  //create new recipe
+  // create new recipe
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // Validate if recipe name is provided
+      // validate if recipe name is provided
       if (!isRecipeNameProvided()) {
         throw new Error(
           "Recipe's name is required. Please provide a name for the recipe."
         );
       }
 
-      // Validate if recipe name is unique
+      // validate if recipe name is unique
       let isNameUnique = await isRecipeNameUnique();
       if (!isNameUnique) {
         throw new Error(
@@ -170,14 +170,14 @@ function AddRecipe(props) {
         );
       }
 
-      // Validate user input for ingredients:
+      // validate user input for ingredients:
       if (!areIngredientsValid()) {
         throw new Error(
           'Please provide valid ingredient and quantity should be greater than 0'
         );
       }
 
-      // After passing the validation checks, create the new recipe
+      // after passing the validation checks, create the new recipe
       const newRecipe = {
         name,
         instructions,
@@ -188,13 +188,13 @@ function AddRecipe(props) {
 
       const response = await recipesService.createRecipe(newRecipe);
       
-      // Set message after successful creation
+      // set message after successful creation
       messagesService.showCreateMessage(name, props.setCreateMessage);
 
-      // To update the recipe list
+      // pass callback to update recipes list
       props.callbackToUpdateList();
 
-      // Reset the state
+      // reset the states
       setName('');
       setInstructions('');
       setDurationInMin('');
@@ -204,7 +204,7 @@ function AddRecipe(props) {
           qtyInGrams: 0,
         },
       ]);
-      setErrorMessage(''); // Clear any error messages
+      setErrorMessage(''); // clear any error messages
       setPicture("");
     } catch (error) {
       console.log('Error while validating or creating recipe', error);
@@ -217,7 +217,7 @@ function AddRecipe(props) {
       <h3>Add New Recipe</h3>
 
       <Form onSubmit={handleSubmit}>
-        {/* Input field Name */}
+        {/* input field Name */}
         <Form.Group className="mt-3">
           <Form.Label>Name:</Form.Label>
           <Form.Control
@@ -231,9 +231,10 @@ function AddRecipe(props) {
           </Form.Text>
         </Form.Group>
 
+        {/* input file Upload */}
         <Form.Control type="file" onChange={(e) => handleFileUpload(e)} />
 
-        {/* Input field Instructions */}
+        {/* input field Instructions */}
         <Form.Group className="mt-3">
           <Form.Label>Instructions:</Form.Label>
           <Form.Control
@@ -244,7 +245,7 @@ function AddRecipe(props) {
           />
         </Form.Group>
 
-        {/* Input field Preparation */}
+        {/* input field Preparation */}
         <Form.Group className="mt-3">
           <Form.Label>Preparation (minutes):</Form.Label>
           <Form.Control
@@ -256,7 +257,7 @@ function AddRecipe(props) {
           />
         </Form.Group>
 
-        {/* Input field recipeIngredients */}
+        {/* input field recipeIngredients */}
         {recipeIngredients.map((ingredient, index) => (
           <Form.Group className="mt-3" key={index}>
             <Form.Label className="m-0 p-0 d-flex align-items-center justify-content-center">
@@ -279,9 +280,7 @@ function AddRecipe(props) {
                 x
               </Button>
 
-
               {/* button to add ingredient */}
-
               <Button
                 className="text-decoration-none link-hover pb-3"
                 variant="link"
@@ -298,7 +297,7 @@ function AddRecipe(props) {
               </Button>
             </Form.Label>
 
-            {/* Select ingredients from availableIngredients in DB */}
+            {/* select ingredients from availableIngredients in DB */}
             <Row className="ingredient-row">
               <FormGroup>
                 <Form.Select
