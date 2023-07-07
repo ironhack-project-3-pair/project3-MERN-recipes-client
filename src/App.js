@@ -2,6 +2,7 @@ import './App.css';
 import { Routes, Route } from 'react-router-dom';
 
 import AppNavbar from './components/Navbar';
+import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import RecipesListPage from './pages/RecipesListPage';
 import RecipeDetailsPage from './pages/RecipeDetailsPage';
@@ -21,7 +22,7 @@ import { RecipesProviderWrapper } from './context/recipes.context.js';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App d-flex flex-column min-vh-100">
       <header className="App-header">
         <AppNavbar />
       </header>
@@ -44,7 +45,9 @@ function App() {
         </Routes>
 
       </RecipesProviderWrapper>
-
+      <footer className="App-footer mt-auto w-100 ">
+        <Footer />
+      </footer>
     </div>
   );
 }
