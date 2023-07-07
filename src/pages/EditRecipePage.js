@@ -16,6 +16,7 @@ function EditRecipePage() {
   const [availableIngredients, setAvailableIngredients] = useState([]);
   const [picture, setPicture] = useState("");
   const [errorMessage, setErrorMessage] = useState('');
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
 
   const navigate = useNavigate();
 
@@ -156,6 +157,7 @@ function EditRecipePage() {
   const handleFileUpload = (e) => {
     const uploadData = new FormData();
     uploadData.append("pictureBodyFormDataKey", e.target.files[0]);
+    setIsUploadingImage(prev => true);
     const storedToken = localStorage.getItem('authToken');
     if (storedToken) {
       axios.post(API_URL + "/api/upload", uploadData, { 
@@ -164,7 +166,10 @@ function EditRecipePage() {
         .then(response => {
           setPicture(response.data.picture);
         })
-        .catch(err => console.log("Error while uploading the file: ", err));
+        .catch(err => console.log("Error while uploading the file: ", err))
+        .finally (() => {
+          setIsUploadingImage(prev => false);
+        });
     } else {
       console.log("token required for upload");
     }
@@ -346,9 +351,14 @@ function EditRecipePage() {
               </Row>
             </Form.Group>
           ))}
-          <Button className="mt-3" variant="outline-dark" type="submit">
-            Update Recipe
-          </Button>
+          { isUploadingImage
+          ? <Button className="mt-3" variant="outline-dark" type="submit" disabled>
+              Uploading image...
+            </Button>
+          : <Button className="mt-3" variant="outline-dark" type="submit">
+              Update Recipe
+            </Button>
+          }
         </Form>
 
         {/* show message */}
