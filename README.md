@@ -18,12 +18,6 @@ This repository contains the backend code for the server of this application. It
 
 It allows logged in users to manage all the recipes and all the ingredients in the database (public except for anonymous users). The main feature is that they can also track the ingredients they have in their kitchen and plan their meals in a week plan view. On a daily basis for a week, user can then consume the ingredients of the planned recipes that he/she actually cooked and ate. Stay tuned for more functionalities to come!
 
-## DB Relationships
-1. One-to-many (1:many) → A user has multiple ingredients (directly stored in the user’s model, and not as embedded sub documents or references as of now).
-2. One-to-one (1:1) → A user as only one week plan and reciprocally.
-3. One-to-many (1:many) → A recipes as multiples ingredients, but ingredients can be used in more than 1 recipe.
-3. There are no relations between the public models and users.
-
 ## Backend Resources
 
 ### Backend server repo: https://github.com/hymced/project-management-server
