@@ -260,7 +260,7 @@ function AddRecipe(props) {
         {recipeIngredients.map((ingredient, index) => (
           <Form.Group className="mt-3" key={index}>
             <Form.Label className="m-0 p-0 d-flex align-items-center justify-content-center">
-              {`Ingredient: ${index + 1}`}
+              {`Ingredient #${index + 1}`}
               {/* button to delete ingredient */}
 
               <Button
@@ -322,7 +322,7 @@ function AddRecipe(props) {
                   ))}
                 </Form.Select>
                 <Form.Text className="d-block pt-0 text-end text-muted pe-1">
-                  Ingredient's required
+                  Ingredient is required.
                 </Form.Text>
               </FormGroup>
 
@@ -338,7 +338,7 @@ function AddRecipe(props) {
                   }
                 />
                 <Form.Text className="d-block pt-0 text-end text-muted pe-1">
-                  Must greater than 0
+                  Qty is required.
                 </Form.Text>
               </FormGroup>
             </Row>
