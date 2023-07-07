@@ -23,6 +23,7 @@ function IngredientsListPage() {
   const [query, setQuery] = useState(''); // for the search functionality
   const [quantities, setQuantities] = useState({});
   const [userIngredients, setUserIngredients] = useState([]);
+  const [isLoadingIngredients, setIsLoadingIngredients] = useState(false);
 
   // messages
   const [warningMessage, setWarningMessage] = useState('');
@@ -38,9 +39,11 @@ function IngredientsListPage() {
     //   .get(`${API_URL}/api/ingredients`, {
     //     headers: { Authorization: `Bearer ${storedToken}` },
     //   })
+    setIsLoadingIngredients(true);
     ingredientsService
       .getAllIngredients()
       .then((response) => {
+        setIsLoadingIngredients(false);
         setIngredients(response.data);
       })
       .catch((error) => {
@@ -253,7 +256,7 @@ function IngredientsListPage() {
 
         <hr />
         
-        { !ingredients.length && <p>Loading ingredients...</p> }
+        { isLoadingIngredients && <p>Loading ingredients...</p> }
         { !!ingredients.length && 
           filteredIngredients.map((ingredient) => {
             return (

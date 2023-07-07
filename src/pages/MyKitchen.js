@@ -9,11 +9,14 @@ import messageService from '../services/messages.service';
 function MyKitchen() {
   const [userIngredients, setUserIngredients] = useState([]);
   const [deleteMessage, setDeleteMessage] = useState('');
+  const [isLoadingKitchen, setIsLoadingKitchen] = useState(false);
 
   const getUserIngredients = () => {
+    setIsLoadingKitchen(true);
     userIngredientsService
       .getAllUserIngredients()
       .then((res) => {
+        setIsLoadingKitchen(false);
         setUserIngredients(res.data);
       })
       .catch((error) => {
@@ -69,7 +72,7 @@ function MyKitchen() {
 
       {deleteMessage && <p>{deleteMessage}</p>}
 
-      { !userIngredients.length && <p>Loading ingredients in kitchen...</p> }
+      { isLoadingKitchen && <p>Loading ingredients in kitchen...</p> }
       { !!userIngredients.length && 
         <Row>
           {userIngredients.map((ingredient) => (

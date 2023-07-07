@@ -27,6 +27,7 @@ function RecipesListPage() {
   // messages
   const [deleteMessage, setDeleteMessage] = useState('');
   const [createMessage, setCreateMessage] = useState('');
+  const [isLoadingRecipes, setIsLoadingRecipes] = useState(false);
 
   const { deleteMessageCtxRecipesListPage } = useContext(RecipesContext);
 
@@ -40,9 +41,12 @@ function RecipesListPage() {
     // axios
     // // .get(`${API_URL}/api/recipes`)
     // .get(`${API_URL}/api/recipes`, { headers: { Authorization: `Bearer ${storedToken}` } })
+    
+    setIsLoadingRecipes(true);
     recipesService
       .getAllRecipes()
       .then((response) => {
+        setIsLoadingRecipes(false);
         setRecipes(response.data);
       })
       .catch((error) => {
@@ -138,7 +142,7 @@ function RecipesListPage() {
 
         <hr />
         
-        { !recipes.length && <p>Loading recipes...</p> }
+        { isLoadingRecipes && <p>Loading recipes...</p> }
         { !!recipes.length && 
           <Container fluid>
           <Row className="justify-content-center m-3 p-2">
