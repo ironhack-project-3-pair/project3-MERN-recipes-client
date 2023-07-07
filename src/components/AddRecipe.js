@@ -54,6 +54,11 @@ function AddRecipe(props) {
 
   // //delete ingredients from current recipe
   function removeIngredient(index) {
+ 
+    // prevent user to remove last ingredient inputs
+    if (recipeIngredients.length === 1) {
+      return;
+    }
     const newIngredients = [...recipeIngredients];
     newIngredients.splice(index, 1);
     setRecipeIngredients(newIngredients);
@@ -103,9 +108,21 @@ function AddRecipe(props) {
     }
   };
 
+  // Ensure that ingredients are valid
   const areIngredientsValid = () => {
+    // Make sure there is at least one ingredient
+    if (recipeIngredients.length === 0) {
+      setErrorMessage('At least one ingredient is required');
+      return false;
+    }
+
     const invalidIngredients = recipeIngredients.filter((ingredient) => {
-      return ingredient.ingredient === '' || ingredient.qtyInGrams <= 0;
+      // Make sure ingredient is not 'No selection' or an empty string
+      return (
+        !ingredient.ingredient ||
+        ingredient.ingredient === 'No selection' ||
+        ingredient.qtyInGrams <= 0
+      );
     });
 
     if (invalidIngredients.length > 0) {
@@ -154,11 +171,7 @@ function AddRecipe(props) {
       }
 
       // Validate user input for ingredients:
-      const invalidIngredients = recipeIngredients.filter((ingredient) => {
-        return ingredient.ingredient === '' || ingredient.qtyInGrams <= 0;
-      });
-
-      if (invalidIngredients.length > 0) {
+      if (!areIngredientsValid()) {
         throw new Error(
           'Please provide valid ingredient and quantity should be greater than 0'
         );
@@ -261,9 +274,11 @@ function AddRecipe(props) {
                 }}
                 type={'button'}
                 onClick={() => removeIngredient(index)}
+                disabled={recipeIngredients.length === 1}
               >
                 x
               </Button>
+
 
               {/* button to add ingredient */}
 
@@ -286,7 +301,7 @@ function AddRecipe(props) {
             {/* Select ingredients from availableIngredients in DB */}
             <Row className="ingredient-row">
               <FormGroup>
-                <Form.Control
+                <Form.Select
                   className="m-0"
                   as="select"
                   name="ingredient"
@@ -305,7 +320,7 @@ function AddRecipe(props) {
                       {availIngredient.name}
                     </option>
                   ))}
-                </Form.Control>
+                </Form.Select>
                 <Form.Text className="d-block pt-0 text-end text-muted pe-1">
                   Ingredient's required
                 </Form.Text>
