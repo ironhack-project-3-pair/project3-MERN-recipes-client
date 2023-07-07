@@ -27,8 +27,8 @@ function HomePage() {
       </div>
       <div className="">
         <h3 className="card-title">Lets Tit-Tit</h3>
-        <p><Link to="/signup">Signup</Link> if you dont have Account</p>
-        <p><Link to="/login">Login</Link> if you have Account</p>
+        <p><Link className="link-hover" to="/signup">Signup</Link> if you dont have Account</p>
+        <p><Link className="link-hover" to="/login">Login</Link> if you have Account</p>
         
 
       </div>
