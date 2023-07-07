@@ -353,7 +353,7 @@ function EditRecipePage() {
             </Form.Group>
           ))}
           <Button className="mt-3" variant="outline-dark" type="submit">
-            Add Recipe
+            Update Recipe
           </Button>
         </Form>
 
