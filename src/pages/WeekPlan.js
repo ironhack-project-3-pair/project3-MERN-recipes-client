@@ -18,6 +18,8 @@ function WeekPlan() {
     );
 
   const [weekPlan, setWeekPlan] = useState({});
+  const [isConsumingRecipes, setIsConsumingRecipes] = useState({});
+
   const getWeekPlan = () => {
     // Get the token from the localStorage
     // const storedToken = localStorage.getItem('authToken');
@@ -58,8 +60,14 @@ function WeekPlan() {
   const handleClick = (recipeId, consumingDay, consumingSlotOfDay) => {
     // recipeId param unnecessary, because it could also be retrieved with:
     // const recipeId = weekPlan.weekPlanRecipes[consumingDay][consumingSlotOfDay].recipe._id)
+
+    if (!isConsumingRecipes[consumingDay]) isConsumingRecipes[consumingDay] = [];
+    isConsumingRecipes[consumingDay][consumingSlotOfDay] = true;
+    setIsConsumingRecipes({...isConsumingRecipes}); // changes the object ref, updates states, trigger re-render (spread operator otherwise ref is the same and no re-render triggered)
     consumeUserIngredients(recipeId)
       .then(response => {
+        isConsumingRecipes[consumingDay][consumingSlotOfDay] = false;
+        setIsConsumingRecipes(isConsumingRecipes);
         updateWeekPlan(consumingDay, consumingSlotOfDay)
       })
       .catch(e => console.log('error handling click: ', e));
@@ -173,8 +181,15 @@ function WeekPlan() {
                             </div>
                             { !weekPlanRecipe.consumed 
                               ? <Button variant='outline-dark' className='m-3' onClick={
-                                  () => handleClick(weekPlanRecipe.recipe?._id, day, i)
-                                }> Consume</Button>
+                                    () => handleClick(weekPlanRecipe.recipe?._id, day, i)
+                                  }
+                                > 
+                                  { 
+                                    !isConsumingRecipes?.[day]?.[i] 
+                                    ? "Consume" 
+                                    : "Consuming..."
+                                  } 
+                                </Button>
                               : <p>Consumed</p>
                             }
                           </Card>
@@ -188,7 +203,7 @@ function WeekPlan() {
                 </Card>
               );
             })
-            : <p>Loading...</p>
+            : <p>Loading week plan...</p>
           }
         </Row>
       </Container>

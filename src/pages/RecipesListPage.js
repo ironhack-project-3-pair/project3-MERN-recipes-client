@@ -119,7 +119,7 @@ function RecipesListPage() {
                 value={query}
                 type="text"
                 onChange={handleInput}
-                placeholder="Search your recipes here"
+                placeholder="Search public recipes"
               />
             </Col>
           </Row>
@@ -137,22 +137,25 @@ function RecipesListPage() {
         {deleteMessage && <p>{deleteMessage}</p>}
 
         <hr />
-
-        <Container fluid>
+        
+        { !recipes.length && <p>Loading recipes...</p> }
+        { !!recipes.length && 
+          <Container fluid>
           <Row className="justify-content-center m-3 p-2">
-            {/* render list of recipesa */}
-            {filteredRecipes.map((recipe) => {
-              return (
-                <RecipeCard
-                  key={recipe._id}
-                  callbackToUpdateList={getAllRecipes}
-                  recipe={recipe}
-                  setDeleteMessage={setDeleteMessage}
-                />
-              );
-            })}
-          </Row>
-        </Container>
+              {/* render list of recipes */}
+              {filteredRecipes.map((recipe) => {
+                return (
+                  <RecipeCard
+                    key={recipe._id}
+                    callbackToUpdateList={getAllRecipes}
+                    recipe={recipe}
+                    setDeleteMessage={setDeleteMessage}
+                  />
+                );
+              })}
+            </Row>
+          </Container>
+        }
       </div>
     );
   }

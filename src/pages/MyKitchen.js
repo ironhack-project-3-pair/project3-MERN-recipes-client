@@ -69,16 +69,19 @@ function MyKitchen() {
 
       {deleteMessage && <p>{deleteMessage}</p>}
 
-      <Row>
-        {userIngredients.map((ingredient) => (
-          <Col key={ingredient._id} sm={6} md={4} lg={3} xl={2} className="m-1">
-            <IngredientCard
-              ingredient={ingredient}
-              deleteUserIngredient={deleteUserIngredient}
-            />
-          </Col>
-        ))}
-      </Row>
+      { !userIngredients.length && <p>Loading ingredients in kitchen...</p> }
+      { !!userIngredients.length && 
+        <Row>
+          {userIngredients.map((ingredient) => (
+            <Col key={ingredient._id} sm={6} md={4} lg={3} xl={2} className="m-1">
+              <IngredientCard
+                ingredient={ingredient}
+                deleteUserIngredient={deleteUserIngredient}
+              />
+            </Col>
+          ))}
+        </Row>
+      }
     </Container>
   );
 }

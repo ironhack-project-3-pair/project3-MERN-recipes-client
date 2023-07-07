@@ -235,7 +235,7 @@ function IngredientsListPage() {
                 value={query}
                 type="text"
                 onChange={handleInput}
-                placeholder="Search your ingredients here"
+                placeholder="Search public ingredients"
               />
             </Col>
           </Row>
@@ -252,59 +252,61 @@ function IngredientsListPage() {
         {updateMessage && <p>{updateMessage}</p>}
 
         <hr />
+        
+        { !ingredients.length && <p>Loading ingredients...</p> }
+        { !!ingredients.length && 
+          filteredIngredients.map((ingredient) => {
+            return (
+              <IngredientCard
+                key={ingredient._id}
+                ingredient={ingredient}
+                isDelete={true}
+              >
 
-        {filteredIngredients.map((ingredient) => {
-          return (
-            <IngredientCard
-              key={ingredient._id}
-              ingredient={ingredient}
-              isDelete={true}
-            >
+                <Col xs={7} md={7}>
+                  <InputGroup className="d-flex align-items-center">
+                    <Form.Control
+                      aria-label="Quantity of ingredient in grams"
+                      min={0}
+                      type="number"
+                      value={quantities[ingredient._id] || ''}
+                      onChange={(e) => handleQtyChange(e, ingredient._id)}
+                      placeholder="qty"
+                    />
+                    <InputGroup.Text>g</InputGroup.Text>
+                  </InputGroup>
+                </Col>
 
-              <Col xs={7} md={7}>
-                <InputGroup className="d-flex align-items-center">
-                  <Form.Control 
+                {/*
+                <Col xs={7} md={7}>
+                  <Form.Label className="d-flex align-items-center mb-0">
+                  <Form.Control className="me-2"
                     aria-label="Quantity of ingredient in grams"
                     min={0}
                     type="number"
+                    // does not prevent negative number....
                     value={quantities[ingredient._id] || ''}
                     onChange={(e) => handleQtyChange(e, ingredient._id)}
                     placeholder="qty"
                   />
-                  <InputGroup.Text>g</InputGroup.Text>
-                </InputGroup>
-              </Col> 
+                    <span>g</span>
+                  </Form.Label>
+                </Col>
+                */}
 
-              
-              {/*
-              <Col xs={7} md={7}>
-                <Form.Label className="d-flex align-items-center mb-0">
-                <Form.Control className="me-2"
-                  aria-label="Quantity of ingredient in grams"
-                  min={0}
-                  type="number"
-                  // does not prevent negative number....
-                  value={quantities[ingredient._id] || ''}
-                  onChange={(e) => handleQtyChange(e, ingredient._id)}
-                  placeholder="qty"
-                />
-                  <span>g</span>
-                </Form.Label>
-              </Col>
-              */}
-             
-              <Col xs={3} md={3}>
-                <Button
-                  variant="outline-warning"
-                  className="align-self-center btn btn-outline-warning mx-1"
-                  onClick={() => handleAddToKitchen(ingredient)}
-                >
-                  +
-                </Button>
-              </Col>
-            </IngredientCard>
-          );
-        })}
+                <Col xs={3} md={3}>
+                  <Button
+                    variant="outline-warning"
+                    className="align-self-center btn btn-outline-warning mx-1"
+                    onClick={() => handleAddToKitchen(ingredient)}
+                  >
+                    +
+                  </Button>
+                </Col>
+              </IngredientCard>
+            );
+          })
+        }
       </div>
     );
   }
