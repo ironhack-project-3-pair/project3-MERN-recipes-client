@@ -6,8 +6,9 @@ import { Button, Container, Form, FormGroup, Row } from 'react-bootstrap';
 import recipesService from '../services/recipes.service';
 import ingredientsService from '../services/ingredients.service';
 
-// import axios from 'axios';
-// const API_URL = 'http://localhost:5005';
+import axios from 'axios';
+const API_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:5005';
+
 
 function EditRecipePage() {
   const [name, setName] = useState('');
@@ -15,7 +16,7 @@ function EditRecipePage() {
   const [durationInMin, setDurationInMin] = useState('');
   const [recipeIngredients, setRecipeIngredients] = useState([]);
   const [availableIngredients, setAvailableIngredients] = useState([]);
-
+  const [picture, setPicture] = useState("");
 //messages
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -110,7 +111,6 @@ function EditRecipePage() {
       const response = await recipesService.getAllRecipes();
       const recipes = response.data;
 
-      console.log('name------', name);
 
       for (let i = 0; i < recipes.length; i++) {
         if (recipes[i].name === name && recipes[i]._id !== recipeId) {
@@ -154,6 +154,26 @@ function EditRecipePage() {
     return true;
   };
 
+  
+  //handle upload
+  const handleFileUpload = (e) => {
+    const uploadData = new FormData();
+    uploadData.append("pictureBodyFormDataKey", e.target.files[0]);
+    const storedToken = localStorage.getItem('authToken');
+    if (storedToken) {
+      axios.post(API_URL + "/api/upload", uploadData, { 
+        headers: { Authorization: `Bearer ${storedToken}`}
+      })
+        .then(response => {
+          setPicture(response.data.picture);
+        })
+        .catch(err => console.log("Error while uploading the file: ", err));
+    } else {
+      console.log("token required for upload");
+    }
+  };
+
+
   //update current recipe details with new details
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -187,6 +207,7 @@ function EditRecipePage() {
         instructions,
         durationInMin,
         recipeIngredients,
+        picture
       };
 
       await recipesService
@@ -217,6 +238,9 @@ function EditRecipePage() {
             </Form.Text>
           </Form.Group>
 
+          {/* Input file upload */}
+          <Form.Control type="file" onChange={(e) => handleFileUpload(e)} />
+        
           {/* Input field Instructions */}
           <Form.Group className="mt-3">
             <Form.Label>Instructions:</Form.Label>
