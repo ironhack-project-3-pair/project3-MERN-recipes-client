@@ -18,12 +18,12 @@ a {
 }
 
 /* button, */
-select {
+/* select {
   padding: 5px 10px;
   min-width: 50px;
   margin: 5px;
   font-size: 18px;
-}
+} */
 
 /* label {
   width: 200px;
@@ -115,14 +115,14 @@ textarea {
   display: block;
 } */
 
-.ingredient-label {
+/* .ingredient-label {
   width: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
-}
+} */
 
-.ingredient-label button {
+/* .ingredient-label button {
   border: 0.5px solid rgba(0, 0, 0, 0.192);
   padding: 0;
   margin-left: 5px;
@@ -133,12 +133,12 @@ textarea {
   font-weight: bolder;
   cursor: pointer;
   outline: inherit;
-}
-.ingredient-row {
+} */
+/* .ingredient-row {
   display: flex;
   align-items: center;
   justify-content: center;
-}
+} */
 
 .ingredient-row > div {
   flex: 1;
@@ -147,7 +147,7 @@ textarea {
 /* .ingredient-row button {
   margin-left: 10px;
 } */
-.option-input {
+/* .option-input {
   margin: 2px;
   padding: 2px;
 
@@ -160,20 +160,20 @@ textarea {
   margin: 2px;
   padding: 5px;
   width: 50px;
-}
+} */
 
-.IngredientCard {
+/* .IngredientCard {
   background-color: #ffde381a;
   list-style: none;
-}
-.IngredientCard a {
+} */
+/* .IngredientCard a {
   margin: 20px;
   text-decoration: none;
-}
+} */
 
-.IngredientCard a:hover {
+/* .IngredientCard a:hover {
   font-weight: bolder;
-}
+} */
 
 /* .WeekPlan-day-wrapper {
   border: 3px solid #f5d328;

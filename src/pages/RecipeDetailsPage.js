@@ -164,11 +164,11 @@ function RecipeDetailsPage() {
             {recipe && (
               <>
                 { !recipe.picture 
-                  ? <Card.Img variant="top"
+                  ? <Card.Img className="mb-3" variant="top"
                     src="https://static.vecteezy.com/system/resources/previews/008/695/917/original/no-image-available-icon-simple-two-colors-template-for-no-image-or-picture-coming-soon-and-placeholder-illustration-isolated-on-white-background-vector.jpg"
                     alt="default"
                   />
-                  : <Card.Img variant="top" src={recipe.picture} alt={recipe.name} />
+                  : <Card.Img className="mb-3" variant="top" src={recipe.picture} alt={recipe.name} />
                 }
                 <Card.Title className="text-center">{recipe.name}</Card.Title>
                 <ListGroup className="list-group-flush">
@@ -181,7 +181,7 @@ function RecipeDetailsPage() {
                     </Card.Body>
                   </ListGroup.Item>
                   <ListGroup.Item>
-                    <Card.Subtitle>Ingredients</Card.Subtitle>
+                    <Card.Subtitle className='mb-3'>Ingredients</Card.Subtitle>
                     <ListGroup as="ul">
                       { recipe.recipeIngredients.map((recipeIngredient) => {
                         // JSX collapses whitespaces
